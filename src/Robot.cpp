@@ -15,6 +15,11 @@ private:
 		lw = LiveWindow::GetInstance();
 	}
 	
+	void DisabledInit()
+	{
+		// printf("Default %s() method... Overload me!\n", __FUNCTION__);
+	}
+
 	void DisabledPeriodic()
 	{
 		Scheduler::GetInstance()->Run();
