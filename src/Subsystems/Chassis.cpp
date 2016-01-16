@@ -11,9 +11,15 @@ ChassisSubsystem* ChassisSubsystem::GetInstance()
 
 ChassisSubsystem::ChassisSubsystem() :
 		Subsystem("Chassis")
-        , m_drive(LEFTFRONTMOTOR,LEFTBACKMOTOR,RIGHTFRONTMOTOR,RIGHTBACKMOTOR)
 {
+	m_drive = new RobotDrive(LEFTFRONTMOTOR,LEFTBACKMOTOR,RIGHTFRONTMOTOR,RIGHTBACKMOTOR);
+	m_drive->SetSafetyEnabled(false);
 
+	// Inverted motors for TurboMoose wiring only.
+	m_drive->SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
+	m_drive->SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
+	m_drive->SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
+	m_drive->SetInvertedMotor(RobotDrive::kRearRightMotor,true);
 }
 
 void ChassisSubsystem::InitDefaultCommand()
@@ -27,5 +33,5 @@ void ChassisSubsystem::InitDefaultCommand()
 
 void ChassisSubsystem::Drive(double move, double turn, bool quad)
 {
-	m_drive.ArcadeDrive(move, turn, quad);
+	m_drive->ArcadeDrive(move, turn, quad);
 }

@@ -14,7 +14,7 @@ class ChassisSubsystem: public Subsystem
 {
 private:
 	static ChassisSubsystem* m_pInstance;
-	RobotDrive m_drive;
+	RobotDrive *m_drive;
 
 	const int LEFTBACKMOTOR = 0;
 	const int RIGHTBACKMOTOR = 1;
