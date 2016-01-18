@@ -15,7 +15,7 @@ private:
 		// line should be repeated for each subsystem in the project.
 		ChassisSubsystem::GetInstance();
 		autonChooser = new SendableChooser();
-		autonChooser->AddDefault("No Auton", NULL);
+		autonChooser->AddDefault("No Auton", nullptr);
 		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
@@ -34,7 +34,11 @@ private:
 	void AutonomousInit()
 	{
 		autonomousCommand = (Command *)autonChooser->GetSelected();
-		autonomousCommand->Start();
+		if(autonomousCommand != nullptr)
+		{
+			autonomousCommand->Start();
+		}
+
 	}
 
 	void AutonomousPeriodic()

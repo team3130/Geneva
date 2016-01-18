@@ -1,5 +1,5 @@
-#ifndef CHASSIS_H
-#define CHASSIS_H
+#ifndef INTAKE_H
+#define INTAKE_H
 
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
@@ -11,19 +11,20 @@
  * The class manages all the driving motors and all methods of driving itself.
  * All activities with the drivetrain must be done via its public methods.
  */
-class ChassisSubsystem: public Subsystem
+class IntakeSubsystem: public Subsystem
 {
 private:
-	static ChassisSubsystem* m_pInstance;
-	RobotDrive *m_drive;
+	static IntakeSubsystem* m_pInstance;
+	Talon* m_intakeController;
 
-	ChassisSubsystem();
-	ChassisSubsystem(ChassisSubsystem const&);
-	ChassisSubsystem& operator=(ChassisSubsystem const&);
+
+	IntakeSubsystem();
+	IntakeSubsystem(IntakeSubsystem const&);
+	IntakeSubsystem& operator=(IntakeSubsystem const&);
 public:
-	static ChassisSubsystem* GetInstance();
+	static IntakeSubsystem* GetInstance();
 	void InitDefaultCommand();
-	void Drive(double move, double turn, bool squaredInputs = false);
+	void Intake(float speed);
 };
 
 #endif
