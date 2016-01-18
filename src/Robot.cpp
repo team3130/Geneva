@@ -1,7 +1,7 @@
 #include "WPILIB.h"
 #include "Subsystems/Chassis.h"
-#include "Commands/NoAuton.h"
-#include "Commands/2BallAuton.h"
+#include "AutonCommands/NoAuton.h"
+#include "AutonCommands/2BallAuton.h"
 
 class Robot: public IterativeRobot
 {
@@ -16,7 +16,7 @@ private:
 		// line should be repeated for each subsystem in the project.
 		ChassisSubsystem::GetInstance();
 		autonChooser = new SendableChooser();
-		autonChooser->AddDefault("No Auton", new NoAuton());
+		autonChooser->AddDefault("No Auton", NULL);
 		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
