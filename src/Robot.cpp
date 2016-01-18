@@ -1,9 +1,13 @@
-#include <Subsystems/Chassis.h>
+#include "WPILIB.h"
+#include "Subsystems/Chassis.h"
+#include "Commands/NoAuton.h"
+#include "Commands/2BallAuton.h"
 
 class Robot: public IterativeRobot
 {
 private:
 	Command *autonomousCommand;
+	SendableChooser* autonChooser;
 	LiveWindow *lw;
 
 	void RobotInit()
@@ -11,7 +15,10 @@ private:
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.
 		ChassisSubsystem::GetInstance();
-		autonomousCommand = NULL;
+		autonChooser = new SendableChooser();
+		autonChooser->AddDefault("No Auton", new NoAuton());
+		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
+		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
 	}
 	
@@ -27,8 +34,8 @@ private:
 
 	void AutonomousInit()
 	{
-		if (autonomousCommand != NULL)
-			autonomousCommand->Start();
+		autonomousCommand = (Command *)autonChooser->GetSelected();
+		autonomousCommand->Start();
 	}
 
 	void AutonomousPeriodic()
