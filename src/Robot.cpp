@@ -1,6 +1,5 @@
 #include "WPILIB.h"
 #include "Subsystems/Chassis.h"
-#include "AutonCommands/NoAuton.h"
 #include "AutonCommands/2BallAuton.h"
 
 class Robot: public IterativeRobot
