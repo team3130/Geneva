@@ -17,4 +17,6 @@
 	const int RIGHTFRONTMOTOR = 3;
 //Intake Motors
 	const int INTAKEMOTOR = 4;
+//Shooter Motors
+	const int SHOOTERMOTOR = 5;
 #endif
