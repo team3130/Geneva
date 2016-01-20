@@ -16,10 +16,12 @@ ChassisSubsystem::ChassisSubsystem() :
 	m_drive->SetSafetyEnabled(false);
 
 	// Inverted motors for TurboMoose wiring only.
+	/*
 	m_drive->SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 	m_drive->SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
 	m_drive->SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
 	m_drive->SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+	*/
 }
 
 void ChassisSubsystem::InitDefaultCommand()
