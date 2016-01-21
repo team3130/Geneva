@@ -21,9 +21,7 @@ void ShooterSubsystem::InitDefaultCommand()
 	SetDefaultCommand(new ControlShooterCommand());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-
+//Modifies the shooter wheel speed with the value speed
 void ShooterSubsystem::Shoot(float speed)
 {
 	m_shooterController->Set(speed);

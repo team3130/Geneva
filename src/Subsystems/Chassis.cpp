@@ -30,9 +30,7 @@ void ChassisSubsystem::InitDefaultCommand()
 	SetDefaultCommand(new DefaultDriveCommand());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-
+//Arcade Drives with the values of move as the forward value, and turn as the turning value
 void ChassisSubsystem::Drive(double move, double turn, bool quad)
 {
 	m_drive->ArcadeDrive(move, turn, quad);

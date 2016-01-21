@@ -14,7 +14,7 @@ void ControlIntakeCommand::Initialize()
 	IntakeSubsystem::GetInstance()->Intake(0);
 }
 
-/// Called repeatedly when this Command is scheduled to run.
+//Passes 1 to intake when the button is pressed, and 0 when it isn't
 void ControlIntakeCommand::Execute()
 {
 	OI* oi = OI::GetInstance();

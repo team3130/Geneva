@@ -21,9 +21,7 @@ void IntakeSubsystem::InitDefaultCommand()
 	SetDefaultCommand(new ControlIntakeCommand());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-
+//Modifies the speed of the intake motor with the value speed
 void IntakeSubsystem::Intake(float speed)
 {
 	m_intakeController->Set(speed);

@@ -13,7 +13,7 @@ void DefaultDriveCommand::Initialize()
 {
 }
 
-/// Called repeatedly when this Command is scheduled to run.
+//Pass values from joysticks to the Drive subsystem
 void DefaultDriveCommand::Execute()
 {
 	OI* oi = OI::GetInstance();

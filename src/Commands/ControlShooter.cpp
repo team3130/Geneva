@@ -14,7 +14,7 @@ void ControlShooterCommand::Initialize()
 	ShooterSubsystem::GetInstance()->Shoot(0);
 }
 
-/// Called repeatedly when this Command is scheduled to run.
+//Passes 1 to shooter when the button is pressed, and 0 when it isn't
 void ControlShooterCommand::Execute()
 {
 	OI* oi = OI::GetInstance();

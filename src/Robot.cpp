@@ -18,6 +18,8 @@ private:
 		ChassisSubsystem::GetInstance();
 		IntakeSubsystem::GetInstance();
 		ShooterSubsystem::GetInstance();
+		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
+		//Autonomous Mode being added
 		autonChooser = new SendableChooser();
 		autonChooser->AddDefault("No Auton", nullptr);
 		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
@@ -56,7 +58,7 @@ private:
 		// teleop starts running. If you want the autonomous to 
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != NULL)
+		if (autonomousCommand !=nullptr)
 			autonomousCommand->Cancel();
 	}
 
