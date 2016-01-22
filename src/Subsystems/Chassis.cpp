@@ -31,7 +31,7 @@ void ChassisSubsystem::InitDefaultCommand()
 }
 
 //Arcade Drives with the values of move as the forward value, and turn as the turning value
-void ChassisSubsystem::Drive(double move, double turn, bool quad)
+void ChassisSubsystem::Drive(double moveL, double moveR, bool quad)
 {
-	m_drive->ArcadeDrive(move, turn, quad);
+	m_drive->TankDrive(moveL, moveR, quad);
 }
