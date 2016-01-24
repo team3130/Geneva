@@ -77,6 +77,9 @@ if(GetPosition () > 3000){ //TODO Get actual value for this
 }else if(m_shooterController->GetControlMode() == CANSpeedController::kPercentVbus){
 	toSetpoint(GetPosition());
 }
+	if(getLimitSwitchBot()){
+		m_shooterController->SetPosition(0);
+	}
 	CheckZero();
 }
 
