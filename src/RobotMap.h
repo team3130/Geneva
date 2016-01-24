@@ -11,12 +11,14 @@
  */
 
 //Drive Motors
-	const int LEFTBACKMOTOR = 0;
-	const int RIGHTBACKMOTOR = 1;
-	const int LEFTFRONTMOTOR = 2;
-	const int RIGHTFRONTMOTOR = 3;
+	const int LEFTMOTOR = 0;
+	const int RIGHTMOTOR = 1;
+
 //Intake Motors
 	const int INTAKEMOTOR = 4;
 //Shooter Motors
 	const int SHOOTERMOTOR = 5;
+
+//Pneumatics Ports
+	const int COMPRESSOR = 0;
 #endif

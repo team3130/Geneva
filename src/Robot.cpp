@@ -10,9 +10,12 @@ private:
 	Command *autonomousCommand;
 	SendableChooser* autonChooser;
 	LiveWindow *lw;
+	static Compressor *compressor;
 
 	void RobotInit()
 	{
+		compressor = new Compressor(COMPRESSOR);
+		compressor->Start();
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.
 		ChassisSubsystem::GetInstance();
