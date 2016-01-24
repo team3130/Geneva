@@ -12,7 +12,7 @@ ChassisSubsystem* ChassisSubsystem::GetInstance()
 ChassisSubsystem::ChassisSubsystem() :
 		Subsystem("Chassis")
 {
-	m_drive = new RobotDrive(LEFTMOTOR,RIGHTMOTOR);
+	m_drive = new RobotDrive(PORT_LEFTMOTOR,PORT_RIGHTMOTOR);
 	m_drive->SetSafetyEnabled(false);
 
 	// Inverted motors for TurboMoose wiring only.

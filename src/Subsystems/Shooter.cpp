@@ -12,7 +12,7 @@ ShooterSubsystem* ShooterSubsystem::GetInstance()
 ShooterSubsystem::ShooterSubsystem() :
 		Subsystem("Shooter")
 {
-	m_shooterController = new Talon(SHOOTERMOTOR);
+	m_shooterController = new Talon(PORT_SHOOTERMOTOR);
 }
 
 void ShooterSubsystem::InitDefaultCommand()

@@ -9,16 +9,22 @@
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+//Constant Ratios
+	const int RATIO_WINCHMOTORENCODERTICKSTOREV = 497;
 
-//Drive Motors
-	const int LEFTMOTOR = 0;
-	const int RIGHTMOTOR = 1;
+//DIO Ports
+	const int DIO_SHOOTERLIMITLOWER = 0;
+	const int DIO_SHOOTERENCODERA = 1;
+	const int DIO_SHOOTERENCODERB = 2;
 
-//Intake Motors
-	const int INTAKEMOTOR = 4;
-//Shooter Motors
-	const int SHOOTERMOTOR = 5;
+//Motors
+	const int PORT_LEFTMOTOR = 0;
+	const int PORT_RIGHTMOTOR = 1;
+	const int PORT_SHOOTERMOTOR = 2;
+	const int PORT_INTAKEMOTOR= 3;
 
-//Pneumatics Ports
-	const int COMPRESSOR = 0;
+//Pnuematics Ports
+	const int PNM_COMPRESSOR = 0;
+	const int PNM_SHOOTERLOCK = 1;
+	const int PNM_INTAKEACTUATE = 2;
 #endif
