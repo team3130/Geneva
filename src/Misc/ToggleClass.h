@@ -19,12 +19,13 @@ private:
 	bool m_risingEdgeMem;
 	bool m_fallingEdgeMem;
 
+public:
+
 	enum edgeType{
 		KRisingEdge,
 		KDualEdge,
 		KFallingEdge,
 	};
-public:
 
 	//toggle1Val is the current value passed to the function being toggled between two values,
 	//while toggle2Val will be the value returned after the first time the toggle runs, switching between
