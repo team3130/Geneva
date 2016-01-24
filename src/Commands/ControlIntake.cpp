@@ -23,17 +23,17 @@ void ControlIntakeCommand::Execute()
 	OI* oi = OI::GetInstance();
 
 	//In and out control for the intake bar
-	if(oi->gamepad->GetRawButton(1))
+	if(oi->gamepad->GetRawButton(BTN_INTAKE))
 	{
 		IntakeSubsystem::GetInstance()->Intake(1);
-	}else if(oi->gamepad->GetRawButton(2)){
+	}else if(oi->gamepad->GetRawButton(BTN_OUTAKE)){
 		IntakeSubsystem::GetInstance()->Intake(-1);
 	}else{
 		IntakeSubsystem::GetInstance()->Intake(0);
 	}
 
 	//Toggles actuator position on button press
-	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(5)));
+	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_ACTUATE)));
 }
 
 /// Make this return true when this Command no longer needs to run execute().

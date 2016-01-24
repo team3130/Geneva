@@ -13,9 +13,7 @@
 	const int RATIO_WINCHMOTORENCODERTICKSTOREV = 497;
 
 //DIO Ports
-	const int DIO_SHOOTERLIMITLOWER = 0;
-	const int DIO_SHOOTERENCODERA = 1;
-	const int DIO_SHOOTERENCODERB = 2;
+	//prefix DIO_
 
 //Motors
 	const int PORT_LEFTMOTOR = 0;
@@ -30,15 +28,15 @@
 
 //Buttons and Axes
 
-//Shooter
-const int BTN_PRESET_A = 0;
-const int BTN_PRESET_B = 3;
+	//Shooter
+	const int BTN_PRESET_A = 0;
+	const int BTN_PRESET_B = 3;
 
 
 
-//Intake
-const int BTN_INTAKE = 1;
-const int BTN_OUTAKE = 2;
-const int BTN_ACTUATE = 5;
+	//Intake
+	const int BTN_INTAKE = 1;
+	const int BTN_OUTAKE = 2;
+	const int BTN_ACTUATE = 5;
 
 #endif
