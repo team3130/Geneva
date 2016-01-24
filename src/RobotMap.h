@@ -27,4 +27,18 @@
 	const int PNM_COMPRESSOR = 0;
 	const int PNM_SHOOTERLOCK = 1;
 	const int PNM_INTAKEACTUATE = 2;
+
+//Buttons and Axes
+
+//Shooter
+const int BTN_PRESET_A = 0;
+const int BTN_PRESET_B = 3;
+
+
+
+//Intake
+const int BTN_INTAKE = 1;
+const int BTN_OUTAKE = 2;
+const int BTN_ACTUATE = 5;
+
 #endif

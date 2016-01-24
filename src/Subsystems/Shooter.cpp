@@ -1,3 +1,5 @@
+#include "Shooter.h"
+#include "../RobotMap.h"
 #include "Subsystems/Shooter.h"
 #include "Commands/ControlShooter.h"
 
@@ -9,10 +11,21 @@ ShooterSubsystem* ShooterSubsystem::GetInstance()
 	return m_pInstance;
 }
 
-ShooterSubsystem::ShooterSubsystem() :
-		Subsystem("Shooter")
+ShooterSubsystem::ShooterSubsystem()
+		:Subsystem("Shooter")
+		,m_bOnPID(false)
 {
-	m_shooterController = new Talon(PORT_SHOOTERMOTOR);
+	/*These values are placeholders for last year.
+	 *Will be changed based on what is needed
+	 */
+
+	m_shooterController = new CANTalon(PORT_SHOOTERMOTOR);
+	m_shooterController->ConfigLimitMode(CANTalon::kLimitMode_SwitchInputsOnly);
+	m_shooterController->ConfigNeutralMode(CANTalon::kNeutralMode_Brake);
+	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);
+	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
+	m_shooterController->SetPID(0,0,0);
+
 }
 
 void ShooterSubsystem::InitDefaultCommand()
@@ -22,7 +35,27 @@ void ShooterSubsystem::InitDefaultCommand()
 }
 
 //Modifies the shooter wheel speed with the value speed
-void ShooterSubsystem::Shoot(float speed)
+
+
+void ShooterSubsystem::toSetpoint(int goal)
 {
-	m_shooterController->Set(speed);
+	if(!m_bOnPID){
+		m_bOnPID = true;
+		double termP = 0;//To be turned into Prefernces::GetInstance
+		double termI = 0;//To be turned into Prefernces::GetInstance
+		double termD = 0;//To be turned into Prefernces::GetInstance
+		//Add ramp rate later if nessecary
+		m_shooterController->SetControlMode(CANSpeedController::kPosition);
+		m_shooterController->SetPID(termP,termI,termD);
+		m_shooterController->EnableControl();
+	}
+	m_shooterController->Set(goal);
+
+
+
+}
+
+void ShooterSubsystem::moveShooter(float goal)
+{
+
 }

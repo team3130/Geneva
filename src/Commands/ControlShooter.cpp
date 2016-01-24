@@ -12,7 +12,7 @@ ControlShooterCommand::ControlShooterCommand()
 /// Called just before this Command runs the first time.
 void ControlShooterCommand::Initialize()
 {
-	ShooterSubsystem::GetInstance()->Shoot(0);
+	ShooterSubsystem::GetInstance()->moveShooter(0);
 }
 
 //Passes 1 to shooter when the button is pressed, and 0 when it isn't
@@ -21,9 +21,9 @@ void ControlShooterCommand::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi->gamepad->GetRawButton(2))
 	{
-		ShooterSubsystem::GetInstance()->Shoot(1);
+		ShooterSubsystem::GetInstance()->moveShooter(1);
 	}else{
-		ShooterSubsystem::GetInstance()->Shoot(0);
+		ShooterSubsystem::GetInstance()->moveShooter(0);
 	}
 }
 
@@ -37,7 +37,7 @@ bool ControlShooterCommand::IsFinished()
 /// Called once after isFinished returns true
 void ControlShooterCommand::End()
 {
-	ShooterSubsystem::GetInstance()->Shoot(0);
+	ShooterSubsystem::GetInstance()->moveShooter(0);
 }
 
 /// Called when another command which requires one or more of the same
