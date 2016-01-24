@@ -11,7 +11,6 @@ ControlWinchLockCommand::ControlWinchLockCommand()
 /// Called just before this Command runs the first time.
 void ControlWinchLockCommand::Initialize()
 {
-	WinchLockSubsystem::GetInstance()->WinchLock(0);
 	WinchLockSubsystem::GetInstance()->Actuate(false);
 }
 
@@ -32,7 +31,6 @@ bool ControlWinchLockCommand::IsFinished()
 /// Called once after isFinished returns true
 void ControlWinchLockCommand::End()
 {
-	WinchLockSubsystem::GetInstance()->WinchLock(0);
 	WinchLockSubsystem::GetInstance()->Actuate(false);
 }
 
