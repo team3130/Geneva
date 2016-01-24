@@ -2,6 +2,7 @@
 #define CONTROL_INTKAE_H
 
 #include <WPILib.h>
+#include "Misc/ToggleClass.h"
 
 /** Default command for driving the chassis.
  *
@@ -11,6 +12,8 @@
  */
 class ControlIntakeCommand: public Command
 {
+private:
+	Toggle<bool>* IntakeArmPosition;
 public:
 	ControlIntakeCommand();
 	void Initialize();

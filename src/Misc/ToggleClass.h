@@ -30,15 +30,77 @@ public:
 	//toggle1Val is the current value passed to the function being toggled between two values,
 	//while toggle2Val will be the value returned after the first time the toggle runs, switching between
 	//them on successive toggles.
-	Toggle(T toggle1Val, T toggle2Val);
-	bool risingEdge(bool varToEdgeCheck);
-	bool fallingEdge(bool varToEdgeCheck);
-	bool dualEdge (bool varToEdgeCheck);
-	void toggleStatus();
+	Toggle(T toggle1Val, T toggle2Val)
+	{
+		m_status = toggle1Val;
+		m_toggleVal1 = toggle1Val;
+		m_toggleVal2 = toggle2Val;
+
+		m_risingEdgeMem = true;
+		m_fallingEdgeMem = true;
+	}
+
+	bool risingEdge(bool varToEdgeCheck)
+	{
+		if(varToEdgeCheck){
+				if(m_risingEdgeMem){
+					m_risingEdgeMem = false;
+					return true;
+				}
+			}else{
+				m_risingEdgeMem = true;
+				return false;
+			}
+			return false;
+	}
+
+	bool fallingEdge(bool varToEdgeCheck)
+	{
+		if(!varToEdgeCheck){
+			if (m_fallingEdgeMem){
+				m_fallingEdgeMem = false;
+				return true;
+			}
+		}else{
+			m_fallingEdgeMem = true;
+			return false;
+		}
+		return false;
+	}
+
+	bool dualEdge (bool varToEdgeCheck)
+	{
+		return fallingEdge(varToEdgeCheck) || risingEdge(varToEdgeCheck);
+	}
+
+	void toggleStatus()
+	{
+		if (m_status == m_toggleVal1){
+				m_status = m_toggleVal2;
+		}else{
+			m_status = m_toggleVal1;
+		}
+	}
 
 	//edgeMode is used to change which type of edge is detected, with the default being risingEdge
 	//The options are KRisingEdge, KDualEdge, and KFallingEdge
-	T toggleStatusOnEdgeChange(bool varToEdgeCheck, edgeType edgeMode = KRisingEdge);
+	T toggleStatusOnEdgeChange(bool varToEdgeCheck, edgeType edgeMode = KRisingEdge)
+	{
+		if(edgeMode == Toggle<T>::KFallingEdge){
+			if(fallingEdge(varToEdgeCheck)){
+				toggleStatus();
+			}
+		}else if(edgeMode == Toggle<T>::KDualEdge){
+			if(dualEdge(varToEdgeCheck)){
+				toggleStatus();
+			}
+		}else if(edgeMode == Toggle<T>::KRisingEdge){
+			if(risingEdge(varToEdgeCheck)){
+				toggleStatus();
+			}
+		}
+		return getStatus();
+	}
 
 	T getStatus(){
 		return m_status;

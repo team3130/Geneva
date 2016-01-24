@@ -1,11 +1,12 @@
 #include <OI.h>
 #include "Commands/ControlIntake.h"
 #include "Subsystems/Intake.h"
-#include "../Misc/ToggleClass.h"
+#include "Misc/ToggleClass.h"
 
 /// Default constructor of the class.
 ControlIntakeCommand::ControlIntakeCommand()
 {
+	IntakeArmPosition = new Toggle<bool>(false,true);
 	Requires(IntakeSubsystem::GetInstance());
 }
 
@@ -13,18 +14,26 @@ ControlIntakeCommand::ControlIntakeCommand()
 void ControlIntakeCommand::Initialize()
 {
 	IntakeSubsystem::GetInstance()->Intake(0);
+	IntakeSubsystem::GetInstance()->Actuate(false);
 }
 
-//Passes 1 to intake when the button is pressed, and 0 when it isn't
+
 void ControlIntakeCommand::Execute()
 {
 	OI* oi = OI::GetInstance();
+
+	//In and out control for the intake bar
 	if(oi->gamepad->GetRawButton(1))
 	{
 		IntakeSubsystem::GetInstance()->Intake(1);
+	}else if(oi->gamepad->GetRawButton(2)){
+		IntakeSubsystem::GetInstance()->Intake(-1);
 	}else{
 		IntakeSubsystem::GetInstance()->Intake(0);
 	}
+
+	//Toggles actuator position on button press
+	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(5)));
 }
 
 /// Make this return true when this Command no longer needs to run execute().
@@ -38,6 +47,7 @@ bool ControlIntakeCommand::IsFinished()
 void ControlIntakeCommand::End()
 {
 	IntakeSubsystem::GetInstance()->Intake(0);
+	IntakeSubsystem::GetInstance()->Actuate(false);
 }
 
 /// Called when another command which requires one or more of the same
