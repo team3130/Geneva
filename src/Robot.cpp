@@ -2,6 +2,7 @@
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Intake.h"
 #include "Subsystems/Shooter.h"
+#include "Subsystems/WinchLock.h"
 #include "AutonCommands/2BallAuton.h"
 
 class Robot: public IterativeRobot
@@ -21,6 +22,7 @@ private:
 		ChassisSubsystem::GetInstance();
 		IntakeSubsystem::GetInstance();
 		ShooterSubsystem::GetInstance();
+		WinchLockSubsystem::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();

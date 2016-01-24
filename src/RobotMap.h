@@ -31,7 +31,8 @@
 	//Shooter
 	const int BTN_PRESET_A = 0;
 	const int BTN_PRESET_B = 3;
-
+	const int BTN_LEFTSHOOT = 1;
+	const int BTN_RIGHTSHOOT = 1;
 
 
 	//Intake
