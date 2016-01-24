@@ -1,8 +1,8 @@
 #ifndef CHASSIS_H
 #define CHASSIS_H
 
+#include <WPILib.h>
 #include "Commands/Subsystem.h"
-#include "WPILib.h"
 #include "RobotMap.h"
 
 /** Robot's main chassis, or drivetrain.

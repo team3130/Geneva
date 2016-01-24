@@ -1,6 +1,7 @@
-#include <Commands/ControlIntake.h>
-#include <Subsystems/Intake.h>
 #include <OI.h>
+#include "Commands/ControlIntake.h"
+#include "Subsystems/Intake.h"
+#include "../Misc/ToggleClass.h"
 
 /// Default constructor of the class.
 ControlIntakeCommand::ControlIntakeCommand()

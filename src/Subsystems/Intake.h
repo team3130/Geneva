@@ -1,8 +1,8 @@
 #ifndef INTAKE_H
 #define INTAKE_H
 
+#include <WPILib.h>
 #include "Commands/Subsystem.h"
-#include "WPILib.h"
 #include "RobotMap.h"
 
 /** Robot's main chassis, or drivetrain.
@@ -16,6 +16,7 @@ class IntakeSubsystem: public Subsystem
 private:
 	static IntakeSubsystem* m_pInstance;
 	Talon* m_intakeController;
+	Solenoid* m_intakeActuater;
 
 
 	IntakeSubsystem();
@@ -25,6 +26,7 @@ public:
 	static IntakeSubsystem* GetInstance();
 	void InitDefaultCommand();
 	void Intake(float speed);
+	void Actuate(bool extended);
 };
 
 #endif

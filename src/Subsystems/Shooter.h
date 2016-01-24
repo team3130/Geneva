@@ -1,8 +1,8 @@
 #ifndef SHOOTER_H
 #define SHOOTER_H
 
+#include <WPILib.h>
 #include "Commands/Subsystem.h"
-#include "WPILib.h"
 #include "RobotMap.h"
 
 /** Robot's main chassis, or drivetrain.

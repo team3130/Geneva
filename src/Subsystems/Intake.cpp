@@ -1,4 +1,4 @@
-#include <Subsystems/Intake.h>
+#include "Subsystems/Intake.h"
 #include "Commands/ControlIntake.h"
 
 IntakeSubsystem* IntakeSubsystem::m_pInstance = NULL;
@@ -12,7 +12,8 @@ IntakeSubsystem* IntakeSubsystem::GetInstance()
 IntakeSubsystem::IntakeSubsystem() :
 		Subsystem("Intake")
 {
-	m_intakeController = new Talon(INTAKEMOTOR);
+	m_intakeController = new Talon(PORT_INTAKEMOTOR);
+	m_intakeActuater = new Solenoid(PNM_INTAKEACTUATE);
 }
 
 void IntakeSubsystem::InitDefaultCommand()
@@ -25,4 +26,9 @@ void IntakeSubsystem::InitDefaultCommand()
 void IntakeSubsystem::Intake(float speed)
 {
 	m_intakeController->Set(speed);
+}
+
+void IntakeSubsystem::Actuate(bool extended)
+{
+	m_intakeActuater->Set(extended);
 }

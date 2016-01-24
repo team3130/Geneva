@@ -1,6 +1,7 @@
-#include <Commands/DefaultDrive.h>
-#include <Subsystems/Chassis.h>
 #include <OI.h>
+#include "Commands/DefaultDrive.h"
+#include "Subsystems/Chassis.h"
+
 
 /// Default constructor of the class.
 DefaultDriveCommand::DefaultDriveCommand()
@@ -19,8 +20,8 @@ void DefaultDriveCommand::Execute()
 	OI* oi = OI::GetInstance();
 	double moveSpeedL = oi->stickL->GetY();
 	double moveSpeedR = oi->stickR->GetY();
-	double speedMultiplier = (-0.5 * oi->stickL->GetZ()) + 0.5;
-	double turnMultiplier = (-0.5 * oi->stickR->GetZ()) + 0.5;
+	//double speedMultiplier = (-0.5 * oi->stickL->GetZ()) + 0.5;
+	//double turnMultiplier = (-0.5 * oi->stickR->GetZ()) + 0.5;
 
 	// Only driving manual should require Quadratic inputs. By default it should be turned off
 	// Therefore here we turn it on explicitly.

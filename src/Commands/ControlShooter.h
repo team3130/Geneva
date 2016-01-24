@@ -1,7 +1,7 @@
 #ifndef CONTROL_SHOOTER_H
 #define CONTROL_SHOOTER_H
 
-#include "WPILib.h"
+#include <WPILib.h>
 
 /** Default command for driving the chassis.
  *

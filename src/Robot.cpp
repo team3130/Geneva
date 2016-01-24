@@ -1,4 +1,4 @@
-#include "WPILIB.h"
+#include <WPILIB.h>
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Intake.h"
 #include "Subsystems/Shooter.h"
@@ -10,7 +10,7 @@ private:
 	Command *autonomousCommand;
 	SendableChooser* autonChooser;
 	LiveWindow *lw;
-	static Compressor *compressor;
+	Compressor* compressor;
 
 	void RobotInit()
 	{
