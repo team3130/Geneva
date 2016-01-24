@@ -41,9 +41,9 @@ void ShooterSubsystem::toSetpoint(int goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
-		double termP = 0;//To be turned into Prefernces::GetInstance
-		double termI = 0;//To be turned into Prefernces::GetInstance
-		double termD = 0;//To be turned into Prefernces::GetInstance
+		double termP = 0;//TODO: be turned into Prefernces::GetInstance
+		double termI = 0;//TODO: be turned into Prefernces::GetInstance
+		double termD = 0;//TODO: be turned into Prefernces::GetInstance
 		//Add ramp rate later if nessecary
 		m_shooterController->SetControlMode(CANSpeedController::kPosition);
 		m_shooterController->SetPID(termP,termI,termD);
@@ -57,5 +57,36 @@ void ShooterSubsystem::toSetpoint(int goal)
 
 void ShooterSubsystem::moveShooter(float goal)
 {
+m_bOnPID = false;
+						//TODO add ramp rates
+if(goal > 0 and getLimitSwitchTop()){
+m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
+if(GetPosition () > 3000){ //TODO Get actual value for this
+	m_shooterController->Set(0.5*goal);
+}else{
+	m_shooterController->Set(goal);
 
 }
+}else if(goal < 0 and getLimitSwitchBot()){
+	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
+	if(GetPosition()<600){	//TODO Get actual value for this
+		m_shooterController->Set(0.5*goal);
+	}else{
+		m_shooterController->Set(goal);
+	}
+}else if(m_shooterController->GetControlMode() == CANSpeedController::kPercentVbus){
+	toSetpoint(GetPosition());
+}
+	CheckZero();
+}
+
+bool ShooterSubsystem::CheckZero(){
+	if(!getLimitSwitchBot()){
+		m_shooterController->SetPosition(0);
+		//TODO Some type of robot sensors to reset lifter
+		return true;
+
+	}
+	else return false;
+}
+

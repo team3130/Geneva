@@ -23,6 +23,7 @@ public:
 	void InitDefaultCommand();
 	void toSetpoint(int goal);
 	void moveShooter(float goal);
+	bool getLimitSwitchTop(){ return !m_shooterController->IsFwdLimitSwitchClosed();}
 	bool getLimitSwitchBot(){ return !m_shooterController->IsRevLimitSwitchClosed(); }
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
