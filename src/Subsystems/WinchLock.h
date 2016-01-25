@@ -16,7 +16,7 @@ class WinchLockSubsystem: public Subsystem
 private:
 	static WinchLockSubsystem* m_pInstance;
 	Solenoid* m_intakeActuater;
-
+	Talon* m_winchTalon;
 
 	WinchLockSubsystem();
 	WinchLockSubsystem(WinchLockSubsystem const&);
@@ -26,6 +26,7 @@ public:
 	void InitDefaultCommand();
 	void WinchLock(float speed);
 	void Actuate(bool extended);
+	void moveWinch(float speedWinch);
 };
 
 #endif

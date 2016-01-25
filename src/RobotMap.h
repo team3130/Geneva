@@ -20,6 +20,7 @@
 	const int PORT_RIGHTMOTOR = 1;
 	const int PORT_SHOOTERMOTOR = 2;
 	const int PORT_INTAKEMOTOR= 3;
+	const int PORT_WINCHMOTOR = 4;
 
 //Pnuematics Ports
 	const int PNM_COMPRESSOR = 0;

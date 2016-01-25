@@ -13,6 +13,7 @@ WinchLockSubsystem::WinchLockSubsystem() :
 		Subsystem("WinchLock")
 {
 	m_intakeActuater = new Solenoid(PNM_SHOOTERLOCK);
+	m_winchTalon = new Talon(PORT_WINCHMOTOR);
 }
 
 void WinchLockSubsystem::InitDefaultCommand()
@@ -24,4 +25,9 @@ void WinchLockSubsystem::InitDefaultCommand()
 void WinchLockSubsystem::Actuate(bool released)
 {
 	m_intakeActuater->Set(released);
+}
+
+void WinchLockSubsystem::moveWinch(float speedWinch)
+{
+	m_winchTalon->Set(speedWinch);
 }

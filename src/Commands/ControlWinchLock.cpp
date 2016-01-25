@@ -19,6 +19,7 @@ void ControlWinchLockCommand::Execute()
 {
 	OI* oi = OI::GetInstance();
 	WinchLockSubsystem::GetInstance()->Actuate(oi->stickL->GetRawButton(BTN_LEFTSHOOT) && oi->stickR->GetRawButton(BTN_RIGHTSHOOT));
+	WinchLockSubsystem::GetInstance()->moveWinch(oi->gamepad->GetRawAxis(0));
 }
 
 /// Make this return true when this Command no longer needs to run execute().
