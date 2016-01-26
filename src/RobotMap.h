@@ -29,6 +29,27 @@
 
 //Buttons and Axes
 
+
+	//Button List
+	const int LST_BTN_A = 1;
+	const int LST_BTN_B = 2;
+	const int LST_BTN_X = 3;
+	const int LST_BTN_Y = 4;
+	const int LST_BTN_LBUMPER = 5;
+	const int LST_BTN_RBUMPER = 6;
+	const int LST_BTN_BACK = 7;
+	const int LST_BTN_START = 8;
+	const int LST_BTN_RJOYSTICKPRESS = 9;
+	const int LST_BTN_LJOYSTICKPRESS = 10;
+
+	//Axis List
+	const int LST_AXS_LJOYSTICKX = 0;
+	const int LST_AXS_LJOYSTICKY = 1;
+	const int LST_AXS_LTRIGGER = 2;
+	const int LST_AXS_RTRIGGER = 3;
+	const int LST_AXS_RJOYSTICKX = 4;
+	const int LST_AXS_RJOYSTICKY = 5;
+
 	//Shooter
 	const int BTN_PRESET_A = 0;
 	const int BTN_PRESET_B = 3;
