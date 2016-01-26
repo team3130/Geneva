@@ -12,7 +12,7 @@ WinchLockSubsystem* WinchLockSubsystem::GetInstance()
 WinchLockSubsystem::WinchLockSubsystem() :
 		Subsystem("WinchLock")
 {
-	m_intakeActuater = new Solenoid(PNM_SHOOTERLOCK);
+	m_intakeActuater = new Solenoid(PNM_MODULE, PNM_SHOOTERLOCK);
 }
 
 void WinchLockSubsystem::InitDefaultCommand()

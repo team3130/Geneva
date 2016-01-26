@@ -33,7 +33,7 @@ void ControlIntakeCommand::Execute()
 	}
 
 	//Toggles actuator position on button press
-	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_ACTUATE)));
+	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_GRAB)));
 }
 
 /// Make this return true when this Command no longer needs to run execute().

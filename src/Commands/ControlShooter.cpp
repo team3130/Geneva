@@ -19,11 +19,9 @@ void ControlShooterCommand::Initialize()
 void ControlShooterCommand::Execute()
 {
 	OI* oi = OI::GetInstance();
-	if(oi->gamepad->GetRawButton(2))
+	if(oi)
 	{
-		ShooterSubsystem::GetInstance()->moveShooter(1);
-	}else{
-		ShooterSubsystem::GetInstance()->moveShooter(0);
+		ShooterSubsystem::GetInstance()->moveShooter(oi->gamepad->GetRawAxis(AXS_WINCH));
 	}
 }
 

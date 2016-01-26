@@ -22,6 +22,7 @@
 	const int PORT_INTAKEMOTOR= 3;
 
 //Pnuematics Ports
+	const uint8_t PNM_MODULE = 1;
 	const int PNM_COMPRESSOR = 0;
 	const int PNM_SHOOTERLOCK = 1;
 	const int PNM_INTAKEACTUATE = 2;
@@ -31,13 +32,14 @@
 	//Shooter
 	const int BTN_PRESET_A = 0;
 	const int BTN_PRESET_B = 3;
-	const int BTN_LEFTSHOOT = 1;
-	const int BTN_RIGHTSHOOT = 1;
+	const uint32_t BTN_SHOOT = 5;
 
+	//Winch
+	const uint32_t AXS_WINCH = 1;
 
 	//Intake
 	const int BTN_INTAKE = 1;
 	const int BTN_OUTAKE = 2;
-	const int BTN_ACTUATE = 5;
+	const uint32_t BTN_GRAB = 3;
 
 #endif

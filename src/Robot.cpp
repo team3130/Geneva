@@ -15,7 +15,7 @@ private:
 
 	void RobotInit()
 	{
-		compressor = new Compressor(PNM_COMPRESSOR);
+		compressor = new Compressor(PNM_MODULE);
 		compressor->Start();
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.

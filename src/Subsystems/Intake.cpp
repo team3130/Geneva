@@ -13,7 +13,7 @@ IntakeSubsystem::IntakeSubsystem() :
 		Subsystem("Intake")
 {
 	m_intakeController = new Talon(PORT_INTAKEMOTOR);
-	m_intakeActuater = new Solenoid(PNM_INTAKEACTUATE);
+	m_intakeActuater = new Solenoid(PNM_MODULE, PNM_INTAKEACTUATE);
 }
 
 void IntakeSubsystem::InitDefaultCommand()
