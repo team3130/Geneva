@@ -15,6 +15,7 @@ ShooterSubsystem::ShooterSubsystem()
 		:Subsystem("Shooter")
 		,m_bOnPID(false)
 {
+	m_bResetStepOneDone = false;
 	/*These values are placeholders for last year.
 	 *Will be changed based on what is needed
 	 */
@@ -41,10 +42,10 @@ void ShooterSubsystem::toSetpoint(int goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
-		double termP = 0;//TODO: be turned into Prefernces::GetInstance
-		double termI = 0;//TODO: be turned into Prefernces::GetInstance
-		double termD = 0;//TODO: be turned into Prefernces::GetInstance
-		//Add ramp rate later if nessecary
+		double termP = 0;//TODO: be turned into Preferences::GetInstance
+		double termI = 0;//TODO: be turned into Preferences::GetInstance
+		double termD = 0;//TODO: be turned into Preferences::GetInstance
+		//Add ramp rate later if necessary
 		m_shooterController->SetControlMode(CANSpeedController::kPosition);
 		m_shooterController->SetPID(termP,termI,termD);
 		m_shooterController->EnableControl();
@@ -59,7 +60,7 @@ void ShooterSubsystem::moveShooter(float goal)
 {
 m_bOnPID = false;
 						//TODO add ramp rates
-if(goal > 0 and getLimitSwitchTop()){
+if(goal > 0 and !getLimitSwitchTop()){
 m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 if(GetPosition () > 3000){ //TODO Get actual value for this
 	m_shooterController->Set(0.5*goal);
@@ -67,7 +68,7 @@ if(GetPosition () > 3000){ //TODO Get actual value for this
 	m_shooterController->Set(goal);
 
 }
-}else if(goal < 0 and getLimitSwitchBot()){
+}else if(goal < 0 and !getLimitSwitchBot()){
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	if(GetPosition()<600){	//TODO Get actual value for this
 		m_shooterController->Set(0.5*goal);
@@ -84,7 +85,7 @@ if(GetPosition () > 3000){ //TODO Get actual value for this
 }
 
 bool ShooterSubsystem::CheckZero(){
-	if(!getLimitSwitchBot()){
+	if(getLimitSwitchBot()){
 		m_shooterController->SetPosition(0);
 		//TODO Some type of robot sensors to reset lifter
 		return true;
@@ -93,3 +94,16 @@ bool ShooterSubsystem::CheckZero(){
 	else return false;
 }
 
+void ShooterSubsystem::readyShot(int goal)
+{
+	if(!getLimitSwitchBot() && !m_bResetStepOneDone){
+		moveShooter(-.8);
+	}else{
+		m_bResetStepOneDone = true;
+		CheckZero();
+	}
+	if(m_bResetStepOneDone){
+		toSetpoint(goal);
+		m_bResetStepOneDone = false;
+	}
+}

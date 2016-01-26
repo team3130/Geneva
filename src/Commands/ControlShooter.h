@@ -11,6 +11,12 @@
  */
 class ControlShooterCommand: public Command
 {
+	enum PresetButton { kX, kY };
+private:
+	bool manualMode;
+	bool buttonPushed;
+	PresetButton preset;
+	Timer timer;
 public:
 	ControlShooterCommand();
 	void Initialize();

@@ -6,12 +6,17 @@
 /// Default constructor of the class.
 ControlShooterCommand::ControlShooterCommand()
 {
+	manualMode = true;
+	preset = kX;
+	buttonPushed = false;
 	Requires(ShooterSubsystem::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
 void ControlShooterCommand::Initialize()
 {
+	manualMode = true;
+	buttonPushed = false;
 	ShooterSubsystem::GetInstance()->moveShooter(0);
 }
 
@@ -21,7 +26,15 @@ void ControlShooterCommand::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi)
 	{
-		ShooterSubsystem::GetInstance()->moveShooter(oi->gamepad->GetRawAxis(AXS_WINCH));
+		double thumb = oi->gamepad->GetRawAxis(AXS_WINCH);
+		if(fabs(thumb) > 0.1)
+		{
+			manualMode = true;
+			buttonPushed = false;
+			ShooterSubsystem::GetInstance()->moveShooter(oi->gamepad->GetRawAxis(AXS_WINCH));
+		}else{
+			buttonPushed = false;
+		}
 	}
 }
 
