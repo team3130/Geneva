@@ -8,7 +8,7 @@ ControlShooterCommand::ControlShooterCommand()
 {
 	manualMode = true;
 	preset = kX;
-	buttonPushed = false;
+	buttonHold = false;
 	Requires(ShooterSubsystem::GetInstance());
 }
 
@@ -16,7 +16,7 @@ ControlShooterCommand::ControlShooterCommand()
 void ControlShooterCommand::Initialize()
 {
 	manualMode = true;
-	buttonPushed = false;
+	buttonHold = false;
 	ShooterSubsystem::GetInstance()->moveShooter(0);
 }
 
@@ -30,10 +30,49 @@ void ControlShooterCommand::Execute()
 		if(fabs(thumb) > 0.1)
 		{
 			manualMode = true;
-			buttonPushed = false;
+			buttonHold = false;
 			ShooterSubsystem::GetInstance()->moveShooter(oi->gamepad->GetRawAxis(AXS_WINCH));
 		}else{
+			bool buttonPushed = false;
 			buttonPushed = false;
+			if(oi->gamepad->GetRawButton(LST_BTN_X)){
+				preset = kX;
+				buttonPushed = true;
+			}else if(oi->gamepad->GetRawButton(LST_BTN_Y)){
+				preset = kY;
+				buttonPushed = true;
+			}
+
+
+			if(buttonPushed){
+				//go to a preset when a button is pushed
+				manualMode = false;
+				if(!buttonHold){
+					buttonHold = true;
+					timer.Reset();
+					timer.Start();
+				}
+			}else{
+				int goal = 0;
+				switch(preset){
+					case kX:
+						goal = 200; //TODO:Set up preferences support
+						break;
+					case kY:
+						goal = 400; //TODO:Set up preferences support
+						break;
+				}
+				if(buttonHold && timer.Get() > 3){
+					//TODO:Set up preferences Set System
+				}else if(manualMode){
+					//Do nothing if in manual mode and nothing has happened
+					ShooterSubsystem::GetInstance()->moveShooter(0);
+				}else{
+					//if nothing else is happeneing, go to setpoint
+					ShooterSubsystem::GetInstance()->readyShot(goal);
+				}
+				buttonHold = false;
+			}
 		}
 	}
 }
