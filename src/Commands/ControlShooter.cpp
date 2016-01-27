@@ -26,6 +26,9 @@ void ControlShooterCommand::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi)
 	{
+		const char * presetX = "WinchPositionX";
+		const char * presetY = "WinchPositionY";
+		const char *pref_preset = presetX;
 		double thumb = oi->gamepad->GetRawAxis(AXS_WINCH);
 		if(fabs(thumb) > 0.1)
 		{
@@ -37,9 +40,11 @@ void ControlShooterCommand::Execute()
 			buttonPushed = false;
 			if(oi->gamepad->GetRawButton(LST_BTN_X)){
 				preset = kX;
+				pref_preset = presetX;
 				buttonPushed = true;
 			}else if(oi->gamepad->GetRawButton(LST_BTN_Y)){
 				preset = kY;
+				pref_preset = presetY;
 				buttonPushed = true;
 			}
 
@@ -56,14 +61,16 @@ void ControlShooterCommand::Execute()
 				int goal = 0;
 				switch(preset){
 					case kX:
-						goal = 200; //TODO:Set up preferences support
+						pref_preset = presetX;
+						goal = Preferences::GetInstance()->GetInt(pref_preset, 200);//TODO:Set real default value
 						break;
 					case kY:
-						goal = 400; //TODO:Set up preferences support
+						pref_preset = presetY;
+						goal = Preferences::GetInstance()->GetInt(pref_preset, 400);//TODO:Set real default value
 						break;
 				}
 				if(buttonHold && timer.Get() > 3){
-					//TODO:Set up preferences Set System
+					Preferences::GetInstance()->PutInt(pref_preset,ShooterSubsystem::GetInstance()->GetPosition());
 				}else if(manualMode){
 					//Do nothing if in manual mode and nothing has happened
 					ShooterSubsystem::GetInstance()->moveShooter(0);
