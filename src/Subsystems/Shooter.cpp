@@ -42,7 +42,7 @@ void ShooterSubsystem::toSetpoint(int goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
-		double termP = 0;//TODO: be turned into Preferences::GetInstance
+		double termP = 1;//TODO: be turned into Preferences::GetInstance
 		double termI = 0;//TODO: be turned into Preferences::GetInstance
 		double termD = 0;//TODO: be turned into Preferences::GetInstance
 		//Add ramp rate later if necessary
@@ -51,57 +51,40 @@ void ShooterSubsystem::toSetpoint(int goal)
 		m_shooterController->EnableControl();
 	}
 	m_shooterController->Set(goal);
-
-
-
 }
 
-void ShooterSubsystem::moveShooter(float goal)
-{
-m_bOnPID = false;
-						//TODO add ramp rates
-if(goal > 0 and !getLimitSwitchTop()){
-m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-if(GetPosition () > 3000){ //TODO Get actual value for this
-	m_shooterController->Set(0.5*goal);
-}else{
-	m_shooterController->Set(goal);
-
-}
-}else if(goal < 0 and !getLimitSwitchBot()){
+void ShooterSubsystem::moveShooter(float speed) {
+	m_bOnPID = false;
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-	if(GetPosition()<600){	//TODO Get actual value for this
-		m_shooterController->Set(0.5*goal);
-	}else{
-		m_shooterController->Set(goal);
+	//TODO add ramp rates
+	if (speed >= 0) {
+		m_shooterController->Set(speed);
+	} else if (!CheckZero()) {
+		if (GetPosition() < SLOW_ZONE) {
+			m_shooterController->Set(0.5 * speed);
+		} else {
+			m_shooterController->Set(speed);
+		}
 	}
-}else if(m_shooterController->GetControlMode() == CANSpeedController::kPercentVbus){
-	toSetpoint(GetPosition());
-}
-	if(getLimitSwitchBot()){
-		m_shooterController->SetPosition(0);
-	}
-	CheckZero();
 }
 
 bool ShooterSubsystem::CheckZero(){
 	if(getLimitSwitchBot()){
 		m_shooterController->SetPosition(0);
-		//TODO Some type of robot sensors to reset lifter
 		return true;
-
 	}
 	else return false;
 }
 
 void ShooterSubsystem::readyShot(int goal)
 {
-	if(!getLimitSwitchBot() && !m_bResetStepOneDone){
+	if(!CheckZero() && !m_bResetStepOneDone){
 		moveShooter(-.8);
 	}else{
 		m_bResetStepOneDone = true;
 		CheckZero();
 	}
+
 	if(m_bResetStepOneDone){
 		toSetpoint(goal);
 		m_bResetStepOneDone = false;

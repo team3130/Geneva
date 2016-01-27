@@ -10,6 +10,7 @@
 class ShooterSubsystem: public Subsystem
 {
 private:
+	const int SLOW_ZONE = 600; //TODO Get actual value for this
 	static ShooterSubsystem* m_pInstance;
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
