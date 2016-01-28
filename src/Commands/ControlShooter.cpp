@@ -29,12 +29,12 @@ void ControlShooterCommand::Execute()
 		const char * presetX = "WinchPositionX";
 		const char * presetY = "WinchPositionY";
 		const char *pref_preset = presetX;
-		double thumb = oi->gamepad->GetRawAxis(AXS_WINCH);
+		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
 		if(fabs(thumb) > 0.1)
 		{
 			manualMode = true;
 			buttonHold = false;
-			ShooterSubsystem::GetInstance()->moveShooter(oi->gamepad->GetRawAxis(AXS_WINCH));
+			ShooterSubsystem::GetInstance()->moveShooter(thumb);
 		}else{
 			bool buttonPushed = false;
 			buttonPushed = false;

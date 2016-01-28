@@ -10,7 +10,8 @@
 class ShooterSubsystem: public Subsystem
 {
 private:
-	const int SLOW_ZONE = 600; //TODO Get actual value for this
+	const int SLOW_ZONE = 300; //TODO Move these numbers somewhere out
+	const int TOP_ZONE = 4200; //     They are encoder model dependent
 	static ShooterSubsystem* m_pInstance;
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
@@ -25,8 +26,7 @@ public:
 	void toSetpoint(int goal);
 	void moveShooter(float goal);
 	void readyShot(int goal);
-	bool getLimitSwitchTop(){ return m_shooterController->IsFwdLimitSwitchClosed();}
-	bool getLimitSwitchBot(){ return m_shooterController->IsRevLimitSwitchClosed(); }
+	bool isBottomHit() { return !m_shooterController->IsRevLimitSwitchClosed(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
 	bool CheckZero();

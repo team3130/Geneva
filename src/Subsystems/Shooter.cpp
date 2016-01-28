@@ -58,7 +58,12 @@ void ShooterSubsystem::moveShooter(float speed) {
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	//TODO add ramp rates
 	if (speed >= 0) {
-		m_shooterController->Set(speed);
+		if (GetPosition() < TOP_ZONE) {
+			m_shooterController->Set(speed);
+		}
+		else {
+			m_shooterController->Set(0);
+		}
 	} else if (!CheckZero()) {
 		if (GetPosition() < SLOW_ZONE) {
 			m_shooterController->Set(0.5 * speed);
@@ -66,10 +71,13 @@ void ShooterSubsystem::moveShooter(float speed) {
 			m_shooterController->Set(speed);
 		}
 	}
+	else {
+		m_shooterController->Set(0);
+	}
 }
 
 bool ShooterSubsystem::CheckZero(){
-	if(getLimitSwitchBot()){
+	if(isBottomHit()){
 		m_shooterController->SetPosition(0);
 		return true;
 	}
