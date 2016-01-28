@@ -20,7 +20,7 @@ ShooterSubsystem::ShooterSubsystem()
 	 *Will be changed based on what is needed
 	 */
 
-	m_shooterController = new CANTalon(PORT_SHOOTERMOTOR);
+	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
 	m_shooterController->ConfigLimitMode(CANTalon::kLimitMode_SwitchInputsOnly);
 	m_shooterController->ConfigNeutralMode(CANTalon::kNeutralMode_Brake);
 	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);

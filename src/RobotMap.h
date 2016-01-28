@@ -15,11 +15,13 @@
 //DIO Ports
 	//prefix DIO_
 
-//Motors
+//Motors-PWM
 	const int PORT_LEFTMOTOR = 0;
 	const int PORT_RIGHTMOTOR = 1;
-	const int PORT_SHOOTERMOTOR = 2;
 	const int PORT_INTAKEMOTOR= 3;
+
+//Motors-CAN
+		const int CAN_SHOOTERMOTOR = 2;
 
 //Pnuematics Ports
 	const uint8_t PNM_MODULE = 1;
