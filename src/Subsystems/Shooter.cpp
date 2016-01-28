@@ -86,7 +86,7 @@ bool ShooterSubsystem::CheckZero(){
 
 void ShooterSubsystem::readyShot(int goal)
 {
-	if(!CheckZero() && !m_bResetStepOneDone){
+	if(!CheckZero() && m_bResetStepOneDone){
 		moveShooter(-.8);
 	}else{
 		m_bResetStepOneDone = true;
