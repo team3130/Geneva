@@ -6,18 +6,15 @@
 /// Default constructor of the class.
 ControlShooterCommand::ControlShooterCommand()
 {
-	manualMode = true;
 	preset = kX;
-	buttonHold = false;
 	Requires(ShooterSubsystem::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
 void ControlShooterCommand::Initialize()
 {
-	manualMode = true;
-	buttonHold = false;
-	ShooterSubsystem::GetInstance()->moveShooter(0);
+	ShooterSubsystem::GetInstance()->SpinWheels(0);
+	wheelSpeed = 0;
 }
 
 //Passes 1 to shooter when the button is pressed, and 0 when it isn't
@@ -26,16 +23,16 @@ void ControlShooterCommand::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi)
 	{
-		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
-		if(fabs(thumb) > 0.1)
-		{
-			manualMode = true;
-			buttonHold = false;
-			ShooterSubsystem::GetInstance()->moveShooter(thumb);
+		if(oi->gamepad->GetRawButton(LST_BTN_A)){
+			wheelSpeed = 0;
+		}else if(oi->gamepad->GetRawButton(LST_BTN_B)){
+			wheelSpeed = 0.7;
+		}else if(oi->gamepad->GetRawButton(LST_BTN_X)){
+			wheelSpeed = 0.8;
+		}else if(oi->gamepad->GetRawButton(LST_BTN_Y)){
+			wheelSpeed = 1;
 		}
-		else {
-			ShooterSubsystem::GetInstance()->moveShooter(0);
-		}
+		ShooterSubsystem::GetInstance()->SpinWheels(wheelSpeed);
 	}
 }
 
@@ -49,7 +46,7 @@ bool ControlShooterCommand::IsFinished()
 /// Called once after isFinished returns true
 void ControlShooterCommand::End()
 {
-	ShooterSubsystem::GetInstance()->moveShooter(0);
+	ShooterSubsystem::GetInstance()->SpinWheels(0);
 }
 
 /// Called when another command which requires one or more of the same
