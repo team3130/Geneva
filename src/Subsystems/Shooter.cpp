@@ -16,17 +16,12 @@ ShooterSubsystem::ShooterSubsystem()
 		,m_bOnPID(false)
 {
 	m_bResetStepOneDone = false;
-	/*These values are placeholders for last year.
-	 *Will be changed based on what is needed
-	 */
-
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
 	m_shooterController->ConfigLimitMode(CANTalon::kLimitMode_SwitchInputsOnly);
 	m_shooterController->ConfigNeutralMode(CANTalon::kNeutralMode_Brake);
 	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	m_shooterController->SetPID(0,0,0);
-
 }
 
 void ShooterSubsystem::InitDefaultCommand()
@@ -42,7 +37,7 @@ void ShooterSubsystem::toSetpoint(int goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
-		double termP = 1;//TODO: be turned into Preferences::GetInstance
+		double termP = 10;//TODO: be turned into Preferences::GetInstance
 		double termI = 0;//TODO: be turned into Preferences::GetInstance
 		double termD = 0;//TODO: be turned into Preferences::GetInstance
 		//Add ramp rate later if necessary

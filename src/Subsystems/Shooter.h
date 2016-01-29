@@ -29,6 +29,7 @@ public:
 	bool isBottomHit() { return !m_shooterController->IsRevLimitSwitchClosed(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
+	int GetPIDError() { return m_shooterController->GetClosedLoopError(); };
 	bool CheckZero();
 
 };

@@ -16,6 +16,8 @@ public:
 	Joystick*	stickL;
 	Joystick*	stickR;
 	Joystick*	gamepad;
+	JoystickButton* preset1;
+	JoystickButton* preset2;
 };
 
 #endif

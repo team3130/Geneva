@@ -53,8 +53,8 @@
 	const int LST_AXS_RJOYSTICKY = 5;
 
 	//Shooter
-	const int BTN_PRESET_A = 0;
-	const int BTN_PRESET_B = 3;
+	const int BTN_PRESET_1 = LST_BTN_X;
+	const int BTN_PRESET_2 = LST_BTN_Y;
 	const uint32_t BTN_SHOOT = 5;
 
 	//Winch
@@ -63,6 +63,6 @@
 	//Intake
 	const int BTN_INTAKE = 1;
 	const int BTN_OUTAKE = 2;
-	const uint32_t BTN_GRAB = 3;
+	const uint32_t BTN_GRAB = LST_BTN_RBUMPER;
 
 #endif
