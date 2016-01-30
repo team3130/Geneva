@@ -1,6 +1,6 @@
 #include <WPILIB.h>
-#include "Subsystems/Catapult.h"
-#include "Subsystems/CatapultFire.h"
+#include "Subsystems/FirePiston.h"
+#include "Subsystems/ShooterMotor.h"
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Intake.h"
 #include "AutonCommands/2BallAuton.h"
@@ -21,8 +21,8 @@ private:
 		// line should be repeated for each subsystem in the project.
 		Chassis::GetInstance();
 		Intake::GetInstance();
-		Catapult::GetInstance();
-		CatapultFire::GetInstance();
+		ShooterMotor::GetInstance();
+		FirePiston::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();

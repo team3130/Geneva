@@ -1,8 +1,7 @@
-#ifndef CONTROL_CATAPULT_FIRE_H
-#define CONTROL_CATAPULT_FIRE_H
+#ifndef CONTROL_SHOOTER_MOTOR_H
+#define CONTROL_SHOOTER_MOTOR_H
 
 #include <WPILib.h>
-#include "Misc/ToggleClass.h"
 
 /** Default command for driving the chassis.
  *
@@ -10,10 +9,14 @@
  * This command reads the inputs from joysticks using the IO (operator interface) class
  * and controls the chassis via its public methods.
  */
-class ControlCatapultFire: public Command
+class ControlShooterMotor: public Command
 {
+	enum PresetButton { kX, kY, kA, kB };
+private:
+	PresetButton preset;
+	float wheelSpeed;
 public:
-	ControlCatapultFire();
+	ControlShooterMotor();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

@@ -1,5 +1,5 @@
-#ifndef CATAPULT_FIRE_H
-#define CATAPULT_FIRE_H
+#ifndef FIRE_PISTON_H
+#define FIRE_PISTON_H
 
 #include <WPILib.h>
 #include "Commands/Subsystem.h"
@@ -11,18 +11,18 @@
  * The class manages all the driving motors and all methods of driving itself.
  * All activities with the drivetrain must be done via its public methods.
  */
-class CatapultFire: public Subsystem
+class FirePiston: public Subsystem
 {
 private:
-	static CatapultFire* m_pInstance;
+	static FirePiston* m_pInstance;
 	Solenoid* m_intakeActuater;
 
 
-	CatapultFire();
-	CatapultFire(CatapultFire const&);
-	CatapultFire& operator=(CatapultFire const&);
+	FirePiston();
+	FirePiston(FirePiston const&);
+	FirePiston& operator=(FirePiston const&);
 public:
-	static CatapultFire* GetInstance();
+	static FirePiston* GetInstance();
 	void InitDefaultCommand();
 	void Actuate(bool extended);
 };
