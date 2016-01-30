@@ -13,7 +13,7 @@ ControlIntakeCommand::ControlIntakeCommand()
 /// Called just before this Command runs the first time.
 void ControlIntakeCommand::Initialize()
 {
-	IntakeSubsystem::GetInstance()->Intake(0);
+	IntakeSubsystem::GetInstance()->SpinIntake(0);
 	IntakeSubsystem::GetInstance()->Actuate(false);
 }
 
@@ -22,18 +22,16 @@ void ControlIntakeCommand::Execute()
 {
 	OI* oi = OI::GetInstance();
 
-	//In and out control for the intake bar
-	if(oi->gamepad->GetRawButton(BTN_INTAKE))
+	//In control for the intake bar
+	if(oi->gamepad->GetRawButton(LST_BTN_LBUMPER))
 	{
-		IntakeSubsystem::GetInstance()->Intake(1);
-	}else if(oi->gamepad->GetRawButton(BTN_OUTAKE)){
-		IntakeSubsystem::GetInstance()->Intake(-1);
+		IntakeSubsystem::GetInstance()->SpinIntake(Preferences::GetInstance()->GetFloat("BeaterBarWheelSpeed",1.0));
 	}else{
-		IntakeSubsystem::GetInstance()->Intake(0);
+		IntakeSubsystem::GetInstance()->SpinIntake(0);
 	}
 
 	//Toggles actuator position on button press
-	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_GRAB)));
+	IntakeSubsystem::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(LST_BTN_LBUMPER)));
 }
 
 /// Make this return true when this Command no longer needs to run execute().
@@ -46,7 +44,7 @@ bool ControlIntakeCommand::IsFinished()
 /// Called once after isFinished returns true
 void ControlIntakeCommand::End()
 {
-	IntakeSubsystem::GetInstance()->Intake(0);
+	IntakeSubsystem::GetInstance()->SpinIntake(0);
 	IntakeSubsystem::GetInstance()->Actuate(false);
 }
 

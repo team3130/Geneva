@@ -23,7 +23,7 @@ void IntakeSubsystem::InitDefaultCommand()
 }
 
 //Modifies the speed of the intake motor with the value speed
-void IntakeSubsystem::Intake(float speed)
+void IntakeSubsystem::SpinIntake(float speed)
 {
 	m_intakeController->Set(speed);
 }

@@ -18,7 +18,7 @@ void ControlWinchLockCommand::Initialize()
 void ControlWinchLockCommand::Execute()
 {
 	OI* oi = OI::GetInstance();
-	WinchLockSubsystem::GetInstance()->Actuate(oi->gamepad->GetRawButton(BTN_SHOOT));
+	WinchLockSubsystem::GetInstance()->Actuate(oi->gamepad->GetRawButton(LST_BTN_RBUMPER));
 }
 
 /// Make this return true when this Command no longer needs to run execute().

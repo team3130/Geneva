@@ -25,7 +25,7 @@ private:
 public:
 	static IntakeSubsystem* GetInstance();
 	void InitDefaultCommand();
-	void Intake(float speed);
+	void SpinIntake(float speed);
 	void Actuate(bool extended);
 };
 

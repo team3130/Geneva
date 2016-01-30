@@ -1,11 +1,12 @@
 #include <OI.h>
-#include "Commands/ControlShooter.h"
 #include "Subsystems/Shooter.h"
+#include "Commands/ControlShooter.h"
 
 
 /// Default constructor of the class.
 ControlShooterCommand::ControlShooterCommand()
 {
+	wheelSpeed = 0;
 	preset = kX;
 	Requires(ShooterSubsystem::GetInstance());
 }
@@ -23,14 +24,15 @@ void ControlShooterCommand::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi)
 	{
-		if(oi->gamepad->GetRawButton(LST_BTN_A)){
+		//Allows control of shooter wheel speed by Face buttons and SMD
+		if(oi->gamepad->GetRawButton(LST_BTN_B)){
 			wheelSpeed = 0;
-		}else if(oi->gamepad->GetRawButton(LST_BTN_B)){
-			wheelSpeed = 0.7;
 		}else if(oi->gamepad->GetRawButton(LST_BTN_X)){
-			wheelSpeed = 0.8;
+			wheelSpeed = Preferences::GetInstance()->GetFloat("ShooterWheelSpeedX", 0.8);
 		}else if(oi->gamepad->GetRawButton(LST_BTN_Y)){
-			wheelSpeed = 1;
+			wheelSpeed = Preferences::GetInstance()->GetFloat("ShooterWheelSpeedY", 1.0);
+		}else if(oi->gamepad->GetRawAxis(LST_AXS_LTRIGGER > 0)){ //Uses axis as a button
+			wheelSpeed = Preferences::GetInstance()->GetFloat("ShooterWheelSpeedIntake", -0.8);
 		}
 		ShooterSubsystem::GetInstance()->SpinWheels(wheelSpeed);
 	}
