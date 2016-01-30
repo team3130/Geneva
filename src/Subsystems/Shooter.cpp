@@ -11,10 +11,16 @@ ShooterSubsystem* ShooterSubsystem::GetInstance()
 	return m_pInstance;
 }
 
-ShooterSubsystem::ShooterSubsystem()
+ShooterSubsystem::ShooterSubsystem():Subsystem("WheelyShooter")
 {
-	m_shooterController = new CanTalonSRX(CAN_SHOOTERMOTOR);
+	m_shooterController = new Talon(PORT_SHOOTERWHEELMOTOR);
 }
+
+void ShooterSubsystem::InitDefaultCommand()
+{
+	SetDefaultCommand(new ControlShooterCommand);
+}
+
 
 void ShooterSubsystem::SpinWheels(float speed)
 {

@@ -11,7 +11,7 @@ class ShooterSubsystem: public Subsystem
 {
 private:
 	static ShooterSubsystem* m_pInstance;
-	CANTalon* m_shooterController;
+	Talon* m_shooterController;
 
 
 	ShooterSubsystem();
