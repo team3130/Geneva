@@ -105,6 +105,13 @@ public:
 	T getStatus(){
 		return m_status;
 	}
+
+	//Sets the current state of the Toggle. MUST BE ONE OF THE TOGGLEABLE VALUES SET IN THE CONSTRUCTOR
+	void setStatus(T valueToSet){
+		if(valueToSet == m_toggleVal1 || valueToSet == m_toggleVal2){
+			m_status = valueToSet;
+		}
+	}
 };
 
 #endif /* TOGGLECLASS_H */
