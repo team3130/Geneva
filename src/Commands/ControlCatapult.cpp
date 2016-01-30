@@ -34,7 +34,7 @@ void ControlCatapult::Execute()
 		}else if(oi->gamepad->GetRawAxis(LST_AXS_LTRIGGER > 0)){ //Uses axis as a button
 			wheelSpeed = Preferences::GetInstance()->GetFloat("ShooterWheelSpeedIntake", -0.8);
 		}
-		ShooterSubsystem::GetInstance()->SpinWheels(wheelSpeed);
+		Catapult::GetInstance()->SpinWheels(wheelSpeed);
 	}
 }
 
