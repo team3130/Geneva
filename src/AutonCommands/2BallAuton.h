@@ -1,7 +1,7 @@
 #ifndef TWO_BALL_AUTON_H
 #define TWO_BALL_AUTON_H
 
-#include "WPILib.h"
+#include <WPILib.h>
 
 class TwoBallAuton: public CommandGroup
 {

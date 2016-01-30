@@ -1,5 +1,5 @@
-#ifndef WINCH_LOCK_H
-#define WINCH_LOCK_H
+#ifndef CATAPULT_FIRE_H
+#define CATAPULT_FIRE_H
 
 #include <WPILib.h>
 #include "Commands/Subsystem.h"
@@ -11,20 +11,19 @@
  * The class manages all the driving motors and all methods of driving itself.
  * All activities with the drivetrain must be done via its public methods.
  */
-class WinchLockSubsystem: public Subsystem
+class CatapultFire: public Subsystem
 {
 private:
-	static WinchLockSubsystem* m_pInstance;
+	static CatapultFire* m_pInstance;
 	Solenoid* m_intakeActuater;
 
 
-	WinchLockSubsystem();
-	WinchLockSubsystem(WinchLockSubsystem const&);
-	WinchLockSubsystem& operator=(WinchLockSubsystem const&);
+	CatapultFire();
+	CatapultFire(CatapultFire const&);
+	CatapultFire& operator=(CatapultFire const&);
 public:
-	static WinchLockSubsystem* GetInstance();
+	static CatapultFire* GetInstance();
 	void InitDefaultCommand();
-	void WinchLock(float speed);
 	void Actuate(bool extended);
 };
 

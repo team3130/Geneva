@@ -1,8 +1,8 @@
 #include <WPILIB.h>
+#include "Subsystems/Catapult.h"
+#include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Intake.h"
-#include "Subsystems/Shooter.h"
-#include "Subsystems/WinchLock.h"
 #include "AutonCommands/2BallAuton.h"
 
 class Robot: public IterativeRobot
@@ -15,14 +15,14 @@ private:
 
 	void RobotInit()
 	{
-		compressor = new Compressor(PNM_MODULE);
+		compressor = new Compressor(CAN_PNMMODULE);
 		compressor->Start();
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.
-		ChassisSubsystem::GetInstance();
-		IntakeSubsystem::GetInstance();
-		ShooterSubsystem::GetInstance();
-		WinchLockSubsystem::GetInstance();
+		Chassis::GetInstance();
+		Intake::GetInstance();
+		Catapult::GetInstance();
+		CatapultFire::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();

@@ -1,5 +1,5 @@
-#ifndef CONTROL_SHOOTER_H
-#define CONTROL_SHOOTER_H
+#ifndef CONTROL_CATAPULT_H
+#define CONTROL_CATAPULT_H
 
 #include <WPILib.h>
 
@@ -9,14 +9,14 @@
  * This command reads the inputs from joysticks using the IO (operator interface) class
  * and controls the chassis via its public methods.
  */
-class ControlShooterCommand: public Command
+class ControlCatapult: public Command
 {
 	enum PresetButton { kX, kY, kA, kB };
 private:
 	PresetButton preset;
 	float wheelSpeed;
 public:
-	ControlShooterCommand();
+	ControlCatapult();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
