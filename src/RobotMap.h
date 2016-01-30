@@ -1,7 +1,7 @@
 #ifndef ROBOTMAP_H
 #define ROBOTMAP_H
 
-#include "WPILib.h"
+#include <WPILib.h>
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -21,10 +21,10 @@
 	const int PORT_INTAKEMOTOR= 3;
 
 //Motors-CAN
-		const int CAN_SHOOTERMOTOR = 2;
+	const uint8_t CAN_PNMMODULE = 1;
+	const int CAN_SHOOTERMOTOR = 2;
 
 //Pnuematics Ports
-	const uint8_t PNM_MODULE = 1;
 	const int PNM_COMPRESSOR = 0;
 	const int PNM_SHOOTERLOCK = 1;
 	const int PNM_INTAKEACTUATE = 2;

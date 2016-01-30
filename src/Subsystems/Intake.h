@@ -11,21 +11,21 @@
  * The class manages all the driving motors and all methods of driving itself.
  * All activities with the drivetrain must be done via its public methods.
  */
-class IntakeSubsystem: public Subsystem
+class Intake: public Subsystem
 {
 private:
-	static IntakeSubsystem* m_pInstance;
+	static Intake* m_pInstance;
 	Talon* m_intakeController;
 	Solenoid* m_intakeActuater;
 
 
-	IntakeSubsystem();
-	IntakeSubsystem(IntakeSubsystem const&);
-	IntakeSubsystem& operator=(IntakeSubsystem const&);
+	Intake();
+	Intake(Intake const&);
+	Intake& operator=(Intake const&);
 public:
-	static IntakeSubsystem* GetInstance();
+	static Intake* GetInstance();
 	void InitDefaultCommand();
-	void Intake(float speed);
+	void SpinIntake(float speed);
 	void Actuate(bool extended);
 };
 

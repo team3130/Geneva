@@ -1,27 +1,27 @@
-#include <OI.h>
-#include "Commands/ControlShooter.h"
-#include "Subsystems/Shooter.h"
+#include "OI.h"
+#include "Commands/ControlCatapult.h"
+#include "Subsystems/Catapult.h"
 
 
 /// Default constructor of the class.
-ControlShooterCommand::ControlShooterCommand()
+ControlCatapult::ControlCatapult()
 {
 	manualMode = true;
 	preset = kX;
 	buttonHold = false;
-	Requires(ShooterSubsystem::GetInstance());
+	Requires(Catapult::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
-void ControlShooterCommand::Initialize()
+void ControlCatapult::Initialize()
 {
 	manualMode = true;
 	buttonHold = false;
-	ShooterSubsystem::GetInstance()->moveShooter(0);
+	Catapult::GetInstance()->moveCatapult(0);
 }
 
 //Passes 1 to shooter when the button is pressed, and 0 when it isn't
-void ControlShooterCommand::Execute()
+void ControlCatapult::Execute()
 {
 	OI* oi = OI::GetInstance();
 	if(oi)
@@ -31,30 +31,30 @@ void ControlShooterCommand::Execute()
 		{
 			manualMode = true;
 			buttonHold = false;
-			ShooterSubsystem::GetInstance()->moveShooter(thumb);
+			Catapult::GetInstance()->moveCatapult(thumb);
 		}
 		else {
-			ShooterSubsystem::GetInstance()->moveShooter(0);
+			Catapult::GetInstance()->moveCatapult(0);
 		}
 	}
 }
 
 /// Make this return true when this Command no longer needs to run execute().
 /// \return always false since this is the default command and should never finish.
-bool ControlShooterCommand::IsFinished()
+bool ControlCatapult::IsFinished()
 {
 	return false;
 }
 
 /// Called once after isFinished returns true
-void ControlShooterCommand::End()
+void ControlCatapult::End()
 {
-	ShooterSubsystem::GetInstance()->moveShooter(0);
+	Catapult::GetInstance()->moveCatapult(0);
 }
 
 /// Called when another command which requires one or more of the same
 /// subsystems is scheduled to run
-void ControlShooterCommand::Interrupted()
+void ControlCatapult::Interrupted()
 {
 	End();
 }

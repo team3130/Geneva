@@ -1,15 +1,15 @@
 #include "Subsystems/Chassis.h"
 #include "Commands/DefaultDrive.h"
 
-ChassisSubsystem* ChassisSubsystem::m_pInstance = NULL;
+Chassis* Chassis::m_pInstance = NULL;
 
-ChassisSubsystem* ChassisSubsystem::GetInstance()
+Chassis* Chassis::GetInstance()
 {
-	if(!m_pInstance) m_pInstance = new ChassisSubsystem;
+	if(!m_pInstance) m_pInstance = new Chassis;
 	return m_pInstance;
 }
 
-ChassisSubsystem::ChassisSubsystem() :
+Chassis::Chassis() :
 		Subsystem("Chassis")
 {
 	m_drive = new RobotDrive(PORT_LEFTMOTOR,PORT_RIGHTMOTOR);
@@ -24,14 +24,14 @@ ChassisSubsystem::ChassisSubsystem() :
 	*/
 }
 
-void ChassisSubsystem::InitDefaultCommand()
+void Chassis::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
-	SetDefaultCommand(new DefaultDriveCommand());
+	SetDefaultCommand(new DefaultDrive());
 }
 
 //Arcade Drives with the values of move as the forward value, and turn as the turning value
-void ChassisSubsystem::Drive(double moveL, double moveR, bool quad)
+void Chassis::Drive(double moveL, double moveR, bool quad)
 {
 	m_drive->TankDrive(moveL, moveR, quad);
 }

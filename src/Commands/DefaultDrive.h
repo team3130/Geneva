@@ -9,10 +9,10 @@
  * This command reads the inputs from joysticks using the IO (operator interface) class
  * and controls the chassis via its public methods.
  */
-class DefaultDriveCommand: public Command
+class DefaultDrive: public Command
 {
 public:
-	DefaultDriveCommand();
+	DefaultDrive();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

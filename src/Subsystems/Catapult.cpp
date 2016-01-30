@@ -1,18 +1,17 @@
-#include "Shooter.h"
 #include "../RobotMap.h"
-#include "Subsystems/Shooter.h"
-#include "Commands/ControlShooter.h"
+#include "Commands/ControlCatapult.h"
+#include "Subsystems/Catapult.h"
 
-ShooterSubsystem* ShooterSubsystem::m_pInstance = NULL;
+Catapult* Catapult::m_pInstance = NULL;
 
-ShooterSubsystem* ShooterSubsystem::GetInstance()
+Catapult* Catapult::GetInstance()
 {
-	if(!m_pInstance) m_pInstance = new ShooterSubsystem;
+	if(!m_pInstance) m_pInstance = new Catapult;
 	return m_pInstance;
 }
 
-ShooterSubsystem::ShooterSubsystem()
-		:Subsystem("Shooter")
+Catapult::Catapult()
+		:Subsystem("Catapult")
 		,m_bOnPID(false)
 {
 	m_bResetStepOneDone = false;
@@ -24,16 +23,16 @@ ShooterSubsystem::ShooterSubsystem()
 	m_shooterController->SetPID(0,0,0);
 }
 
-void ShooterSubsystem::InitDefaultCommand()
+void Catapult::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
-	SetDefaultCommand(new ControlShooterCommand());
+	SetDefaultCommand(new ControlCatapult());
 }
 
 //Modifies the shooter wheel speed with the value speed
 
 
-void ShooterSubsystem::toSetpoint(int goal)
+void Catapult::toSetpoint(int goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
@@ -48,7 +47,7 @@ void ShooterSubsystem::toSetpoint(int goal)
 	m_shooterController->Set(goal);
 }
 
-void ShooterSubsystem::moveShooter(float speed) {
+void Catapult::moveCatapult(float speed) {
 	m_bOnPID = false;
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	//TODO add ramp rates
@@ -71,7 +70,7 @@ void ShooterSubsystem::moveShooter(float speed) {
 	}
 }
 
-bool ShooterSubsystem::CheckZero(){
+bool Catapult::CheckZero(){
 	if(isBottomHit()){
 		m_shooterController->SetPosition(0);
 		return true;
@@ -79,10 +78,10 @@ bool ShooterSubsystem::CheckZero(){
 	else return false;
 }
 
-void ShooterSubsystem::readyShot(int goal)
+void Catapult::readyShot(int goal)
 {
 	if(!CheckZero() && m_bResetStepOneDone){
-		moveShooter(-.8);
+		moveCatapult(-.8);
 	}else{
 		m_bResetStepOneDone = true;
 		CheckZero();

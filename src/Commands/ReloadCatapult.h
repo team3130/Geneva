@@ -1,7 +1,7 @@
-#ifndef ReloadCatapult_H
-#define ReloadCatapult_H
+#ifndef RELOAD_CATAPULT_H
+#define RELOAD_CATAPULT_H
 
-#include "WPILib.h"
+#include <WPILib.h>
 
 class ReloadCatapult: public Command
 {

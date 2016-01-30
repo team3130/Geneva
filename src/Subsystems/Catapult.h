@@ -1,5 +1,5 @@
-#ifndef SHOOTER_H
-#define SHOOTER_H
+#ifndef CATAPULT_H
+#define CATAPULT_H
 
 #include <WPILib.h>
 #include "Commands/Subsystem.h"
@@ -7,24 +7,24 @@
 
 //The subsystem for the shooting mechanism for the robot
 
-class ShooterSubsystem: public Subsystem
+class Catapult: public Subsystem
 {
 private:
 	const int SLOW_ZONE = 300; //TODO Move these numbers somewhere out
 	const int TOP_ZONE = 4200; //     They are encoder model dependent
-	static ShooterSubsystem* m_pInstance;
+	static Catapult* m_pInstance;
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
 	bool m_bResetStepOneDone;
 
-	ShooterSubsystem();
-	ShooterSubsystem(ShooterSubsystem const&);
-	ShooterSubsystem& operator=(ShooterSubsystem const&);
+	Catapult();
+	Catapult(Catapult const&);
+	Catapult& operator=(Catapult const&);
 public:
-	static ShooterSubsystem* GetInstance();
+	static Catapult* GetInstance();
 	void InitDefaultCommand();
 	void toSetpoint(int goal);
-	void moveShooter(float goal);
+	void moveCatapult(float goal);
 	void readyShot(int goal);
 	bool isBottomHit() { return !m_shooterController->IsRevLimitSwitchClosed(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };

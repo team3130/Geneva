@@ -1,6 +1,6 @@
+#include <OI.h>
+#include "Subsystems/Catapult.h"
 #include "ReloadCatapult.h"
-#include "Subsystems/Shooter.h"
-#include "OI.h"
 
 ReloadCatapult::ReloadCatapult(uint32_t button)
 	: m_button(button)
@@ -8,13 +8,13 @@ ReloadCatapult::ReloadCatapult(uint32_t button)
 	, m_goingUp(false)
 	, m_timer()
 {
-	Requires(ShooterSubsystem::GetInstance());
+	Requires(Catapult::GetInstance());
 }
 
 // Called just before this Command runs the first time
 void ReloadCatapult::Initialize()
 {
-	ShooterSubsystem::GetInstance()->moveShooter(0);
+	Catapult::GetInstance()->moveCatapult(0);
 	m_buttonHold = true;
 	m_goingUp = false;
 	m_timer.Reset();
@@ -35,23 +35,23 @@ void ReloadCatapult::Execute()
 			else {
 				m_buttonHold = false;
 				if (m_timer.Get() > 3.0) {
-					int goal = ShooterSubsystem::GetInstance()->GetPosition();
+					int goal = Catapult::GetInstance()->GetPosition();
 					Preferences::GetInstance()->PutInt(presetLabel, goal);
-					ShooterSubsystem::GetInstance()->toSetpoint(goal);
+					Catapult::GetInstance()->toSetpoint(goal);
 					m_goingUp = true;
 					m_timer.Reset();
 				}
 				else {
-					ShooterSubsystem::GetInstance()->moveShooter(-1.0);
+					Catapult::GetInstance()->moveCatapult(-1.0);
 					m_goingUp = false;
 				}
 			}
 		}
 		else {
-			if (ShooterSubsystem::GetInstance()->CheckZero()) {
+			if (Catapult::GetInstance()->CheckZero()) {
 				m_goingUp = true;
 				int goal = Preferences::GetInstance()->GetInt(presetLabel, 2000);
-				ShooterSubsystem::GetInstance()->toSetpoint(goal);
+				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}
 		}
@@ -61,7 +61,7 @@ void ReloadCatapult::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool ReloadCatapult::IsFinished()
 {
-	if (m_goingUp && m_timer.Get() > 0.2 && abs(ShooterSubsystem::GetInstance()->GetPIDError()) < 40) return true;
+	if (m_goingUp && m_timer.Get() > 0.2 && abs(Catapult::GetInstance()->GetPIDError()) < 40) return true;
 	if (OI::GetInstance()->gamepad->GetRawAxis(AXS_WINCH) > 0.1) return true;
 	return false;
 }
@@ -69,7 +69,7 @@ bool ReloadCatapult::IsFinished()
 // Called once after isFinished returns true
 void ReloadCatapult::End()
 {
-	//ShooterSubsystem::GetInstance()->moveShooter(0);
+	//Catapult::GetInstance()->moveCatapult(0);
 }
 
 // Called when another command which requires one or more of the same

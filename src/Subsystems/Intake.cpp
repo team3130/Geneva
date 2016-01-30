@@ -1,34 +1,34 @@
 #include "Subsystems/Intake.h"
 #include "Commands/ControlIntake.h"
 
-IntakeSubsystem* IntakeSubsystem::m_pInstance = NULL;
+Intake* Intake::m_pInstance = NULL;
 
-IntakeSubsystem* IntakeSubsystem::GetInstance()
+Intake* Intake::GetInstance()
 {
-	if(!m_pInstance) m_pInstance = new IntakeSubsystem;
+	if(!m_pInstance) m_pInstance = new Intake;
 	return m_pInstance;
 }
 
-IntakeSubsystem::IntakeSubsystem() :
+Intake::Intake() :
 		Subsystem("Intake")
 {
 	m_intakeController = new Talon(PORT_INTAKEMOTOR);
-	m_intakeActuater = new Solenoid(PNM_MODULE, PNM_INTAKEACTUATE);
+	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_INTAKEACTUATE);
 }
 
-void IntakeSubsystem::InitDefaultCommand()
+void Intake::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
-	SetDefaultCommand(new ControlIntakeCommand());
+	SetDefaultCommand(new ControlIntake());
 }
 
 //Modifies the speed of the intake motor with the value speed
-void IntakeSubsystem::Intake(float speed)
+void Intake::SpinIntake(float speed)
 {
 	m_intakeController->Set(speed);
 }
 
-void IntakeSubsystem::Actuate(bool extended)
+void Intake::Actuate(bool extended)
 {
 	m_intakeActuater->Set(extended);
 }
