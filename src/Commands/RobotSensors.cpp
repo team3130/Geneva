@@ -1,5 +1,5 @@
 #include "RobotSensors.h"
-#include "Subsystems/Catapult.h"
+#include "Subsystems/ShooterMotor.h"
 
 RobotSensors::RobotSensors()
 {
@@ -16,8 +16,7 @@ void RobotSensors::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void RobotSensors::Execute()
 {
-	SmartDashboard::PutBoolean("Shooter Lower Limit",Catapult::GetInstance()->isBottomHit());
-	SmartDashboard::PutNumber("Shooter Position",Catapult::GetInstance()->GetPosition());
+	//No sensors are present
 }
 
 // Make this return true when this Command no longer needs to run execute()
