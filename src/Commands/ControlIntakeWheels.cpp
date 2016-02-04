@@ -1,58 +1,53 @@
 #include "OI.h"
-#include "Commands/ControlIntake.h"
-#include "Subsystems/Intake.h"
+#include "Commands/ControlIntakeWheels.h"
+#include "Subsystems/IntakeWheel.h"
 #include "Misc/ToggleClass.h"
 
 /// Default constructor of the class.
-ControlIntake::ControlIntake()
+ControlIntakeWheels::ControlIntakeWheels()
 {
 	IntakeArmPosition = new Toggle<bool>(false,true);
-	Requires(Intake::GetInstance());
+	Requires(IntakeWheel::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
-void ControlIntake::Initialize()
+void ControlIntakeWheels::Initialize()
 {
-	Intake::GetInstance()->SpinIntake(0);
-	Intake::GetInstance()->Actuate(false);
+	IntakeWheel::GetInstance()->SpinIntake(0);
 }
 
 
-void ControlIntake::Execute()
+void ControlIntakeWheels::Execute()
 {
 	OI* oi = OI::GetInstance();
 
 	//In and out control for the intake bar
 	if(oi->gamepad->GetRawButton(BTN_INTAKE))
 	{
-		Intake::GetInstance()->SpinIntake(1);
+		IntakeWheel::GetInstance()->SpinIntake(1);
 	}else if(oi->gamepad->GetRawButton(BTN_OUTAKE)){
-		Intake::GetInstance()->SpinIntake(-1);
+		IntakeWheel::GetInstance()->SpinIntake(-1);
 	}else{
-		Intake::GetInstance()->SpinIntake(0);
+		IntakeWheel::GetInstance()->SpinIntake(0);
 	}
-
-	//Toggles actuator position on button press
-	Intake::GetInstance()->Actuate(IntakeArmPosition->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_GRAB)));
 }
 
 /// Make this return true when this Command no longer needs to run execute().
 /// \return always false since this is the default command and should never finish.
-bool ControlIntake::IsFinished()
+bool ControlIntakeWheels::IsFinished()
 {
 	return false;
 }
 
 /// Called once after isFinished returns true
-void ControlIntake::End()
+void ControlIntakeWheels::End()
 {
-	Intake::GetInstance()->SpinIntake(0);
-	Intake::GetInstance()->Actuate(false);
+	IntakeWheel::GetInstance()->SpinIntake(0);
 }
 
 /// Called when another command which requires one or more of the same
 /// subsystems is scheduled to run
-void ControlIntake::Interrupted()
+void ControlIntakeWheels::Interrupted()
 {
 	End();
 }

@@ -1,5 +1,5 @@
-#ifndef CONTROL_INTAKE_H
-#define CONTROL_INTAKE_H
+#ifndef CONTROL_INTAKE_WHEELS_H
+#define CONTROL_INTAKE_WHEELS_H
 
 #include <WPILib.h>
 #include "Misc/ToggleClass.h"
@@ -10,12 +10,12 @@
  * This command reads the inputs from joysticks using the IO (operator interface) class
  * and controls the chassis via its public methods.
  */
-class ControlIntake: public Command
+class ControlIntakeWheels: public Command
 {
 private:
 	Toggle<bool>* IntakeArmPosition;
 public:
-	ControlIntake();
+	ControlIntakeWheels();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

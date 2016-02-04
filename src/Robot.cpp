@@ -1,8 +1,10 @@
 #include <WPILIB.h>
+#include "Subsystems/IntakeWheel.h"
+#include "Subsystems/IntakeHorizontal.h"
+#include "Subsystems/IntakeVertical.h"
 #include "Subsystems/Catapult.h"
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
-#include "Subsystems/Intake.h"
 #include "AutonCommands/2BallAuton.h"
 
 class Robot: public IterativeRobot
@@ -20,7 +22,9 @@ private:
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.
 		Chassis::GetInstance();
-		Intake::GetInstance();
+		IntakeWheel::GetInstance();
+		IntakeHorizontal::GetInstance();
+		IntakeVertical::GetInstance();
 		Catapult::GetInstance();
 		CatapultFire::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each

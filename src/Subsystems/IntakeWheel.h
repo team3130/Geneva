@@ -1,5 +1,5 @@
-#ifndef INTAKE_H
-#define INTAKE_H
+#ifndef INTAKE_WHEEL_H
+#define INTAKE_WHEEL_H
 
 #include <WPILib.h>
 #include "Commands/Subsystem.h"
@@ -11,22 +11,20 @@
  * The class manages all the driving motors and all methods of driving itself.
  * All activities with the drivetrain must be done via its public methods.
  */
-class Intake: public Subsystem
+class IntakeWheel: public Subsystem
 {
 private:
-	static Intake* m_pInstance;
+	static IntakeWheel* m_pInstance;
 	Talon* m_intakeController;
-	Solenoid* m_intakeActuater;
 
 
-	Intake();
-	Intake(Intake const&);
-	Intake& operator=(Intake const&);
+	IntakeWheel();
+	IntakeWheel(IntakeWheel const&);
+	IntakeWheel& operator=(IntakeWheel const&);
 public:
-	static Intake* GetInstance();
+	static IntakeWheel* GetInstance();
 	void InitDefaultCommand();
 	void SpinIntake(float speed);
-	void Actuate(bool extended);
 };
 
 #endif

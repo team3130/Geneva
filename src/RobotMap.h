@@ -27,7 +27,8 @@
 //Pnuematics Ports
 	const int PNM_COMPRESSOR = 0;
 	const int PNM_SHOOTERLOCK = 1;
-	const int PNM_INTAKEACTUATE = 2;
+	const int PNM_INTAKEACTUATEOUT = 2;
+	const int PNM_INTAKEACTUATEUP = 3;
 
 //Buttons and Axes
 
