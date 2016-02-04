@@ -77,20 +77,3 @@ bool Catapult::CheckZero(){
 	}
 	else return false;
 }
-
-/*
-void Catapult::readyShot(int goal)
-{
-	if(!CheckZero() && m_bResetStepOneDone){
-		moveCatapult(-.8);
-	}else{
-		m_bResetStepOneDone = true;
-		CheckZero();
-	}
-
-	if(m_bResetStepOneDone){
-		toSetpoint(goal);
-		m_bResetStepOneDone = false;
-	}
-}
-*/
