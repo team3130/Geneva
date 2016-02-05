@@ -18,6 +18,7 @@
 //Motors-PWM
 	const int PORT_LEFTMOTOR = 0;
 	const int PORT_RIGHTMOTOR = 1;
+	const int PORT_CLIMBERMOTOR = 2;
 	const int PORT_INTAKEMOTOR= 3;
 
 //Motors-CAN
