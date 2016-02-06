@@ -2,6 +2,8 @@
 #define ROBOTMAP_H
 
 #include <WPILib.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,8 +20,8 @@
 //Motors-PWM
 	const int PORT_LEFTMOTOR = 0;
 	const int PORT_RIGHTMOTOR = 1;
-	const int PORT_INTAKEMOTOR= 2;
-	const int PORT_CLIMBERTAPE =3;
+	const int PORT_INTAKEMOTOR= 3;
+	const int PORT_CLIMBERTAPE =2;
 	const int PORT_CLIMBERWINCH = 4;
 
 //Motors-CAN
@@ -29,7 +31,8 @@
 //Pnuematics Ports
 	const int PNM_COMPRESSOR = 0;
 	const int PNM_SHOOTERLOCK = 1;
-	const int PNM_INTAKEACTUATEOUT = 2;
+	const int PNM_INTAKEACTUATEOUT = 5;
+	const int PNM_INTAEKACTUATEIN = 6;
 	const int PNM_INTAKEACTUATEUP = 3;
 
 //Buttons and Axes
