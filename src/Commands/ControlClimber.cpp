@@ -1,5 +1,6 @@
 #include "ControlClimber.h"
 #include "Subsystems/Climber.h"
+#include "RobotMap.h"
 #include "OI.h"
 
 ControlClimber::ControlClimber()
@@ -10,7 +11,8 @@ ControlClimber::ControlClimber()
 // Called just before this Command runs the first time
 void ControlClimber::Initialize()
 {
-	Climber::GetInstance()->MoveClimber(0);
+	Climber::GetInstance()->MoveClimberTapes(0);
+	Climber::GetInstance()->MoveClimberWinch(0);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -18,13 +20,16 @@ void ControlClimber::Execute()
 {
 	OI* oi = OI::GetInstance();
 
-	if(oi->gamepad->GetRawButton(12))
+	//Test if the pov is on the upper half of its range, but also pressed
+	if(oi->gamepad->GetPOV() > LST_POV_W || (oi->gamepad->GetPOV() < LST_POV_E && oi->gamepad->GetPOV() >= LST_POV_N))
 	{
-		Climber::GetInstance()->MoveClimber(1);
-	}else if(oi->gamepad->GetRawButton(12)){
-		Climber::GetInstance()->MoveClimber(-1);
+		Climber::GetInstance()->MoveClimberTapes(1);
+	//Test if the pov is in the lower half of its range
+	}else if(oi->gamepad->GetPOV() > LST_POV_E && oi->gamepad->GetPOV() < LST_POV_W){
+		Climber::GetInstance()->MoveClimberWinch(-1);
 	}else{
-		Climber::GetInstance()->MoveClimber(0);
+		Climber::GetInstance()->MoveClimberTapes(0);
+		Climber::GetInstance()->MoveClimberWinch(0);
 	}
 }
 
@@ -37,7 +42,8 @@ bool ControlClimber::IsFinished()
 // Called once after isFinished returns true
 void ControlClimber::End()
 {
-	Climber::GetInstance()->MoveClimber(0);
+	Climber::GetInstance()->MoveClimberTapes(0);
+	Climber::GetInstance()->MoveClimberWinch(0);
 }
 
 // Called when another command which requires one or more of the same

@@ -5,7 +5,9 @@
 #include "Subsystems/Catapult.h"
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
+#include "Subsystems/Climber.h"
 #include "AutonCommands/2BallAuton.h"
+#include "Commands/RobotSensors.h"
 
 class Robot: public IterativeRobot
 {
@@ -14,17 +16,21 @@ private:
 	SendableChooser* autonChooser;
 	LiveWindow *lw;
 	Compressor* compressor;
+	Command *robotSensors;
 
 	void RobotInit()
 	{
 		compressor = new Compressor(CAN_PNMMODULE);
 		compressor->Start();
+		robotSensors = new RobotSensors();
+		robotSensors->Start();
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.
 		Chassis::GetInstance();
 		IntakeWheel::GetInstance();
 		IntakeHorizontal::GetInstance();
 		IntakeVertical::GetInstance();
+		Climber::GetInstance();
 		Catapult::GetInstance();
 		CatapultFire::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each

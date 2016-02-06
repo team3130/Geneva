@@ -21,7 +21,7 @@ void ControlIntakeHorizontal::Execute()
 	OI* oi = OI::GetInstance();
 
 	//Toggles actuator position on button press
-	IntakeHorizontal::GetInstance()->Actuate(IntakeArmPositionOut->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(LST_AXS_LTRIGGER > 0)));
+	IntakeHorizontal::GetInstance()->Actuate(IntakeArmPositionOut->toggleStatusOnEdgeChange(oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL) > 0.9));
 }
 
 // Make this return true when this Command no longer needs to run execute()

@@ -1,10 +1,10 @@
 #include "RobotSensors.h"
 #include "Subsystems/Catapult.h"
+#include "OI.h"
 
 RobotSensors::RobotSensors()
 {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(chassis);
+	this->SetRunWhenDisabled(true);
 }
 
 // Called just before this Command runs the first time
@@ -18,6 +18,8 @@ void RobotSensors::Execute()
 {
 	SmartDashboard::PutBoolean("Shooter Lower Limit",Catapult::GetInstance()->isBottomHit());
 	SmartDashboard::PutNumber("Shooter Position",Catapult::GetInstance()->GetPosition());
+
+	SmartDashboard::PutNumber("POV Angles",OI::GetInstance()->gamepad->GetPOV());
 }
 
 // Make this return true when this Command no longer needs to run execute()

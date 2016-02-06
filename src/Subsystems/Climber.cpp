@@ -13,7 +13,8 @@ Climber* Climber::GetInstance()
 Climber::Climber() :
 		Subsystem("Climber")
 {
-	m_climberController = new Talon(PORT_CLIMBERMOTOR);
+	m_climberWinchController = new Talon(PORT_CLIMBERWINCH);
+	m_climberTapeController = new Talon(PORT_CLIMBERTAPE);
 }
 
 void Climber::InitDefaultCommand()
@@ -22,8 +23,13 @@ void Climber::InitDefaultCommand()
 	SetDefaultCommand(new ControlClimber());
 }
 
-void Climber::MoveClimber(float speed)
+void Climber::MoveClimberTapes(float speed)
 {
-	m_climberController->Set(speed);
+	m_climberTapeController->Set(speed);
+}
+
+void Climber::MoveClimberWinch(float speed)
+{
+	m_climberWinchController->Set(speed);
 }
 

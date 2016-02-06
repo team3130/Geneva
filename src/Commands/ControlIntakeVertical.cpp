@@ -21,7 +21,7 @@ void ControlIntakeVertical::Execute()
 	OI* oi = OI::GetInstance();
 
 	//Toggles actuator position on button press
-	IntakeVertical::GetInstance()->Actuate(IntakeArmPositionUp->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(LST_BTN_LBUMPER)));
+	IntakeVertical::GetInstance()->Actuate(IntakeArmPositionUp->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_INTAKEVERTICAL)));
 }
 
 // Make this return true when this Command no longer needs to run execute()
