@@ -6,7 +6,6 @@
 class RobotSensors: public Command
 {
 public:
-	LiveWindow* lw;
 	RobotSensors();
 	void Initialize();
 	void Execute();
