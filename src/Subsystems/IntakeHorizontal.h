@@ -9,7 +9,7 @@ class IntakeHorizontal: public Subsystem
 {
 private:
 	static IntakeHorizontal* m_pInstance;
-	DoubleSolenoid* m_intakeActuater;
+	Solenoid* m_intakeActuater;
 	IntakeHorizontal();
 
 public:

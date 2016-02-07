@@ -17,6 +17,8 @@ private:
 	static Chassis* m_pInstance;
 	RobotDrive *m_drive;
 	Solenoid* m_shifter;
+	CANTalon* m_leftMotor;
+	CANTalon* m_rightMotor;
 	bool m_bShiftedLow;
 
 	Chassis();
