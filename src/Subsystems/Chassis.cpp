@@ -12,14 +12,17 @@ Chassis* Chassis::GetInstance()
 Chassis::Chassis() :
 		Subsystem("Chassis")
 {
-	m_drive = new RobotDrive(PORT_LEFTMOTOR,PORT_RIGHTMOTOR);
+	m_drive = new RobotDrive(CAN_LEFTMOTOR,CAN_RIGHTMOTOR);
 	m_drive->SetSafetyEnabled(false);
 	m_shifter = new Solenoid(PNM_GEARSHIFTER);
+	m_leftMotor = new CANTalon(CAN_LEFTMOTOR);
+	m_rightMotor = new CANTalon(CAN_RIGHTMOTOR);
 	m_bShiftedLow = false;
 
-	LiveWindow::GetInstance()->AddActuator("Chassis","Left TalonSRX",m_leftDriveController);
-	LiveWindow::GetInstance()->AddActuator("Chassis","Right TalonSRX",m_rightDriveController);
+	LiveWindow::GetInstance()->AddActuator("Chassis","Left TalonSRX",m_leftMotor);
+	LiveWindow::GetInstance()->AddActuator("Chassis","Right TalonSRX",m_rightMotor);
 	LiveWindow::GetInstance()->AddActuator("Chassis","Gear Shift Solenoid",m_shifter);
+
 }
 
 void Chassis::InitDefaultCommand()

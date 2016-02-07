@@ -17,8 +17,8 @@ private:
 	static Chassis* m_pInstance;
 	RobotDrive *m_drive;
 	Solenoid* m_shifter;
-	TalonSRX* m_leftDriveController;
-	TalonSRX* m_rightDriveController;
+	CANTalon* m_leftMotor;
+	CANTalon* m_rightMotor;
 	bool m_bShiftedLow;
 
 	Chassis();

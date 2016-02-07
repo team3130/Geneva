@@ -12,7 +12,7 @@ IntakeHorizontal* IntakeHorizontal::GetInstance()
 IntakeHorizontal::IntakeHorizontal() :
 		Subsystem("IntakeHorizontal")
 {
-	m_intakeActuater = new DoubleSolenoid(PNM_INTAKEACTUATEOUT,PNM_INTAEKACTUATEIN);
+	m_intakeActuater = new Solenoid(PNM_INTAKEACTUATEOUT);
 	LiveWindow::GetInstance()->AddActuator("Intake","Horizontal Solenoid",m_intakeActuater);
 }
 
@@ -24,10 +24,5 @@ void IntakeHorizontal::InitDefaultCommand()
 
 void IntakeHorizontal::Actuate(bool extended)
 {
-	if(extended){
-		m_intakeActuater->Set(DoubleSolenoid::kForward);
-	}else{
-		m_intakeActuater->Set(DoubleSolenoid::kReverse);
-	}
-
+	m_intakeActuater->Set(extended);
 }
