@@ -2,6 +2,7 @@
 #define DEFAULT_DRIVE_H
 
 #include <WPILib.h>
+#include "Misc/ToggleClass.h"
 
 /** Default command for driving the chassis.
  *
@@ -11,6 +12,8 @@
  */
 class DefaultDrive: public Command
 {
+private:
+	Toggle<bool>* shifterToggle;
 public:
 	DefaultDrive();
 	void Initialize();

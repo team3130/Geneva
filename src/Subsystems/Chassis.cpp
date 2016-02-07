@@ -14,6 +14,8 @@ Chassis::Chassis() :
 {
 	m_drive = new RobotDrive(PORT_LEFTMOTOR,PORT_RIGHTMOTOR);
 	m_drive->SetSafetyEnabled(false);
+	m_shifter = new Solenoid(PNM_GEARSHIFTER);
+	m_bShiftedLow = false;
 
 	// Inverted motors for TurboMoose wiring only.
 	/*
@@ -34,4 +36,10 @@ void Chassis::InitDefaultCommand()
 void Chassis::Drive(double moveL, double moveR, bool quad)
 {
 	m_drive->TankDrive(moveL, moveR, quad);
+}
+
+void Chassis::Shift(bool shiftDown)
+{
+	m_shifter->Set(shiftDown);
+	m_bShiftedLow = shiftDown;
 }

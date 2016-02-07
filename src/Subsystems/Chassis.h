@@ -16,6 +16,8 @@ class Chassis: public Subsystem
 private:
 	static Chassis* m_pInstance;
 	RobotDrive *m_drive;
+	Solenoid* m_shifter;
+	bool m_bShiftedLow;
 
 	Chassis();
 	Chassis(Chassis const&);
@@ -24,6 +26,8 @@ public:
 	static Chassis* GetInstance();
 	void InitDefaultCommand();
 	void Drive(double move, double turn, bool squaredInputs = false);
+	void Shift(bool shiftDown);
+	bool GetGearState(){return m_bShiftedLow;}
 };
 
 #endif

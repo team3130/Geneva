@@ -34,6 +34,7 @@
 	const int PNM_INTAKEACTUATEOUT = 5;
 	const int PNM_INTAEKACTUATEIN = 6;
 	const int PNM_INTAKEACTUATEUP = 3;
+	const int PNM_GEARSHIFTER = 2;
 
 //Buttons and Axes
 
