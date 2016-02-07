@@ -17,13 +17,9 @@ Chassis::Chassis() :
 	m_shifter = new Solenoid(PNM_GEARSHIFTER);
 	m_bShiftedLow = false;
 
-	// Inverted motors for TurboMoose wiring only.
-	/*
-	m_drive->SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
-	m_drive->SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
-	m_drive->SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
-	m_drive->SetInvertedMotor(RobotDrive::kRearRightMotor,true);
-	*/
+	LiveWindow::GetInstance()->AddActuator("Chassis","Left TalonSRX",m_leftDriveController);
+	LiveWindow::GetInstance()->AddActuator("Chassis","Right TalonSRX",m_rightDriveController);
+	LiveWindow::GetInstance()->AddActuator("Chassis","Gear Shift Solenoid",m_shifter);
 }
 
 void Chassis::InitDefaultCommand()

@@ -21,6 +21,8 @@ Catapult::Catapult()
 	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	m_shooterController->SetPID(0,0,0);
+
+	LiveWindow::GetInstance()->AddActuator("Catapult","Winch Talon",m_shooterController);
 }
 
 void Catapult::InitDefaultCommand()

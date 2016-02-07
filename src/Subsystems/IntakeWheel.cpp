@@ -13,6 +13,7 @@ IntakeWheel::IntakeWheel() :
 		Subsystem("IntakeWheel")
 {
 	m_intakeController = new Talon(PORT_INTAKEMOTOR);
+	LiveWindow::GetInstance()->AddActuator("Intake","Wheel Talon",m_intakeController);
 }
 
 void IntakeWheel::InitDefaultCommand()

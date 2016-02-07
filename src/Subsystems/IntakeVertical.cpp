@@ -13,6 +13,7 @@ IntakeVertical::IntakeVertical() :
 		Subsystem("IntakeVertical")
 {
 	m_intakeActuater = new Solenoid(PNM_INTAKEACTUATEUP);
+	LiveWindow::GetInstance()->AddActuator("Intake","Pivot/Vertical Solenoid",m_intakeActuater);
 }
 
 
