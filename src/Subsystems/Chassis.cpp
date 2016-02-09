@@ -15,8 +15,10 @@ Chassis::Chassis() :
 	m_drive = new RobotDrive(CAN_LEFTMOTORFRONT,CAN_LEFTMOTORREAR,CAN_RIGHTMOTORFRONT,CAN_RIGHTMOTORREAR);
 	m_drive->SetSafetyEnabled(false);
 	m_shifter = new Solenoid(PNM_GEARSHIFTER);
-	m_leftMotor = new CANTalon(CAN_LEFTMOTOR);
-	m_rightMotor = new CANTalon(CAN_RIGHTMOTOR);
+	m_leftMotorFront = new CANTalon(CAN_LEFTMOTORFRONT);
+	m_leftMotorRear = new CANTalon(CAN_LEFTMOTORREAR);
+	m_rightMotorFront = new CANTalon(CAN_RIGHTMOTORFRONT);
+	m_rightMotorRear = new CANTalon(CAN_RIGHTMOTORREAR);
 	m_bShiftedLow = false;
 }
 

@@ -17,8 +17,10 @@ private:
 	static Chassis* m_pInstance;
 	RobotDrive *m_drive;
 	Solenoid* m_shifter;
-	CANTalon* m_leftMotor;
-	CANTalon* m_rightMotor;
+	CANTalon* m_leftMotorFront;
+	CANTalon* m_leftMotorRear;
+	CANTalon* m_rightMotorFront;
+	CANTalon* m_rightMotorRear;
 	bool m_bShiftedLow;
 
 	Chassis();
