@@ -12,7 +12,7 @@ Chassis* Chassis::GetInstance()
 Chassis::Chassis() :
 		Subsystem("Chassis")
 {
-	m_drive = new RobotDrive(CAN_LEFTMOTOR,CAN_RIGHTMOTOR);
+	m_drive = new RobotDrive(CAN_LEFTMOTORFRONT,CAN_LEFTMOTORREAR,CAN_RIGHTMOTORFRONT,CAN_RIGHTMOTORREAR);
 	m_drive->SetSafetyEnabled(false);
 	m_shifter = new Solenoid(PNM_GEARSHIFTER);
 	m_leftMotor = new CANTalon(CAN_LEFTMOTOR);
