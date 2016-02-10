@@ -15,7 +15,7 @@ class IntakeWheel: public Subsystem
 {
 private:
 	static IntakeWheel* m_pInstance;
-	Talon* m_intakeController;
+	CANTalon* m_intakeController;
 
 
 	IntakeWheel();

@@ -12,7 +12,7 @@ IntakeWheel* IntakeWheel::GetInstance()
 IntakeWheel::IntakeWheel() :
 		Subsystem("IntakeWheel")
 {
-	m_intakeController = new Talon(PORT_INTAKEMOTOR);
+	m_intakeController = new CANTalon(CAN_INTAKEMOTOR);
 }
 
 void IntakeWheel::InitDefaultCommand()

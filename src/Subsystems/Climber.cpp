@@ -13,8 +13,8 @@ Climber* Climber::GetInstance()
 Climber::Climber() :
 		Subsystem("Climber")
 {
-	m_climberWinchController = new Talon(PORT_CLIMBERWINCH);
-	m_climberTapeController = new Talon(PORT_CLIMBERTAPE);
+	m_climberWinchController = new CANTalon(CAN_CLIMBERWINCH);
+	m_climberTapeController = new CANTalon(CAN_CLIMBERTAPE);
 }
 
 void Climber::InitDefaultCommand()

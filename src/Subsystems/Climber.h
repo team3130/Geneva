@@ -8,8 +8,8 @@ class Climber: public Subsystem
 {
 private:
 	static Climber* m_pInstance;
-	Talon* m_climberWinchController;
-	Talon* m_climberTapeController;
+	CANTalon* m_climberWinchController;
+	CANTalon* m_climberTapeController;
 	Climber();
 
 public:
