@@ -12,7 +12,7 @@ IntakeVertical* IntakeVertical::GetInstance()
 IntakeVertical::IntakeVertical() :
 		Subsystem("IntakeVertical")
 {
-	m_intakeActuater = new Solenoid(PNM_INTAKEACTUATEUP);
+	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_INTAKEACTUATEUP);
 }
 
 

@@ -12,7 +12,7 @@ IntakeHorizontal* IntakeHorizontal::GetInstance()
 IntakeHorizontal::IntakeHorizontal() :
 		Subsystem("IntakeHorizontal")
 {
-	m_intakeActuater = new Solenoid(PNM_INTAKEACTUATEOUT);
+	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_INTAKEACTUATEOUT);
 }
 
 
