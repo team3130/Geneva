@@ -20,6 +20,11 @@ Chassis::Chassis() :
 	m_drive->SetSafetyEnabled(false);
 	m_shifter = new Solenoid(CAN_PNMMODULE, PNM_GEARSHIFTER);
 	m_bShiftedLow = false;
+
+	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Front TalonSRX", m_leftMotorFront);
+	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Rear TalonSRX", m_leftMotorRear);
+	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
+	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
 }
 
 void Chassis::InitDefaultCommand()
