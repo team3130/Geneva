@@ -27,7 +27,7 @@ void DefaultDrive::Execute()
 	// Therefore here we turn it on explicitly.
 	Chassis::GetInstance()->Drive(moveSpeedL, moveSpeedR, true);
 
-	Chassis::GetInstance()->Shift(shifterToggle->toggleStatusOnEdgeChange(oi->stickR->GetRawButton(1), Toggle<bool>::KRisingEdge));
+	Chassis::GetInstance()->Shift(shifterToggle->toggleStatusOnEdgeChange(oi->stickL->GetRawButton(1), Toggle<bool>::KRisingEdge));
 }
 
 /// Make this return true when this Command no longer needs to run execute().

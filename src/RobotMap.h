@@ -19,15 +19,18 @@
 	//prefix DIO_
 
 //Motors-PWM
-	const int PORT_INTAKEMOTOR= 0;
-	const int PORT_CLIMBERTAPE =1;
-	const int PORT_CLIMBERWINCH = 2;
+	//prefix PORT_
 
 //Motors-CAN
 	const int CAN_PNMMODULE = 1;
 	const int CAN_SHOOTERMOTOR = 2;
-	const int CAN_LEFTMOTOR = 3;
-	const int CAN_RIGHTMOTOR = 4;
+	const int CAN_LEFTMOTORFRONT = 3;
+	const int CAN_LEFTMOTORREAR = 4;
+	const int CAN_RIGHTMOTORFRONT = 5;
+	const int CAN_RIGHTMOTORREAR = 6;
+	const int CAN_INTAKEMOTOR = 7;
+	const int CAN_CLIMBERWINCH = 8;
+	const int CAN_CLIMBERTAPE = 9;
 
 //Pnuematics Ports
 	const int PNM_COMPRESSOR = 0;
