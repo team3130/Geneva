@@ -16,6 +16,7 @@ private:
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
 	bool m_bResetStepOneDone;
+	DigitalInput m_limitSwitch;
 
 	Catapult();
 	Catapult(Catapult const&);
@@ -26,7 +27,7 @@ public:
 	void toSetpoint(int goal);
 	void moveCatapult(float goal);
 	void readyShot(int goal);
-	bool isBottomHit() { return !m_shooterController->IsRevLimitSwitchClosed(); };
+	bool isBottomHit() { return !m_limitSwitch.Get(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
 	int GetPIDError() { return m_shooterController->GetClosedLoopError(); };

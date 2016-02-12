@@ -13,6 +13,7 @@ Catapult* Catapult::GetInstance()
 Catapult::Catapult()
 		:Subsystem("Catapult")
 		,m_bOnPID(false)
+		,m_limitSwitch(DIO_CATBOTTOM)
 {
 	m_bResetStepOneDone = false;
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);

@@ -16,7 +16,7 @@
 	const int RATIO_DRIVEENCODERTICKSTOINCH = 1440/(M_PI*7.625); // 7.625 is wheel diameter.
 
 //DIO Ports
-	//prefix DIO_
+	const int DIO_CATBOTTOM = 0;
 
 //Motors-PWM
 	//prefix PORT_
@@ -95,4 +95,7 @@
 	//Defenses
 	const int AXS_DEFENSEACTUATER = LST_AXS_RTRIGGER;
 
+	//Vision
+	const int BTN_AIMLEFT = 4;
+	const int BTN_AIMRIGHT = 5;
 #endif
