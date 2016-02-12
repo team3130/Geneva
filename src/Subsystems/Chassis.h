@@ -11,7 +11,7 @@
  * The class manages all the driving motors and all methods of driving itself.
  * All activities with the drivetrain must be done via its public methods.
  */
-class Chassis: public Subsystem
+class Chassis: public PIDSubsystem
 {
 private:
 	static Chassis* m_pInstance;
@@ -22,6 +22,8 @@ private:
 	CANTalon* m_rightMotorFront;
 	CANTalon* m_rightMotorRear;
 	bool m_bShiftedLow;
+	double moveSpeed;
+	bool m_onPID;
 
 	Chassis();
 	Chassis(Chassis const&);
@@ -32,6 +34,16 @@ public:
 	void Drive(double move, double turn, bool squaredInputs = false);
 	void Shift(bool shiftDown);
 	bool GetGearState(){return m_bShiftedLow;}
+
+	virtual double ReturnPIDInput();
+	virtual void UsePIDOutput(double outputAngle);
+	double GetDistance();
+	double GetPIDError() {return GetSetpoint() - GetPosition();};
+	void ResetEncoders();
+	double GetAngle();
+	void HoldAngle(double angle = 0);
+	void ReleaseAngle() { GetPIDController()->Disable(); m_onPID=false; };
+	void DriveStraight(double move) { moveSpeed = move; };
 };
 
 #endif
