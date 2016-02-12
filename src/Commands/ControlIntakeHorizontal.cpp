@@ -16,6 +16,8 @@ ControlIntakeHorizontal::ControlIntakeHorizontal()
 void ControlIntakeHorizontal::Initialize()
 {
 	IntakeHorizontal::GetInstance()->Actuate(false);
+
+	IntakeArmPositionOut->setStatus(false);
 }
 
 // Called repeatedly when this Command is scheduled to run
