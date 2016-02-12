@@ -38,7 +38,7 @@
 	const int PNM_GEARSHIFTER = 2;
 	const int PNM_INTAKEACTUATEOUT = 3;
 	const int PNM_INTAKEACTUATEUP = 4;
-
+	const int PNM_BINCHER = 5;
 
 //Buttons and Axes
 
@@ -90,6 +90,7 @@
 	const int BTN_OUTAKE = LST_BTN_B;
 	const int BTN_INTAKEVERTICAL = LST_BTN_LBUMPER;
 	const int AXS_INTAKEHORIZONTAL = LST_AXS_LTRIGGER;
+	const int BTN_BINCHER = LST_BTN_START;
 
 	//Defenses
 	const int AXS_DEFENSEACTUATER = LST_AXS_RTRIGGER;

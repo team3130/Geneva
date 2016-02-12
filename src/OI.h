@@ -18,6 +18,7 @@ public:
 	Joystick*	gamepad;
 	JoystickButton* preset1;
 	JoystickButton* preset2;
+	JoystickButton* bincher;
 };
 
 #endif
