@@ -14,6 +14,7 @@ DefaultDrive::DefaultDrive()
 /// Called just before this Command runs the first time.
 void DefaultDrive::Initialize()
 {
+	shifterToggle->setStatus(false);
 }
 
 //Pass values from joysticks to the Drive subsystem
