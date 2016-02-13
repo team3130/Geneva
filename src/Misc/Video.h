@@ -29,7 +29,7 @@ public:
 	static const int CAPTURE_COLS=424, CAPTURE_ROWS=240;
 	static const int CAPTURE_PORT=0;
 	static const int MIN_AREA=135; // Min area in pixels, 3*(25+40+25) is a rough estimate
-	static const int MAX_TARGETS=3;
+	static const int MAX_TARGETS=2;
 
 private:
 	static RobotVideo* m_pInstance;

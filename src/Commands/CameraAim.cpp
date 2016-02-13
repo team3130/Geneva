@@ -37,9 +37,6 @@ void CameraAim::Execute()
 		if(nTurns > 0) turn0 = RobotVideo::GetInstance()->GetTurn(0);
 		if(nTurns > 1) turn1 = RobotVideo::GetInstance()->GetTurn(1);
 		RobotVideo::GetInstance()->mutex_unlock();
-		std::ostringstream oss7;
-		oss7 << " T:" << nTurns << " 0:" << turn0 << " 1:" << turn1;
-		SmartDashboard::PutString("DB/String 7", oss7.str());
 
 		if (nTurns > 0) {
 			if (nTurns > 1) {
@@ -64,22 +61,17 @@ void CameraAim::Execute()
 		timer.Reset();
 	}
 
-	std::ostringstream oss6;
-	oss6 << "S:"<< m_side << " Vel: " << (int)(1000.0*angularVelocity)/1000.0 << " T: " << 1000.0*timer.Get();
-	SmartDashboard::PutString("DB/String 6", oss6.str());
-
 	// Y-axis positive is down. We want positive - up. Flip it!
 	double LSpeed = -oi->stickL->GetY();
 	double RSpeed = -oi->stickR->GetY();
 	double LMultiplier = (0.5 * oi->stickL->GetZ()) + 0.5;
 	double RMultiplier = (0.5 * oi->stickR->GetZ()) + 0.5;
-	double moveSpeed = m_side == kLeft
+	double moveSpeed = fabs(LSpeed) > fabs(RSpeed)
 			? LSpeed * LMultiplier
 			: RSpeed * RMultiplier;
 	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
-	chassis->DriveStraight(moveSpeed);
-
 	m_prevAngle = chassis->GetAngle();
+	chassis->DriveStraight(moveSpeed);
 }
 
 // Make this return true when this Command no longer needs to run execute()

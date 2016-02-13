@@ -75,9 +75,6 @@ void Chassis::UsePIDOutput(double bias)
 
 double Chassis::GetDistance()
 {
-	std::ostringstream oss2;
-	oss2 << "L: " << m_leftMotorFront->GetPosition() << " R: " << m_rightMotorFront->GetPosition();
-	SmartDashboard::PutString("DB/String 2", oss2.str());
 	return ( m_leftMotorFront->GetPosition() + m_rightMotorFront->GetPosition() ) / 2.0;
 }
 
