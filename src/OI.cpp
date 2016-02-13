@@ -18,7 +18,7 @@ OI::OI()
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
 	bincher->ToggleWhenPressed(new PinchBall());
-	aimLeft = new JoystickButton(stickL, BTN_AIMLEFT);
+	aimLeft = new JoystickButton(stickR, BTN_AIMLEFT);
 	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
 	aimRight = new JoystickButton(stickR, BTN_AIMRIGHT);
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
