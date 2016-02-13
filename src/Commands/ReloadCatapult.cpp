@@ -50,7 +50,7 @@ void ReloadCatapult::Execute()
 		else {
 			if (Catapult::GetInstance()->CheckZero()) {
 				m_goingUp = true;
-				int goal = Preferences::GetInstance()->GetInt(presetLabel, 2000);
+				int goal = Preferences::GetInstance()->GetInt(presetLabel, 10);
 				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}

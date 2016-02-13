@@ -10,8 +10,8 @@
 class Catapult: public Subsystem
 {
 private:
-	const int SLOW_ZONE = 300; //TODO Move these numbers somewhere out
-	const int TOP_ZONE = 4200; //     They are encoder model dependent
+	const int SLOW_ZONE = 3;
+	const int TOP_ZONE = 20;
 	static Catapult* m_pInstance;
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
