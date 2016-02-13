@@ -6,15 +6,12 @@
 ControlIntakeVertical::ControlIntakeVertical()
 {
 	Requires(IntakeVertical::GetInstance());
-	IntakeArmPositionUp = new Toggle<bool>(false,true);
 }
 
 // Called just before this Command runs the first time
 void ControlIntakeVertical::Initialize()
 {
-	IntakeVertical::GetInstance()->Actuate(false);
 
-	IntakeArmPositionUp->setStatus(false);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -23,7 +20,7 @@ void ControlIntakeVertical::Execute()
 	OI* oi = OI::GetInstance();
 
 	//Toggles actuator position on button press
-	IntakeVertical::GetInstance()->Actuate(IntakeArmPositionUp->toggleStatusOnEdgeChange(oi->gamepad->GetRawButton(BTN_INTAKEVERTICAL)));
+	IntakeVertical::GetInstance()->ActuateToggle(oi->gamepad->GetRawButton(BTN_INTAKEVERTICAL));
 }
 
 // Make this return true when this Command no longer needs to run execute()

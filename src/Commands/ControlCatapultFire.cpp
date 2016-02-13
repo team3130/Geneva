@@ -1,24 +1,41 @@
 #include "OI.h"
 #include "Subsystems/CatapultFire.h"
+#include "Subsystems/IntakeVertical.h"
 #include "Commands/ControlCatapultFire.h"
 
 /// Default constructor of the class.
 ControlCatapultFire::ControlCatapultFire()
 {
 	Requires(CatapultFire::GetInstance());
+	Requires(IntakeVertical::GetInstance());
+	timer = new Timer();
 }
 
 /// Called just before this Command runs the first time.
 void ControlCatapultFire::Initialize()
 {
 	CatapultFire::GetInstance()->Actuate(false);
+	timer->Stop();
+	timer->Reset();
 }
 
 
 void ControlCatapultFire::Execute()
 {
 	OI* oi = OI::GetInstance();
-	CatapultFire::GetInstance()->Actuate(oi->gamepad->GetRawButton(BTN_SHOOT));
+	if(oi->gamepad->GetRawButton(BTN_SHOOT))
+	{
+		IntakeVertical::GetInstance()->Actuate(false);
+		IntakeVertical::GetInstance()->ToggleStateManual(false);
+		timer->Start();
+	}
+	if(timer->Get() > .5)
+	{
+		CatapultFire::GetInstance()->Actuate(true);
+		timer->Stop();
+		timer->Reset();
+	}
+
 }
 
 /// Make this return true when this Command no longer needs to run execute().

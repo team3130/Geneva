@@ -7,7 +7,7 @@
 class ControlIntakeVertical: public Command
 {
 private:
-	Toggle<bool>* IntakeArmPositionUp;
+
 public:
 	ControlIntakeVertical();
 	void Initialize();
