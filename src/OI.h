@@ -19,8 +19,9 @@ public:
 	JoystickButton* preset1;
 	JoystickButton* preset2;
 	JoystickButton* bincher;
-	Button*	aimLeft;
-	Button*	aimRight;
+	JoystickButton*	aimLeft;
+	JoystickButton*	aimRight;
+	JoystickButton* fire;
 };
 
 #endif

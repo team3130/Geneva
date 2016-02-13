@@ -18,7 +18,6 @@ CatapultFire::CatapultFire() :
 void CatapultFire::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
-	SetDefaultCommand(new ControlCatapultFire());
 }
 
 void CatapultFire::Actuate(bool released)

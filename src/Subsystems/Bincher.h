@@ -14,6 +14,7 @@ public:
 	void InitDefaultCommand();
 	static Bincher* GetInstance();
 	void Actuate(bool extended);
+	bool IsActive() {return m_actuator->Get();};
 };
 
 #endif

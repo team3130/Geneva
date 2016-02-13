@@ -25,6 +25,7 @@ void IntakeVertical::InitDefaultCommand()
 void IntakeVertical::Actuate(bool extended)
 {
 	m_intakeActuater->Set(extended);
+	m_intakeToggle->setStatus(extended);
 }
 
 void IntakeVertical::ActuateToggle(bool toggle)
@@ -32,7 +33,3 @@ void IntakeVertical::ActuateToggle(bool toggle)
 	m_intakeActuater->Set(m_intakeToggle->toggleStatusOnEdgeChange(toggle));
 }
 
-void IntakeVertical::ToggleStateManual(bool state)
-{
-	m_intakeToggle->setStatus(state);
-}

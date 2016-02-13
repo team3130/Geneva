@@ -14,6 +14,7 @@ class ControlCatapultFire: public Command
 {
 private:
 	Timer* timer;
+	bool m_waiting;
 public:
 	ControlCatapultFire();
 	void Initialize();
