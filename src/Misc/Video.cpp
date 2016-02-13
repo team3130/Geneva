@@ -385,6 +385,7 @@ void RobotVideo::Run()
 		}
 
 		if (display) {
+			cv::line(Im,cv::Point(CAPTURE_COLS/2,0),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS),cv::Scalar(0,200,0),1);
 			if (m_turns.size() > 0) {
 				std::ostringstream oss;
 				if (m_turns.size() > 1) {

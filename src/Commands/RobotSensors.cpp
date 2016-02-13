@@ -1,5 +1,6 @@
 #include "RobotSensors.h"
 #include "Subsystems/Catapult.h"
+#include "Subsystems/Chassis.h"
 #include "OI.h"
 
 RobotSensors::RobotSensors()
@@ -18,6 +19,10 @@ void RobotSensors::Execute()
 {
 	SmartDashboard::PutBoolean("Shooter Lower Limit",Catapult::GetInstance()->isBottomHit());
 	SmartDashboard::PutNumber("Shooter Position",Catapult::GetInstance()->GetPosition());
+	std::ostringstream oss0;
+	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
+	oss0 << " Ang:" << Chassis::GetInstance()->GetAngle();
+	SmartDashboard::PutString("DB/String 0", oss0.str());
 
 	SmartDashboard::PutNumber("POV Angles",OI::GetInstance()->gamepad->GetPOV());
 }
