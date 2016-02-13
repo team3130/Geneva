@@ -22,7 +22,7 @@ Catapult::Catapult()
 	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	m_shooterController->SetPID(0,0,0);
-//	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
+	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
 }
 
 void Catapult::InitDefaultCommand()
