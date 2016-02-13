@@ -9,8 +9,6 @@
 #include <Timer.h>
 
 const char* RobotVideo::IMG_FILE_NAME = "/var/volatile/tmp/alpha.png";
-const double RobotVideo::CAPTURE_FPS = 20.0;
-const double RobotVideo::CAM_ANGLE = 24.5;
 
 /**
  * \brief Color filter numbers
