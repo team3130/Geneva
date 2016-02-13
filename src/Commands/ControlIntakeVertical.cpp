@@ -13,6 +13,8 @@ ControlIntakeVertical::ControlIntakeVertical()
 void ControlIntakeVertical::Initialize()
 {
 	IntakeVertical::GetInstance()->Actuate(false);
+
+	IntakeArmPositionUp->setStatus(false);
 }
 
 // Called repeatedly when this Command is scheduled to run

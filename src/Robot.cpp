@@ -8,6 +8,8 @@
 #include "Subsystems/Climber.h"
 #include "AutonCommands/2BallAuton.h"
 #include "Commands/RobotSensors.h"
+#include "Commands/CameraFeed.h"
+
 
 class Robot: public IterativeRobot
 {
@@ -17,6 +19,8 @@ private:
 	LiveWindow *lw;
 	Compressor* compressor;
 	Command *robotSensors;
+	CameraFeed *cameraFeed;
+
 
 	void RobotInit()
 	{
@@ -24,6 +28,8 @@ private:
 		compressor->Start();
 		robotSensors = new RobotSensors();
 		robotSensors->Start();
+		cameraFeed = new CameraFeed();
+		cameraFeed->Start();
 		// Create a single static instance of all of your subsystems. The following
 		// line should be repeated for each subsystem in the project.
 		Chassis::GetInstance();

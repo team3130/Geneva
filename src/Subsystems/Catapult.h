@@ -10,12 +10,13 @@
 class Catapult: public Subsystem
 {
 private:
-	const int SLOW_ZONE = 300; //TODO Move these numbers somewhere out
-	const int TOP_ZONE = 4200; //     They are encoder model dependent
+	const int SLOW_ZONE = 3;
+	const int TOP_ZONE = 20;
 	static Catapult* m_pInstance;
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
 	bool m_bResetStepOneDone;
+	DigitalInput m_limitSwitch;
 
 	Catapult();
 	Catapult(Catapult const&);
@@ -26,7 +27,7 @@ public:
 	void toSetpoint(int goal);
 	void moveCatapult(float goal);
 	void readyShot(int goal);
-	bool isBottomHit() { return !m_shooterController->IsRevLimitSwitchClosed(); };
+	bool isBottomHit() { return !m_limitSwitch.Get(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
 	int GetPIDError() { return m_shooterController->GetClosedLoopError(); };

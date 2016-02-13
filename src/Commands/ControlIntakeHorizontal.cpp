@@ -1,7 +1,10 @@
 #include "OI.h"
+#include "RobotMap.h"
 #include "ControlIntakeHorizontal.h"
 #include "Subsystems/IntakeHorizontal.h"
 #include "Misc/ToggleClass.h"
+
+#include <math.h>
 
 ControlIntakeHorizontal::ControlIntakeHorizontal()
 {
@@ -13,6 +16,8 @@ ControlIntakeHorizontal::ControlIntakeHorizontal()
 void ControlIntakeHorizontal::Initialize()
 {
 	IntakeHorizontal::GetInstance()->Actuate(false);
+
+	IntakeArmPositionOut->setStatus(false);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -21,7 +26,7 @@ void ControlIntakeHorizontal::Execute()
 	OI* oi = OI::GetInstance();
 
 	//Toggles actuator position on button press
-	IntakeHorizontal::GetInstance()->Actuate(IntakeArmPositionOut->toggleStatusOnEdgeChange(oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL) > 0.9));
+	IntakeHorizontal::GetInstance()->Actuate(IntakeArmPositionOut->toggleStatusOnEdgeChange(fabs(oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL) > 0.1)));
 }
 
 // Make this return true when this Command no longer needs to run execute()

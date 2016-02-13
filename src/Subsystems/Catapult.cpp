@@ -13,6 +13,7 @@ Catapult* Catapult::GetInstance()
 Catapult::Catapult()
 		:Subsystem("Catapult")
 		,m_bOnPID(false)
+		,m_limitSwitch(DIO_CATAPULTBOTTOMLIMIT)
 {
 	m_bResetStepOneDone = false;
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
@@ -22,7 +23,9 @@ Catapult::Catapult()
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	m_shooterController->SetPID(0,0,0);
 
+	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
 	LiveWindow::GetInstance()->AddActuator("Catapult","Winch Talon",m_shooterController);
+
 }
 
 void Catapult::InitDefaultCommand()
@@ -38,9 +41,9 @@ void Catapult::toSetpoint(int goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
-		double termP = 10;//TODO: be turned into Preferences::GetInstance
-		double termI = 0;//TODO: be turned into Preferences::GetInstance
-		double termD = 0;//TODO: be turned into Preferences::GetInstance
+		double termP = Preferences::GetInstance()->GetDouble("Catapult P Value", 10);
+		double termI = Preferences::GetInstance()->GetDouble("Catapult I Value", 0);
+		double termD = Preferences::GetInstance()->GetDouble("Capapult D Value", 0);
 		//Add ramp rate later if necessary
 		m_shooterController->SetControlMode(CANSpeedController::kPosition);
 		m_shooterController->SetPID(termP,termI,termD);
