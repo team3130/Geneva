@@ -3,15 +3,17 @@
 #include "Subsystems/IntakeVertical.h"
 #include "Subsystems/Bincher.h"
 #include "Commands/ControlCatapultFire.h"
+#include "Commands/ReloadCatapult.h"
 
 /// Default constructor of the class.
 ControlCatapultFire::ControlCatapultFire()
+	: m_nextCommand(new ReloadCatapult(BTN_PRESET_2))
+	, timer(new Timer())
+	, m_waiting(false)
 {
 	Requires(CatapultFire::GetInstance());
 	Requires(IntakeVertical::GetInstance());
 	Requires(Bincher::GetInstance());
-	timer = new Timer();
-	m_waiting = false;
 }
 
 /// Called just before this Command runs the first time.
@@ -52,11 +54,13 @@ bool ControlCatapultFire::IsFinished()
 void ControlCatapultFire::End()
 {
 	CatapultFire::GetInstance()->Actuate(false);
+	m_nextCommand->Start();
 }
 
 /// Called when another command which requires one or more of the same
 /// subsystems is scheduled to run
 void ControlCatapultFire::Interrupted()
 {
-	End();
+	// Do not call the normal End(); We don't want to start the next command if we're interrupted.
+	CatapultFire::GetInstance()->Actuate(false);
 }

@@ -34,7 +34,7 @@ void Catapult::InitDefaultCommand()
 //Modifies the shooter wheel speed with the value speed
 
 
-void Catapult::toSetpoint(int goal)
+void Catapult::toSetpoint(float goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;

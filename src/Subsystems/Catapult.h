@@ -24,7 +24,7 @@ private:
 public:
 	static Catapult* GetInstance();
 	void InitDefaultCommand();
-	void toSetpoint(int goal);
+	void toSetpoint(float goal);
 	void moveCatapult(float goal);
 	void readyShot(int goal);
 	bool isBottomHit() { return !m_limitSwitch.Get(); };
