@@ -14,6 +14,7 @@ Catapult::Catapult()
 		:Subsystem("Catapult")
 		,m_bOnPID(false)
 		,m_limitSwitch(DIO_CATAPULTBOTTOMLIMIT)
+		,m_currentTimer()
 {
 	m_bResetStepOneDone = false;
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
@@ -23,6 +24,8 @@ Catapult::Catapult()
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	m_shooterController->SetPID(0,0,0);
 	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
+	m_currentTimer.Reset();
+	m_currentTimer.Start();
 }
 
 void Catapult::InitDefaultCommand()
@@ -38,7 +41,7 @@ void Catapult::toSetpoint(float goal)
 {
 	if(!m_bOnPID){
 		m_bOnPID = true;
-		double termP = Preferences::GetInstance()->GetDouble("Catapult P Value", 10);
+		double termP = Preferences::GetInstance()->GetDouble("Catapult P Value", 1);
 		double termI = Preferences::GetInstance()->GetDouble("Catapult I Value", 0);
 		double termD = Preferences::GetInstance()->GetDouble("Capapult D Value", 0);
 		//Add ramp rate later if necessary
@@ -73,9 +76,24 @@ void Catapult::moveCatapult(float speed) {
 }
 
 bool Catapult::CheckZero(){
-	if(isBottomHit()){
+	if(isBottomHit() or WatchCurrent()){
 		m_shooterController->SetPosition(0);
 		return true;
 	}
 	else return false;
+}
+
+bool Catapult::WatchCurrent() {
+	if (m_shooterController->GetOutputCurrent() > SHOOTER_MAXCURRENT) {
+		if (m_currentTimer.Get() > SHOOTER_MAXTIME) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		m_currentTimer.Reset();
+		return false;
+	}
 }
