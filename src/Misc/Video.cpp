@@ -386,7 +386,7 @@ void RobotVideo::Run()
 
 				mutex_lock();
 				m_locations[i] = loc;
-				m_turns[i] = 1.0 - turn/(CAPTURE_COLS/2.0);
+				m_turns[i] = atan2(CAPTURE_COLS/2.0 - turn, CAPTURE_FOCAL) * 180/M_PI;
 				mutex_unlock();
 			}
 		}
