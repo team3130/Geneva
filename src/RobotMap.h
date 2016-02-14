@@ -39,6 +39,7 @@
 	const int PNM_INTAKEACTUATEOUT = 3;
 	const int PNM_INTAKEACTUATEUP = 4;
 	const int PNM_BINCHER = 5;
+	const int PNM_INTAKEPIN = 6;
 
 //Buttons and Axes
 
@@ -91,6 +92,7 @@
 	const int BTN_INTAKEVERTICAL = LST_BTN_LBUMPER;
 	const int AXS_INTAKEHORIZONTAL = LST_AXS_LTRIGGER;
 	const int BTN_BINCHER = LST_BTN_START;
+	const int BTN_INTAKEPIN = LST_BTN_BACK;
 
 	//Defenses
 	const int AXS_DEFENSEACTUATER = LST_AXS_RTRIGGER;
