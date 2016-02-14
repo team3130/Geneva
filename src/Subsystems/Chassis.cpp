@@ -15,6 +15,8 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	m_leftMotorRear = new CANTalon(CAN_LEFTMOTORREAR);
 	m_rightMotorFront = new CANTalon(CAN_RIGHTMOTORFRONT);
 	m_rightMotorRear = new CANTalon(CAN_RIGHTMOTORREAR);
+	m_leftMotorFront->SetSensorDirection(false);
+	m_rightMotorFront->SetSensorDirection(true);
 	m_leftMotorFront->ConfigEncoderCodesPerRev(RATIO_DRIVEENCODERTICKSTOINCH);
 	m_rightMotorFront->ConfigEncoderCodesPerRev(RATIO_DRIVEENCODERTICKSTOINCH);
 
@@ -52,7 +54,7 @@ void Chassis::Shift(bool shiftDown)
 
 double Chassis::GetAngle()
 {
-	return ( m_leftMotorFront->GetEncPosition() - m_rightMotorFront->GetEncPosition() ) * 180 / (25.5 * M_PI);
+	return ( m_rightMotorFront->GetPosition() - m_leftMotorFront->GetPosition() ) * 180 / (25.5 * M_PI);
 	/*
 	 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
 	 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
@@ -71,14 +73,14 @@ void Chassis::UsePIDOutput(double bias)
 	SmartDashboard::PutNumber("Turn PID bias",bias);
 	if(bias >  speedLimit) bias = speedLimit;
 	if(bias < -speedLimit) bias = -speedLimit;
-	double speed_L = moveSpeed-bias;
-	double speed_R = moveSpeed+bias;
+	double speed_L = moveSpeed+bias;
+	double speed_R = moveSpeed-bias;
 	m_drive->TankDrive(speed_L, speed_R, false);
 }
 
 double Chassis::GetDistance()
 {
-	return ( m_leftMotorFront->GetEncPosition() + m_rightMotorFront->GetEncPosition() ) / 2.0;
+	return ( m_leftMotorFront->GetPosition() + m_rightMotorFront->GetPosition() ) / 2.0;
 }
 
 void Chassis::ResetEncoders()

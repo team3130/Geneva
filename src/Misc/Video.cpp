@@ -9,8 +9,6 @@
 #include <Timer.h>
 
 const char* RobotVideo::IMG_FILE_NAME = "/var/volatile/tmp/alpha.png";
-const double RobotVideo::CAPTURE_FPS = 20.0;
-const double RobotVideo::CAM_ANGLE = 24.5;
 
 /**
  * \brief Color filter numbers
@@ -243,6 +241,12 @@ size_t RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours)
 		boxes.push_back(hull);
 	}
 
+	if(MAX_TARGETS==2 && boxes.size()==2 && locations.size()==2) {
+		if(boxes.front().front().x > boxes.back().front().x) {
+			boxes.front().swap(boxes.back());
+		}
+	}
+
 	mutex_lock();
 	m_locations = locations;
 	m_boxes = boxes;
@@ -385,33 +389,35 @@ void RobotVideo::Run()
 		}
 
 		if (display) {
+			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,200,0),1);
 			if (m_turns.size() > 0) {
 				std::ostringstream oss;
 				if (m_turns.size() > 1) {
-					if (m_turns[0] > m_turns[1]) oss << CAM_ANGLE * m_turns[0] << ":" << CAM_ANGLE * m_turns[1];
-					else oss << CAM_ANGLE * m_turns[1] << ":" << CAM_ANGLE * m_turns[0];
+					if (m_turns[0] > m_turns[1]) oss << GetTurn(0) << " : " << GetTurn(1);
+					else oss << GetTurn(1) << " : " << GetTurn(0);
 				}
-				else oss << CAM_ANGLE * m_turns[0];
-				oss << " Buf:" << max_locations;
-				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-40), 1, 1, cv::Scalar(0, 200,255), 1);
+				else oss << GetTurn(0);
+				oss << " Buf:" << max_headings;
+				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(0, 200,255), 1);
 			}
 			else {
-				cv::putText(Im, "No target", cv::Point(20,CAPTURE_ROWS-40), 1, 1, cv::Scalar(0, 100,255), 1);
+				cv::putText(Im, "No target", cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(0, 100,255), 1);
 			}
+
 			if (n_locks > 0) {
 				std::ostringstream oss;
 				oss << m_locations[0];
-				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-18), 1, 1, cv::Scalar(0, 200,255), 1);
+				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-16), 1, 1, cv::Scalar(0, 200,255), 1);
 			}
 			else {
-				cv::putText(Im, "No location", cv::Point(20,CAPTURE_ROWS-18), 1, 1, cv::Scalar(0, 100,255), 1);
+				cv::putText(Im, "No location", cv::Point(20,CAPTURE_ROWS-16), 1, 1, cv::Scalar(0, 100,255), 1);
 			}
 
 			std::ostringstream oss;
 			oss << 1000.0*(timer.Get() - t_start) << " ms, " << 1.0 / timer.Get() << " fps";
 			cv::putText(Im, oss.str(), cv::Point(20,30), 1, 1, cv::Scalar(0, 200,255), 1);
+
 			cv::imwrite(IMG_FILE_NAME, Im);
-			//if (!m_idle) cv::imwrite("beta.png", BlobIm);
 			m_display = false;
 		}
 		//usleep(1000); //sleep for 1ms

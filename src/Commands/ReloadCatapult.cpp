@@ -9,6 +9,8 @@ ReloadCatapult::ReloadCatapult(uint32_t button)
 	, m_timer()
 {
 	Requires(Catapult::GetInstance());
+	strncpy(m_presetLabel, STR_PRESET, sizeof(STR_PRESET));
+	m_presetLabel[sizeof(STR_PRESET)-2] = 'A' + m_button;
 }
 
 // Called just before this Command runs the first time
@@ -26,17 +28,14 @@ void ReloadCatapult::Execute()
 {
 	OI* oi = OI::GetInstance();
 	if(oi) {
-		char presetLabel[] = "WinchPositionA";
-		presetLabel[13] = 'A' + m_button;
 		if (m_buttonHold) {
-			if (oi->gamepad->GetRawButton(m_button)) {
-				// If still held do nothing
-			}
-			else {
+			if (oi->gamepad->GetRawButton(m_button) == false) {
+				// Only when the button released start doing stuff
+				// or if the button never been pushed the timer will be ~0.0
 				m_buttonHold = false;
 				if (m_timer.Get() > 3.0) {
-					int goal = Catapult::GetInstance()->GetPosition();
-					Preferences::GetInstance()->PutInt(presetLabel, goal);
+					double goal = Catapult::GetInstance()->GetPosition();
+					Preferences::GetInstance()->PutDouble(m_presetLabel, goal);
 					Catapult::GetInstance()->toSetpoint(goal);
 					m_goingUp = true;
 					m_timer.Reset();
@@ -50,7 +49,7 @@ void ReloadCatapult::Execute()
 		else {
 			if (Catapult::GetInstance()->CheckZero()) {
 				m_goingUp = true;
-				int goal = Preferences::GetInstance()->GetInt(presetLabel, 10);
+				int goal = Preferences::GetInstance()->GetDouble(m_presetLabel, 10);
 				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}

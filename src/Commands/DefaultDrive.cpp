@@ -15,6 +15,7 @@ DefaultDrive::DefaultDrive()
 void DefaultDrive::Initialize()
 {
 	shifterToggle->setStatus(false);
+	Chassis::GetInstance()->ReleaseAngle();
 }
 
 //Pass values from joysticks to the Drive subsystem

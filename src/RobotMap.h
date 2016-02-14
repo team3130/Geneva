@@ -13,7 +13,7 @@
  */
 //Constant Ratios
 	const int RATIO_WINCHMOTORENCODERTICKSTOINCH = 4096/(M_PI*0.965); //0.965 is drum diameter.
-	const int RATIO_DRIVEENCODERTICKSTOINCH = 1440/(M_PI*7.625); // 7.625 is wheel diameter.
+	const int RATIO_DRIVEENCODERTICKSTOINCH = 360/(M_PI*7.625); // 7.625 is wheel diameter.
 
 //DIO Ports
 	const int DIO_CATAPULTBOTTOMLIMIT = 0;
@@ -39,6 +39,7 @@
 	const int PNM_INTAKEACTUATEOUT = 3;
 	const int PNM_INTAKEACTUATEUP = 4;
 	const int PNM_BINCHER = 5;
+	const int PNM_INTAKEPIN = 6;
 
 //Buttons and Axes
 
@@ -91,6 +92,7 @@
 	const int BTN_INTAKEVERTICAL = LST_BTN_LBUMPER;
 	const int AXS_INTAKEHORIZONTAL = LST_AXS_LTRIGGER;
 	const int BTN_BINCHER = LST_BTN_START;
+	const int BTN_INTAKEPIN = LST_BTN_BACK;
 
 	//Defenses
 	const int AXS_DEFENSEACTUATER = LST_AXS_RTRIGGER;

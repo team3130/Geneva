@@ -9,6 +9,8 @@
 
 class Catapult: public Subsystem
 {
+	static constexpr double SHOOTER_MAXCURRENT = 20.0;
+	static constexpr double SHOOTER_MAXTIME = 0.200;
 private:
 	const int SLOW_ZONE = 3;
 	const int TOP_ZONE = 20;
@@ -17,6 +19,7 @@ private:
 	CANTalon* m_shooterController;
 	bool m_bResetStepOneDone;
 	DigitalInput m_limitSwitch;
+	Timer m_currentTimer;
 
 	Catapult();
 	Catapult(Catapult const&);
@@ -24,7 +27,7 @@ private:
 public:
 	static Catapult* GetInstance();
 	void InitDefaultCommand();
-	void toSetpoint(int goal);
+	void toSetpoint(float goal);
 	void moveCatapult(float goal);
 	void readyShot(int goal);
 	bool isBottomHit() { return !m_limitSwitch.Get(); };
@@ -32,7 +35,7 @@ public:
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
 	int GetPIDError() { return m_shooterController->GetClosedLoopError(); };
 	bool CheckZero();
-
+	bool WatchCurrent();
 };
 
 #endif

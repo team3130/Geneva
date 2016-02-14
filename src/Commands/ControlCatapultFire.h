@@ -12,6 +12,10 @@
  */
 class ControlCatapultFire: public Command
 {
+private:
+	Command* m_nextCommand;
+	Timer* timer;
+	bool m_waiting;
 public:
 	ControlCatapultFire();
 	void Initialize();

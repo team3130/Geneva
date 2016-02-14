@@ -1,18 +1,18 @@
-#ifndef Bincher_H
-#define Bincher_H
+#ifndef INTAKE_PIN_H
+#define INTAKE_PIN_H
 
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 
-class Bincher: public Subsystem
+class IntakePin: public Subsystem
 {
 private:
-	static Bincher* m_pInstance;
+	static IntakePin* m_pInstance;
 	Solenoid* m_actuator;
-	Bincher();
+	IntakePin();
 public:
 	void InitDefaultCommand();
-	static Bincher* GetInstance();
+	static IntakePin* GetInstance();
 	void Actuate(bool extended);
 	bool IsActive() {return m_actuator->Get();};
 };
