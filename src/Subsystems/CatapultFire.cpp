@@ -13,6 +13,7 @@ CatapultFire::CatapultFire() :
 		Subsystem("CatapultFire")
 {
 	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_SHOOTERLOCK);
+	LiveWindow::GetInstance()->AddActuator("Catapult","Catapult Fire Solenoid",m_intakeActuater);
 }
 
 void CatapultFire::InitDefaultCommand()

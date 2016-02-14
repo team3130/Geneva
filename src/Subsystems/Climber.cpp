@@ -15,6 +15,8 @@ Climber::Climber() :
 {
 	m_climberWinchController = new CANTalon(CAN_CLIMBERWINCH);
 	m_climberTapeController = new CANTalon(CAN_CLIMBERTAPE);
+	LiveWindow::GetInstance()->AddActuator("Climber","Winch Talon",m_climberWinchController);
+	LiveWindow::GetInstance()->AddActuator("Climber","Tape Talon",m_climberTapeController);
 }
 
 void Climber::InitDefaultCommand()

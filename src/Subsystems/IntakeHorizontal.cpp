@@ -13,6 +13,7 @@ IntakeHorizontal::IntakeHorizontal() :
 		Subsystem("IntakeHorizontal")
 {
 	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_INTAKEACTUATEOUT);
+	LiveWindow::GetInstance()->AddActuator("Intake","Horizontal Solenoid",m_intakeActuater);
 }
 
 

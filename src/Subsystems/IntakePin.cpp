@@ -13,6 +13,7 @@ IntakePin::IntakePin() :
 		Subsystem("IntakePin")
 {
 	m_actuator = new Solenoid(CAN_PNMMODULE, PNM_INTAKEPIN);
+	LiveWindow::GetInstance()->AddActuator("Intake", "Pin", m_actuator);
 }
 
 void IntakePin::InitDefaultCommand()
