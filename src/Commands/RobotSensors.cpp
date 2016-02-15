@@ -5,7 +5,13 @@
 
 RobotSensors::RobotSensors()
 {
+	accelerometer = new BuiltInAccelerometer();
 	this->SetRunWhenDisabled(true);
+}
+
+RobotSensors::~RobotSensors()
+{
+	delete accelerometer;
 }
 
 // Called just before this Command runs the first time
@@ -24,7 +30,9 @@ void RobotSensors::Execute()
 	oss0 << " Ang:" << Chassis::GetInstance()->GetAngle();
 	SmartDashboard::PutString("DB/String 0", oss0.str());
 
-	SmartDashboard::PutNumber("POV Angles",OI::GetInstance()->gamepad->GetPOV());
+	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
+	SmartDashboard::PutNumber("Accelerometor Y", accelerometer->GetY());
+	SmartDashboard::PutNumber("Accelerometor Z", accelerometer->GetZ());
 }
 
 // Make this return true when this Command no longer needs to run execute()
