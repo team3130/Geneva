@@ -5,8 +5,11 @@
 
 class RobotSensors: public Command
 {
+private:
+	BuiltInAccelerometer* accelerometer;
 public:
 	RobotSensors();
+	~RobotSensors();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
