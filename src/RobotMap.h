@@ -101,4 +101,7 @@
 	//Vision
 	const int BTN_AIMLEFT = 4;
 	const int BTN_AIMRIGHT = 5;
+
+	//Drive
+	const int BTN_SHIFT = 1;
 #endif

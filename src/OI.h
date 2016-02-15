@@ -23,6 +23,7 @@ public:
 	JoystickButton*	aimLeft;
 	JoystickButton*	aimRight;
 	JoystickButton* fire;
+	JoystickButton* shift;
 };
 
 #endif
