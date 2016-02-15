@@ -80,11 +80,11 @@
 	const int BTN_PRESET_1 = LST_BTN_X;
 	const int BTN_PRESET_2 = LST_BTN_Y;
 	const int BTN_SHOOT = LST_BTN_RBUMPER;
-	const int AXS_WINCH = LST_AXS_LJOYSTICKY;
+	const int AXS_WINCH = LST_AXS_RJOYSTICKY;
 
 	//Climber
-	const int POV_CLIMBERUP = LST_POV_N; //POV UP
-	const int POV_CLIMBERDOWN  = LST_POV_S; //POV DOWN
+	const int AXS_CLIMBERTAPES = LST_AXS_LJOYSTICKY;
+	const int POV_CLIMBERWINCHDOWN  = LST_POV_S; //POV DOWN
 
 	//Intake
 	const int BTN_INTAKE = LST_BTN_A;

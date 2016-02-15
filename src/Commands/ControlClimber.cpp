@@ -20,15 +20,11 @@ void ControlClimber::Execute()
 {
 	OI* oi = OI::GetInstance();
 
-	//Test if the pov is on the upper half of its range, but also pressed
-	if(oi->gamepad->GetPOV() > LST_POV_W || (oi->gamepad->GetPOV() < LST_POV_E && oi->gamepad->GetPOV() >= LST_POV_N))
-	{
-		Climber::GetInstance()->MoveClimberTapes(0.4);
+	Climber::GetInstance()->MoveClimberTapes(oi->gamepad->GetRawAxis(AXS_CLIMBERTAPES));
 	//Test if the pov is in the lower half of its range
-	}else if(oi->gamepad->GetPOV() > LST_POV_E && oi->gamepad->GetPOV() < LST_POV_W){
-		Climber::GetInstance()->MoveClimberTapes(-0.2);
+	if(oi->gamepad->GetPOV() > LST_POV_E && oi->gamepad->GetPOV() < LST_POV_W){
+		Climber::GetInstance()->MoveClimberWinch(-1);
 	}else{
-		Climber::GetInstance()->MoveClimberTapes(0);
 		Climber::GetInstance()->MoveClimberWinch(0);
 	}
 }
