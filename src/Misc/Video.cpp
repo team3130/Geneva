@@ -386,13 +386,15 @@ void RobotVideo::Run()
 
 				mutex_lock();
 				m_locations[i] = loc;
-				m_turns[i] = atan2(CAPTURE_COLS/2.0 - turn, CAPTURE_FOCAL) * 180/M_PI;
+				m_turns[i] = atan2(CAPTURE_COLS/2.0 - turn, CAPTURE_FOCAL) * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0);
 				mutex_unlock();
 			}
 		}
 
 		if (display) {
-			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,200,0),1);
+			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias",0));
+			cv::line(Im,cv::Point(x,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,250,0),1);
+			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,120,0),1);
 
 			if (HaveHeading() > 0) {
 				std::ostringstream oss;
