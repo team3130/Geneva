@@ -88,8 +88,8 @@ bool Catapult::CheckZero(){
 }
 
 bool Catapult::WatchCurrent() {
-	if (m_shooterController->GetOutputCurrent() > SHOOTER_MAXCURRENT) {
-		if (m_currentTimer.Get() > SHOOTER_MAXTIME) {
+	if (m_shooterController->GetOutputCurrent() > Preferences::GetInstance()->GetFloat("CatapultMaxCurrent", SHOOTER_MAXCURRENT)) {
+		if (m_currentTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultMaxTime", SHOOTER_MAXTIME)) {
 			return true;
 		}
 		else {
