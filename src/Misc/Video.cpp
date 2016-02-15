@@ -244,6 +244,9 @@ size_t RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours)
 	if(MAX_TARGETS==2 && boxes.size()==2 && locations.size()==2) {
 		if(boxes.front().front().x > boxes.back().front().x) {
 			boxes.front().swap(boxes.back());
+			cv::Vec3f tmp = locations.front();
+			locations.front() = locations.back();
+			locations.back() = tmp;
 		}
 	}
 
@@ -334,11 +337,11 @@ void RobotVideo::Run()
 
 		std::vector<std::vector<cv::Point>> contours;
 		cv::findContours(bw, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-		size_t n_locks;
+		size_t n_locs;
 
 		if (contours.size() > 0) {
 
-			n_locks = ProcessContours(contours);
+			n_locs = ProcessContours(contours);
 
 			for (size_t i = 0; i < m_boxes.size(); ++i) {
 				std::vector<cv::Point> box = m_boxes[i];
@@ -383,20 +386,19 @@ void RobotVideo::Run()
 
 				mutex_lock();
 				m_locations[i] = loc;
-				m_turns[i] = 1.0 - turn/(CAPTURE_COLS/2.0);
+				m_turns[i] = atan2(CAPTURE_COLS/2.0 - turn, CAPTURE_FOCAL) * 180/M_PI;
 				mutex_unlock();
 			}
 		}
 
 		if (display) {
 			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,200,0),1);
-			if (m_turns.size() > 0) {
+
+			if (HaveHeading() > 0) {
 				std::ostringstream oss;
-				if (m_turns.size() > 1) {
-					if (m_turns[0] > m_turns[1]) oss << GetTurn(0) << " : " << GetTurn(1);
-					else oss << GetTurn(1) << " : " << GetTurn(0);
-				}
-				else oss << GetTurn(0);
+				oss << "Turn: ";
+				if (HaveHeading() > 1) oss << GetTurn(0) << " : " << GetTurn(1);
+				else oss << GetTurn();
 				oss << " Buf:" << max_headings;
 				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(0, 200,255), 1);
 			}
@@ -404,9 +406,12 @@ void RobotVideo::Run()
 				cv::putText(Im, "No target", cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(0, 100,255), 1);
 			}
 
-			if (n_locks > 0) {
+			if (n_locs > 0) {
 				std::ostringstream oss;
-				oss << m_locations[0];
+				oss << "Dist: ";
+				if (n_locs > 1) oss << GetDistance(0) << " : " << GetDistance(1);
+				else oss << GetDistance();
+				oss << " Buf:" << max_locations;
 				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-16), 1, 1, cv::Scalar(0, 200,255), 1);
 			}
 			else {

@@ -28,31 +28,24 @@ void CameraAim::Execute()
 	double angularVelocity = chassis->GetAngle() - m_prevAngle;
 
 	if (m_prevAngle == nan("NaN") or timer.Get() > AIM_COOLDOWN) {
-		float turn0 = 0;
-		float turn1 = 0;
 		float turn = 0;
+		float dist = 0;
 		size_t nTurns = 0;
+
 		RobotVideo::GetInstance()->mutex_lock();
 		nTurns = RobotVideo::GetInstance()->HaveHeading();
-		if(nTurns > 0) turn0 = RobotVideo::GetInstance()->GetTurn(0);
-		if(nTurns > 1) turn1 = RobotVideo::GetInstance()->GetTurn(1);
+		if(nTurns > 0) {
+			turn = RobotVideo::GetInstance()->GetTurn(0);
+			dist = RobotVideo::GetInstance()->GetDistance(0);
+		}
+		if(m_side == kRight and nTurns > 1) {
+			turn = RobotVideo::GetInstance()->GetTurn(1);
+			dist = RobotVideo::GetInstance()->GetDistance(1);
+		}
 		RobotVideo::GetInstance()->mutex_unlock();
 
 		if (nTurns > 0) {
-			if (nTurns > 1) {
-				switch (m_side) {
-				case kRight:
-					turn = turn0 > turn1 ? turn1 : turn0;
-					break;
-				case kLeft:
-					turn = turn0 > turn1 ? turn0 : turn1;
-					break;
-				default:
-					turn = turn0;
-				}
-			}
-			else turn = turn0;
-
+			if (dist > 72.0) turn += atan2f(RobotVideo::CAMERA_OFFSET, dist);
 			chassis->HoldAngle(turn);
 			timer.Reset();
 		}
@@ -60,6 +53,7 @@ void CameraAim::Execute()
 	else if (fabs(angularVelocity) > MAX_ANGULAR_V) {
 		timer.Reset();
 	}
+	m_prevAngle = chassis->GetAngle();
 
 	// Y-axis positive is down. We want positive - up. Flip it!
 	double LSpeed = -oi->stickL->GetY();
@@ -70,7 +64,6 @@ void CameraAim::Execute()
 			? LSpeed * LMultiplier
 			: RSpeed * RMultiplier;
 	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
-	m_prevAngle = chassis->GetAngle();
 	chassis->DriveStraight(moveSpeed);
 }
 

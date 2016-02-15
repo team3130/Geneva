@@ -14,8 +14,10 @@ Climber::Climber() :
 		Subsystem("Climber")
 {
 	m_climberWinchController = new CANTalon(CAN_CLIMBERWINCH);
+	m_climberWinchController2 = new CANTalon(CAN_CLIMBERWINCH2);
 	m_climberTapeController = new CANTalon(CAN_CLIMBERTAPE);
 	LiveWindow::GetInstance()->AddActuator("Climber","Winch Talon",m_climberWinchController);
+	LiveWindow::GetInstance()->AddActuator("Climber","Winch Talon 2",m_climberWinchController2);
 	LiveWindow::GetInstance()->AddActuator("Climber","Tape Talon",m_climberTapeController);
 }
 
@@ -33,5 +35,6 @@ void Climber::MoveClimberTapes(float speed)
 void Climber::MoveClimberWinch(float speed)
 {
 	m_climberWinchController->Set(speed);
+	m_climberWinchController2->Set(speed);
 }
 
