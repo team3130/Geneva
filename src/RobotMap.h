@@ -29,8 +29,9 @@
 	const int CAN_RIGHTMOTORFRONT = 5;
 	const int CAN_RIGHTMOTORREAR = 6;
 	const int CAN_INTAKEMOTOR = 7;
-	const int CAN_CLIMBERWINCH = 8;
-	const int CAN_CLIMBERTAPE = 9;
+	const int CAN_CLIMBERTAPE = 8;
+	const int CAN_CLIMBERWINCH = 9;
+	const int CAN_CLIMBERWINCH2 = 10;
 
 //Pnuematics Ports
 	const int PNM_COMPRESSOR = 0;
