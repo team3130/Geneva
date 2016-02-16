@@ -46,10 +46,10 @@ void ReloadCatapult::Execute()
 				}
 			}
 		}
-		else {
+		else if (!m_goingUp){
 			if (Catapult::GetInstance()->CheckZero()) {
 				m_goingUp = true;
-				int goal = Preferences::GetInstance()->GetDouble(m_presetLabel, 10);
+				float goal = Preferences::GetInstance()->GetDouble(m_presetLabel, 10);
 				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}
@@ -60,7 +60,7 @@ void ReloadCatapult::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool ReloadCatapult::IsFinished()
 {
-	if (m_goingUp && m_timer.Get() > 0.2 && abs(Catapult::GetInstance()->GetPIDError()) < 40) return true;
+	if (m_goingUp && m_timer.Get() > 0.2 && abs(Catapult::GetInstance()->GetPIDError()) < 0.5) return true;
 	if (OI::GetInstance()->gamepad->GetRawAxis(AXS_WINCH) > 0.1) return true;
 	return false;
 }

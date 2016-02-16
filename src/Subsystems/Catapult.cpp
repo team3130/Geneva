@@ -15,6 +15,7 @@ Catapult::Catapult()
 		,m_bOnPID(false)
 		,m_limitSwitch(DIO_CATAPULTBOTTOMLIMIT)
 		,m_currentTimer()
+		,m_voltageTimer()
 {
 	m_bResetStepOneDone = false;
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
@@ -30,6 +31,8 @@ Catapult::Catapult()
 
 	m_currentTimer.Reset();
 	m_currentTimer.Start();
+	m_voltageTimer.Reset();
+	m_voltageTimer.Start();
 }
 
 void Catapult::InitDefaultCommand()
@@ -59,7 +62,6 @@ void Catapult::toSetpoint(float goal)
 void Catapult::moveCatapult(float speed) {
 	m_bOnPID = false;
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-	//TODO add ramp rates
 	if (speed >= 0) {
 		if (GetPosition() < TOP_ZONE) {
 			m_shooterController->Set(speed);
@@ -77,6 +79,7 @@ void Catapult::moveCatapult(float speed) {
 	else {
 		m_shooterController->Set(0);
 	}
+	//SmartDashboard::PutNumber("Catapult Current", m_shooterController->GetOutputCurrent());
 }
 
 bool Catapult::CheckZero(){
@@ -88,16 +91,16 @@ bool Catapult::CheckZero(){
 }
 
 bool Catapult::WatchCurrent() {
+	if (fabs(m_shooterController->GetOutputVoltage()) < 3.0) m_voltageTimer.Reset();
 	if (m_shooterController->GetOutputCurrent() > Preferences::GetInstance()->GetFloat("CatapultMaxCurrent", SHOOTER_MAXCURRENT)) {
-		if (m_currentTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultMaxTime", SHOOTER_MAXTIME)) {
-			return true;
-		}
-		else {
-			return false;
+		if (m_currentTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultCurrentTime", 0.2)) {
+			if (m_voltageTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultStartTime", 0.3)) {
+				return true;
+			}
 		}
 	}
 	else {
 		m_currentTimer.Reset();
-		return false;
 	}
+	return false;
 }

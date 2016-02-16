@@ -9,8 +9,7 @@
 
 class Catapult: public Subsystem
 {
-	static constexpr double SHOOTER_MAXCURRENT = 14.0;
-	static constexpr double SHOOTER_MAXTIME = 0.250;
+	static constexpr double SHOOTER_MAXCURRENT = 15.0;
 private:
 	const int SLOW_ZONE = 3;
 	const int TOP_ZONE = 20;
@@ -20,6 +19,7 @@ private:
 	bool m_bResetStepOneDone;
 	DigitalInput m_limitSwitch;
 	Timer m_currentTimer;
+	Timer m_voltageTimer;
 
 	Catapult();
 	Catapult(Catapult const&);
