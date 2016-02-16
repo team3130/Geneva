@@ -54,7 +54,7 @@ bool ControlCatapultFire::IsFinished()
 void ControlCatapultFire::End()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	m_nextCommand->Start();
+	if(!m_waiting) m_nextCommand->Start();
 }
 
 /// Called when another command which requires one or more of the same
