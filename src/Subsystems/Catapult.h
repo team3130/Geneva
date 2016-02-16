@@ -33,7 +33,7 @@ public:
 	bool isBottomHit() { return !m_limitSwitch.Get(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
-	int GetPIDError() { return m_shooterController->GetClosedLoopError(); };
+	double GetPIDError() { return (double)(m_shooterController->GetClosedLoopError())/RATIO_WINCHMOTORENCODERTICKSTOINCH; };
 	bool CheckZero();
 	bool WatchCurrent();
 };
