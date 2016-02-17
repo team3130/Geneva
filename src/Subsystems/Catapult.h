@@ -9,8 +9,7 @@
 
 class Catapult: public Subsystem
 {
-	static constexpr double SHOOTER_MAXCURRENT = 20.0;
-	static constexpr double SHOOTER_MAXTIME = 0.200;
+	static constexpr double SHOOTER_MAXCURRENT = 15.0;
 private:
 	const int SLOW_ZONE = 3;
 	const int TOP_ZONE = 20;
@@ -20,6 +19,7 @@ private:
 	bool m_bResetStepOneDone;
 	DigitalInput m_limitSwitch;
 	Timer m_currentTimer;
+	Timer m_voltageTimer;
 
 	Catapult();
 	Catapult(Catapult const&);
@@ -33,7 +33,7 @@ public:
 	bool isBottomHit() { return !m_limitSwitch.Get(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
-	int GetPIDError() { return m_shooterController->GetClosedLoopError(); };
+	double GetPIDError() { return (double)(m_shooterController->GetClosedLoopError())/RATIO_WINCHMOTORENCODERTICKSTOINCH; };
 	bool CheckZero();
 	bool WatchCurrent();
 };

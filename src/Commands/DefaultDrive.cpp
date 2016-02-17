@@ -14,7 +14,6 @@ DefaultDrive::DefaultDrive()
 /// Called just before this Command runs the first time.
 void DefaultDrive::Initialize()
 {
-	shifterToggle->setStatus(false);
 	Chassis::GetInstance()->ReleaseAngle();
 }
 
@@ -28,8 +27,6 @@ void DefaultDrive::Execute()
 	// Only driving manual should require Quadratic inputs. By default it should be turned off
 	// Therefore here we turn it on explicitly.
 	Chassis::GetInstance()->Drive(moveSpeedL, moveSpeedR, true);
-
-	Chassis::GetInstance()->Shift(shifterToggle->toggleStatusOnEdgeChange(oi->stickL->GetRawButton(1), Toggle<bool>::KRisingEdge));
 }
 
 /// Make this return true when this Command no longer needs to run execute().
