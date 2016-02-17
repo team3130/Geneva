@@ -1,8 +1,18 @@
 #include "1BallAuton.h"
 
+#include "AutonCatapult.h"
+#include "AutonControlIntakeVertical.h"
+#include "AutonDriveToPoint.h"
+#include "AutonFire.h"
+#include "AutonPinchBall.h"
+
 OneBallAuton::OneBallAuton()
 {
-
+	Catapult_ReadyShotOne = new AutonCatapult();
+	Catapult_ShootOne = new AutonFire();
+	Bincher_HoldBall = new PinchBall();
+	Intake_LowerIntake = new AutonControlIntakeHorizontal();
+	Drive_DriveAcrossDefense = new AutonDriveToPoint();
 }
 
 OneBallAuton::~OneBallAuton()

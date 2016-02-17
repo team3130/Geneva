@@ -3,9 +3,24 @@
 
 #include <WPILib.h>
 
+#include "AutonCatapult.h"
+#include "AutonControlIntakeVertical.h"
+#include "AutonDriveToPoint.h"
+#include "AutonFire.h"
+#include "AutonPinchBall.h"
+
 class OneBallAuton: public CommandGroup
 {
 private:
+	AutonCatapult* Catapult_ReadyShotOne;
+
+	AutonFire* Catapult_ShootOne;
+
+	AutonPinchBall* Bincher_HoldBall;
+
+	AutonControlIntakeVertical* Intake_LowerIntake;
+
+	AutonDriveToPoint* Drive_DriveAcrossDefense;
 
 public:
 	OneBallAuton();

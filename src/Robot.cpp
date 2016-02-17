@@ -7,6 +7,7 @@
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Climber.h"
 #include "AutonCommands/2BallAuton.h"
+#include "AutonCommands/1BallAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
 
@@ -44,6 +45,7 @@ private:
 		autonChooser = new SendableChooser();
 		autonChooser->AddDefault("No Auton", nullptr);
 		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
+		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
 	}
