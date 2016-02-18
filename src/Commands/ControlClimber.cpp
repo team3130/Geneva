@@ -22,9 +22,14 @@ void ControlClimber::Execute()
 
 	Climber::GetInstance()->MoveClimberTapes(oi->gamepad->GetRawAxis(AXS_CLIMBERTAPES));
 	//Test if the pov is in the lower half of its range
-	if(oi->gamepad->GetPOV() > LST_POV_E && oi->gamepad->GetPOV() < LST_POV_W){
-		Climber::GetInstance()->MoveClimberWinch(-1);
-	}else{
+	int pov = oi->gamepad->GetPOV();
+	if (pov >= 0) {
+		if(pov > LST_POV_E && pov < LST_POV_W){
+			Climber::GetInstance()->MoveClimberWinch(-1);
+		} else if(pov < LST_POV_E || pov > LST_POV_W) {
+			Climber::GetInstance()->MoveClimberWinch(0.3);
+		}
+	} else {
 		Climber::GetInstance()->MoveClimberWinch(0);
 	}
 }
