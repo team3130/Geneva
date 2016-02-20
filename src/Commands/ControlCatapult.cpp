@@ -27,7 +27,7 @@ void ControlCatapult::Execute()
 	if(oi)
 	{
 		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
-		if(fabs(thumb) > 0.1)
+		if(fabs(thumb) > 0.1 && !Catapult::GetInstance()->WatchCurrent())
 		{
 			manualMode = true;
 			buttonHold = false;

@@ -53,6 +53,8 @@ void ReloadCatapult::Execute()
 				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}
+		}else if(Catapult::GetInstance()->WatchCurrent()){
+			Catapult::GetInstance()->moveCatapult(0);
 		}
 	}
 }
