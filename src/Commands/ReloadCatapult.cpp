@@ -62,7 +62,7 @@ void ReloadCatapult::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool ReloadCatapult::IsFinished()
 {
-	if (m_goingUp && m_timer.Get() > 0.2 && abs(Catapult::GetInstance()->GetPIDError()) < 0.5) return true;
+	if (m_goingUp && m_timer.Get() > 0.2 && abs(Catapult::GetInstance()->GetPIDError()) < 0.1) return true;
 	if (OI::GetInstance()->gamepad->GetRawAxis(AXS_WINCH) > 0.1) return true;
 	return false;
 }
