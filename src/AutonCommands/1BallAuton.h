@@ -21,7 +21,9 @@ private:
 
 	AutonControlIntakeVertical* Intake_LowerIntake;
 
-	AutonDriveToPoint* Drive_DriveAcrossDefense;
+	AutonDriveToPoint* Drive_DriveToDefense;
+	AutonDriveToPoint* Drive_DriveToShootPosition;
+	AutonDriveToPoint* Drive_TurnToSeeTarget;
 
 	AutonAim* Vision_AimAtTarget;
 
