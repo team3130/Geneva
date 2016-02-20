@@ -15,6 +15,8 @@ void ControlCatapult::Initialize()
 {
 	manualMode = true;
 	Catapult::GetInstance()->moveCatapult(0);
+	timer.Reset();
+	timer.Start();
 }
 
 //Passes 1 to shooter when the button is pressed, and 0 when it isn't
@@ -24,14 +26,10 @@ void ControlCatapult::Execute()
 	Catapult* cat = Catapult::GetInstance();
 	if(oi && cat)
 	{
-		if (timer.Get() > 2.0) {
-			if (cat->WatchCurrent()) {
-				manualMode = false;
-			}
-			else {
-				manualMode = true;
-				timer.Reset();
-			}
+		bool danger = cat->WatchCurrent();
+		if (danger or timer.Get() > 2.0) {
+			timer.Reset();
+			manualMode = !danger;
 		}
 		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
 		if(fabs(thumb) > 0.1 && manualMode)
