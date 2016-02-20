@@ -60,7 +60,7 @@ public:
 	// These guys need mutex locked but user should do that so can wrap them in a bunch
 	size_t HaveHeading() {return m_boxes.size();};
 	float GetTurn(size_t i=0) {return m_turns[i];};
-	float GetDistance(size_t i=0) {return sqrtf(m_locations[i].dot(m_locations[i]));};
+	float GetDistance(size_t i=0);
 
 	// Reading/writing a bool is atomic, no need in mutex lock
 	void Enable() {m_idle = false;};
