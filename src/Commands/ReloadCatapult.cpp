@@ -33,8 +33,8 @@ void ReloadCatapult::Execute()
 				// Only when the button released start doing stuff
 				// or if the button never been pushed the timer will be ~0.0
 				m_buttonHold = false;
-				if (m_timer.Get() > 3.0) {
-					double goal = Catapult::GetInstance()->GetPosition();
+				double goal = Catapult::GetInstance()->GetPosition();
+				if (m_timer.Get() > 3.0 && goal > 2 && goal < Catapult::GetInstance()->TOP_ZONE) {
 					Preferences::GetInstance()->PutDouble(m_presetLabel, goal);
 					Catapult::GetInstance()->toSetpoint(goal);
 					m_goingUp = true;
