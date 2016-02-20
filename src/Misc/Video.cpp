@@ -257,6 +257,19 @@ size_t RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours)
 	return n_locs;
 }
 
+float RobotVideo::GetDistance(size_t i)
+{
+	// Correct calculations would be to return a square root of the dot product if it worked
+	// return sqrtf(m_locations[i].dot(m_locations[i]));
+
+	int dx = m_boxes[i][1].x - m_boxes[i][0].x;
+	int dy = m_boxes[i][1].y - m_boxes[i][0].y;
+	double len = sqrt(dx*dx + dy*dy);
+	double alpha = atan2(len, CAPTURE_FOCAL);
+	return 20.0 / asin(alpha);
+}
+
+
 void RobotVideo::Run()
 {
 	cv::VideoCapture capture;
