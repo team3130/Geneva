@@ -24,7 +24,6 @@ void CameraFeed::Initialize()
 void CameraFeed::Execute()
 {
 	if (RobotVideo* video = RobotVideo::GetInstance()) {
-		video->SetLocationQueueSize(10.0 * SmartDashboard::GetNumber("DB/Slider 0",0));
 		if(!video->m_display) {
 			frcReadImage(image,RobotVideo::IMG_FILE_NAME);
 			CameraServer::GetInstance()->SetImage(image);
@@ -32,12 +31,32 @@ void CameraFeed::Execute()
 			video->m_display = true;
 		}
 
+		float turn0, turn1, dist0, dist1;
+		size_t nGoals;
 		video->mutex_lock();
-		if (video->HaveHeading() > 0) {
-			SmartDashboard::PutNumber("Video Heading", video->GetTurn());
-			SmartDashboard::PutNumber("Video Distance", video->GetDistance());
+		nGoals = video->HaveHeading();
+		if (nGoals > 0) {
+			turn0 = video->GetTurn(0);
+			dist0 = video->GetDistance(0);
+		}
+		if (nGoals > 1) {
+			turn1 = video->GetTurn(1);
+			dist1 = video->GetDistance(1);
 		}
 		video->mutex_unlock();
+
+		if (nGoals > 0) {
+			SmartDashboard::PutNumber("Video Heading L", turn0);
+			SmartDashboard::PutNumber("Video Distance L", dist0);
+		}
+		if (nGoals > 1) {
+			SmartDashboard::PutNumber("Video Heading R", turn1);
+			SmartDashboard::PutNumber("Video Distance R", dist1);
+		}
+		else {
+			SmartDashboard::PutNumber("Video Heading R", turn0);
+			SmartDashboard::PutNumber("Video Distance R", dist0);
+		}
 	}
 }
 
