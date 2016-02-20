@@ -21,6 +21,15 @@ Climber::Climber() :
 	LiveWindow::GetInstance()->AddActuator("Climber","Winch Talon",m_climberWinchController);
 	LiveWindow::GetInstance()->AddActuator("Climber","Winch Talon 2",m_climberWinchController2);
 	LiveWindow::GetInstance()->AddActuator("Climber","Tape Talon",m_climberTapeController);
+
+	m_PWMclimberTapeController = new Talon(PORT_CLIMBERTAPE);
+	m_PWMclimberWinchController = new Talon(PORT_CLIMBERWINCH);
+	m_PWMclimberWinchController2 = new Talon(PORT_CLIMBERWINCH2);
+	m_PWMclimberWinchController->SetInverted(true);
+	m_PWMclimberWinchController2->SetInverted(true);
+	LiveWindow::GetInstance()->AddActuator("Climber","PWM Winch Talon",m_PWMclimberWinchController);
+	LiveWindow::GetInstance()->AddActuator("Climber","PWM Winch Talon 2",m_PWMclimberWinchController2);
+	LiveWindow::GetInstance()->AddActuator("Climber","PWM Tape Talon",m_PWMclimberTapeController);
 }
 
 void Climber::InitDefaultCommand()
@@ -32,11 +41,16 @@ void Climber::InitDefaultCommand()
 void Climber::MoveClimberTapes(float speed)
 {
 	m_climberTapeController->Set(speed);
+
+	m_PWMclimberTapeController->Set(speed);
 }
 
 void Climber::MoveClimberWinch(float speed)
 {
 	m_climberWinchController->Set(speed);
 	m_climberWinchController2->Set(speed);
+
+	m_PWMclimberWinchController->Set(speed);
+	m_PWMclimberWinchController2->Set(speed);
 }
 

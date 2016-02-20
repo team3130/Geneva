@@ -19,7 +19,9 @@
 	const int DIO_CATAPULTBOTTOMLIMIT = 0;
 
 //Motors-PWM
-	//prefix PORT_
+	const int PORT_CLIMBERTAPE = 0;
+	const int PORT_CLIMBERWINCH = 1;
+	const int PORT_CLIMBERWINCH2 = 2;
 
 //Motors-CAN
 	const int CAN_PNMMODULE = 1;
