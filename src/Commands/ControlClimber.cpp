@@ -20,7 +20,7 @@ void ControlClimber::Execute()
 {
 	OI* oi = OI::GetInstance();
 
-	Climber::GetInstance()->MoveClimberTapes(oi->gamepad->GetRawAxis(AXS_CLIMBERTAPES));
+	Climber::GetInstance()->MoveClimberTapes(Preferences::GetInstance()->GetDouble("TapesSpeed",0.5) * oi->gamepad->GetRawAxis(AXS_CLIMBERTAPES));
 	//Test if the pov is in the lower half of its range
 	int pov = oi->gamepad->GetPOV();
 	if (pov >= 0) {
