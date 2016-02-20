@@ -12,6 +12,10 @@ private:
 	CANTalon* m_climberWinchController;
 	CANTalon* m_climberWinchController2;
 
+	Talon* m_PWMclimberTapeController;
+	Talon* m_PWMclimberWinchController;
+	Talon* m_PWMclimberWinchController2;
+
 	Climber();
 
 public:

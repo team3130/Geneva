@@ -12,7 +12,7 @@ class Catapult: public Subsystem
 	static constexpr double SHOOTER_MAXCURRENT = 15.0;
 private:
 	const int SLOW_ZONE = 3;
-	const int TOP_ZONE = 20;
+	const int TOP_ZONE = 24;
 	static Catapult* m_pInstance;
 	bool m_bOnPID;
 	CANTalon* m_shooterController;

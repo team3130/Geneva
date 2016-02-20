@@ -69,7 +69,7 @@ double Chassis::ReturnPIDInput()
 
 void Chassis::UsePIDOutput(double bias)
 {
-	const double speedLimit = 0.65;
+	const double speedLimit = 1.0;
 	SmartDashboard::PutNumber("Turn PID bias",bias);
 	if(bias >  speedLimit) bias = speedLimit;
 	if(bias < -speedLimit) bias = -speedLimit;
@@ -80,6 +80,10 @@ void Chassis::UsePIDOutput(double bias)
 
 double Chassis::GetDistance()
 {
+	std::ostringstream oss0;
+	oss0 << "L:" << m_leftMotorFront->GetPosition();
+	oss0 << " R:" << m_rightMotorFront->GetPosition();
+	SmartDashboard::PutString("DB/String 1", oss0.str());
 	return ( m_leftMotorFront->GetPosition() + m_rightMotorFront->GetPosition() ) / 2.0;
 }
 
@@ -91,6 +95,10 @@ void Chassis::ResetEncoders()
 
 void Chassis::HoldAngle(double angle)
 {
+	GetPIDController()->SetPID(
+			Preferences::GetInstance()->GetDouble("ChassisP", 0.05),
+			Preferences::GetInstance()->GetDouble("ChassisI", 0.01),
+			Preferences::GetInstance()->GetDouble("ChassisD", 0.15));
 	GetPIDController()->SetSetpoint(GetAngle() + angle);
 	GetPIDController()->Enable();
 	m_onPID = true;

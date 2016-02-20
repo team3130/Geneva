@@ -1,5 +1,6 @@
 #include "CameraAim.h"
 #include "Subsystems/Chassis.h"
+#include "Subsystems/Catapult.h"
 #include "OI.h"
 #include "Misc/Video.h"
 
@@ -16,6 +17,8 @@ void CameraAim::Initialize()
 	timer.Reset();
 	timer.Start();
 	m_prevAngle = nan("NaN");
+	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
+	RobotVideo::GetInstance()->SetLocationQueueSize(10);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -46,6 +49,10 @@ void CameraAim::Execute()
 
 		if (nTurns > 0) {
 			if (dist > 100) {
+				// Magic function.
+				//double m_catStop =2*log(7.75*dist-770)+7.5;
+				//Catapult::GetInstance()->toSetpoint(m_catStop);
+
 				// The height of the goal is 96 inches. We want the distance to the tower base.
 				dist = sqrt(dist*dist - 96*96);
 				// Now as we know the actual distance, the camera offset over that distance is the adjustment angle's tangent
@@ -60,14 +67,9 @@ void CameraAim::Execute()
 	}
 	m_prevAngle = chassis->GetAngle();
 
-	// Y-axis positive is down. We want positive - up. Flip it!
-	double LSpeed = -oi->stickL->GetY();
-	double RSpeed = -oi->stickR->GetY();
-	double LMultiplier = (0.5 * oi->stickL->GetZ()) + 0.5;
-	double RMultiplier = (0.5 * oi->stickR->GetZ()) + 0.5;
-	double moveSpeed = fabs(LSpeed) > fabs(RSpeed)
-			? LSpeed * LMultiplier
-			: RSpeed * RMultiplier;
+	double LSpeed = oi->stickL->GetY();
+	double RSpeed = oi->stickR->GetY();
+	double moveSpeed = fabs(LSpeed) > fabs(RSpeed) ? LSpeed : RSpeed;
 	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
 	chassis->DriveStraight(moveSpeed);
 }
