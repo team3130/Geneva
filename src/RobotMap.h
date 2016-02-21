@@ -36,13 +36,12 @@
 	const int CAN_CLIMBERWINCH2 = 10;
 
 //Pnuematics Ports
-	const int PNM_COMPRESSOR = 0;
+	const int PNM_INTAKEPIN = 0;
 	const int PNM_SHOOTERLOCK = 1;
 	const int PNM_GEARSHIFTER = 2;
 	const int PNM_INTAKEACTUATEOUT = 3;
 	const int PNM_INTAKEACTUATEUP = 4;
 	const int PNM_BINCHER = 5;
-	const int PNM_INTAKEPIN = 6;
 
 //Buttons and Axes
 
