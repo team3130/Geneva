@@ -104,7 +104,7 @@ private:
 		if(recordToggle->toggleStatusOnEdgeChange(OI::GetInstance()->stickL->GetRawButton(10)))
 			autonMacro->Record();
 		if(recordToggle->fallingEdge(recordToggle->getStatus()))
-			autonMacro->WriteFile(Preferences::GetInstance()->GetString("AutonFileName","DefaultRecording.csv"));
+			autonMacro->WriteFile("/AutonCommands/RecordFiles/" + Preferences::GetInstance()->GetString("AutonFileName","DefaultRecording.csv"));
 		Scheduler::GetInstance()->Run();
 	}
 
