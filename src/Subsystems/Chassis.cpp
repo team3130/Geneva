@@ -46,6 +46,11 @@ void Chassis::Drive(double moveL, double moveR, bool quad)
 	m_drive->TankDrive(moveL, moveR, quad);
 }
 
+void Chassis::DriveArcade(double move, double turn, bool squaredInputs)
+{
+	m_drive->ArcadeDrive(move, turn, squaredInputs);
+}
+
 void Chassis::Shift(bool shiftDown)
 {
 	m_shifter->Set(shiftDown);

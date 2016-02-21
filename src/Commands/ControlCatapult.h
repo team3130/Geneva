@@ -14,8 +14,6 @@ class ControlCatapult: public Command
 	enum PresetButton { kX, kY };
 private:
 	bool manualMode;
-	bool buttonHold;
-	PresetButton preset;
 	Timer timer;
 public:
 	ControlCatapult();

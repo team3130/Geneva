@@ -262,11 +262,18 @@ float RobotVideo::GetDistance(size_t i)
 	// Correct calculations would be to return a square root of the dot product if it worked
 	// return sqrtf(m_locations[i].dot(m_locations[i]));
 
-	int dx = m_boxes[i][1].x - m_boxes[i][0].x;
-	int dy = m_boxes[i][1].y - m_boxes[i][0].y;
-	double len = sqrt(dx*dx + dy*dy);
-	double alpha = atan2(len, CAPTURE_FOCAL);
-	return 20.0 / asin(alpha);
+	// Another idea was to take the length of the top edge and estimate the distance from there.
+	//int dx = m_boxes[i][1].x - m_boxes[i][0].x;
+	//int dy = m_boxes[i][1].y - m_boxes[i][0].y;
+	//double len = sqrt(dx*dx + dy*dy);
+	//double alpha = atan2(len, CAPTURE_FOCAL);
+	//return 20.0 / asin(alpha);
+
+	// Distance by the height. The real height of the target is 97 inches.
+	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
+	float tower = 97 - Preferences::GetInstance()->GetFloat("CameraHeight", 12);
+	float alpha = atan2(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 166));
+	return tower / sin(alpha - atan2f(dy, CAPTURE_FOCAL));
 }
 
 
@@ -407,7 +414,8 @@ void RobotVideo::Run()
 		if (display) {
 			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias",0));
 			cv::line(Im,cv::Point(x,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,250,0),1);
-			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,120,0),1);
+			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,0,120),1);
+			cv::line(Im,cv::Point(40,CAPTURE_ROWS/2),cv::Point(CAPTURE_COLS-40,CAPTURE_ROWS/2),cv::Scalar(0,0,120),1);
 
 			if (HaveHeading() > 0) {
 				std::ostringstream oss;
