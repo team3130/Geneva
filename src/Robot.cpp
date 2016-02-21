@@ -1,5 +1,7 @@
 #include <WPILIB.h>
 #include "Misc/RiptideRecorder/RiptideRecorder.h"
+#include "Misc/ToggleClass.h"
+#include "OI.h"
 
 #include "Subsystems/IntakeWheel.h"
 #include "Subsystems/IntakeHorizontal.h"
@@ -20,6 +22,8 @@ class Robot: public IterativeRobot
 {
 private:
 	Recorder* autonRecorder;
+	Macro* autonMacro;
+	Toggle<bool>* recordToggle;
 
 	Command *autonomousCommand;
 	SendableChooser* autonChooser;
@@ -32,6 +36,8 @@ private:
 	void RobotInit()
 	{
 		autonRecorder = Recorder::GetInstance();
+		autonMacro = autonRecorder->macro();
+		recordToggle = new Toggle<bool>(false,true);
 
 		compressor = new Compressor(CAN_PNMMODULE);
 		compressor->Start();
@@ -95,6 +101,10 @@ private:
 
 	void TeleopPeriodic()
 	{
+		if(recordToggle->toggleStatusOnEdgeChange(OI::GetInstance()->stickL->GetRawButton(10)))
+			autonMacro->Record();
+		if(recordToggle->fallingEdge(recordToggle->getStatus()))
+			autonMacro->WriteFile(Preferences::GetInstance()->GetString("AutonFileName","DefaultRecording.csv"));
 		Scheduler::GetInstance()->Run();
 	}
 
