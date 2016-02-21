@@ -1,0 +1,8 @@
+#include "Recorder.h"
+#include "Macro.h"
+#include "Device.h"
+#include "Devices/DoubleSolenoidDevice.h"
+#include "Devices/RelayDevice.h"
+#include "Devices/ServoDevice.h"
+#include "Devices/SolenoidDevice.h"
+#include "Devices/SpeedControllerDevice.h"
