@@ -60,7 +60,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Drive_DriveToDefense->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",50),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",70),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",-0.5),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),
@@ -68,7 +68,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Drive_DriveToShootPosition->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Distance",50),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Distance",74),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Angle",0),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Speed",-0.8),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Tolerence",0.5),
@@ -77,7 +77,7 @@ void OneBallAuton::Initialize()
 
 	Drive_TurnToSeeTarget->SetParam(
 			0,	//Turning Only, Don't need to tune distance
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -30),
+			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -45),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Speed", 0.7),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Tolerence", 0.5),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Timeout", 3)
