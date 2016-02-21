@@ -269,10 +269,11 @@ float RobotVideo::GetDistance(size_t i)
 	//double alpha = atan2(len, CAPTURE_FOCAL);
 	//return 20.0 / asin(alpha);
 
-	// Distance by the height. The real height of the target is 96 inches.
+	// Distance by the height. The real height of the target is 97 inches.
 	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
-	float alpha = atan2(96, Preferences::GetInstance()->GetFloat("CameraZeroDist", 166));
-	return 96 / sin(alpha - atan2f(dy, CAPTURE_FOCAL));
+	float tower = 97 - Preferences::GetInstance()->GetFloat("CameraHeight", 12);
+	float alpha = atan2(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 166));
+	return tower / sin(alpha - atan2f(dy, CAPTURE_FOCAL));
 }
 
 
