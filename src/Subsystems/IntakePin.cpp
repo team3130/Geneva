@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "IntakePin.h"
 #include "../RobotMap.h"
 
@@ -14,6 +16,8 @@ IntakePin::IntakePin() :
 {
 	m_actuator = new Solenoid(CAN_PNMMODULE, PNM_INTAKEPIN);
 	LiveWindow::GetInstance()->AddActuator("Intake", "Pin", m_actuator);
+
+	Recorder::GetInstance()->AddDevice("IntakePin Solenoid",m_actuator);
 }
 
 void IntakePin::InitDefaultCommand()

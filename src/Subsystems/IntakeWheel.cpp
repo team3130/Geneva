@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "Commands/ControlIntakeWheels.h"
 #include "Subsystems/IntakeWheel.h"
 
@@ -14,6 +16,7 @@ IntakeWheel::IntakeWheel() :
 {
 	m_intakeController = new CANTalon(CAN_INTAKEMOTOR);
 	LiveWindow::GetInstance()->AddActuator("Intake","Wheel Talon",m_intakeController);
+	Recorder::GetInstance()->AddDevice("IntakeWheel Talon",m_intakeController);
 }
 
 void IntakeWheel::InitDefaultCommand()

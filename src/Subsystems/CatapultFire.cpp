@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "Subsystems/CatapultFire.h"
 #include "Commands/ControlCatapultFire.h"
 
@@ -14,6 +16,8 @@ CatapultFire::CatapultFire() :
 {
 	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_SHOOTERLOCK);
 	LiveWindow::GetInstance()->AddActuator("Catapult","Catapult Fire Solenoid",m_intakeActuater);
+
+	Recorder::GetInstance()->AddDevice("FirePin Solenoid",m_intakeActuater);
 }
 
 void CatapultFire::InitDefaultCommand()

@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "IntakeHorizontal.h"
 #include "Commands/ControlIntakeHorizontal.h"
 
@@ -14,6 +16,8 @@ IntakeHorizontal::IntakeHorizontal() :
 {
 	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_INTAKEACTUATEOUT);
 	LiveWindow::GetInstance()->AddActuator("Intake","Horizontal Solenoid",m_intakeActuater);
+
+	Recorder::GetInstance()->AddDevice("IntakeHorizontal Solenoid",m_intakeActuater);
 }
 
 

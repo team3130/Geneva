@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "IntakeVertical.h"
 #include "Commands/ControlIntakeVertical.h"
 
@@ -16,6 +18,7 @@ IntakeVertical::IntakeVertical() :
 	m_intakeToggle = new Toggle<bool>(false,true);
 
 	LiveWindow::GetInstance()->AddActuator("Intake","Pivot/Vertical Solenoid",m_intakeActuater);
+	Recorder::GetInstance()->AddDevice("IntakeVertical Solenoid",m_intakeActuater);
 }
 
 

@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "Subsystems/Chassis.h"
 #include "Commands/DefaultDrive.h"
 
@@ -29,6 +31,11 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Rear TalonSRX", m_leftMotorRear);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
+
+	Recorder::GetInstance()->AddDevice("Chassis LeftFront",m_leftMotorFront);
+	Recorder::GetInstance()->AddDevice("Chassis LeftRear",m_leftMotorRear);
+	Recorder::GetInstance()->AddDevice("Chassis RightFront",m_rightMotorFront);
+	Recorder::GetInstance()->AddDevice("Chassis RightRear",m_rightMotorRear);
 
 	m_onPID = false;
 	moveSpeed = 0;

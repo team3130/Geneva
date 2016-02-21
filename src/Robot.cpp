@@ -1,4 +1,6 @@
 #include <WPILIB.h>
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "Subsystems/IntakeWheel.h"
 #include "Subsystems/IntakeHorizontal.h"
 #include "Subsystems/IntakeVertical.h"
@@ -6,6 +8,8 @@
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Climber.h"
+#include "Subsystems/Bincher.h"
+#include "Subsystems/IntakePin.h"
 #include "AutonCommands/2BallAuton.h"
 #include "AutonCommands/1BallAuton.h"
 #include "Commands/RobotSensors.h"
@@ -15,6 +19,8 @@
 class Robot: public IterativeRobot
 {
 private:
+	Recorder* autonRecorder;
+
 	Command *autonomousCommand;
 	SendableChooser* autonChooser;
 	LiveWindow *lw;
@@ -25,6 +31,8 @@ private:
 
 	void RobotInit()
 	{
+		autonRecorder = Recorder::GetInstance();
+
 		compressor = new Compressor(CAN_PNMMODULE);
 		compressor->Start();
 		robotSensors = new RobotSensors();

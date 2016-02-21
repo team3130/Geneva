@@ -1,3 +1,5 @@
+#include "Misc/RiptideRecorder/RiptideRecorder.h"
+
 #include "../RobotMap.h"
 #include "Commands/ControlCatapult.h"
 #include "Subsystems/Catapult.h"
@@ -28,6 +30,8 @@ Catapult::Catapult()
 	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
 
 	LiveWindow::GetInstance()->AddActuator("Catapult","Winch Talon",m_shooterController);
+
+	Recorder::GetInstance()->AddDevice("Catapult Talon",m_shooterController);
 
 	m_currentTimer.Reset();
 	m_currentTimer.Start();
