@@ -44,7 +44,7 @@ OneBallAuton::~OneBallAuton()
 void OneBallAuton::Initialize()
 {
 	Catapult_ReadyShotOne->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton StopAngle",15),
+			Preferences::GetInstance()->GetDouble("1BallAuton StopAngle",21),
 			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Threshold",0.5),
 			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Timeout",5)
 	);
