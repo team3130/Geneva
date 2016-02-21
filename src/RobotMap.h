@@ -25,7 +25,7 @@
 
 //Motors-CAN
 	const int CAN_PNMMODULE = 1;
-	const int CAN_SHOOTERMOTOR = 22;
+	const int CAN_SHOOTERMOTOR = 2;
 	const int CAN_LEFTMOTORFRONT = 3;
 	const int CAN_LEFTMOTORREAR = 4;
 	const int CAN_RIGHTMOTORFRONT = 5;
