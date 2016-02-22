@@ -7,13 +7,15 @@ class ReloadCatapult: public Command
 {
 	static constexpr char STR_PRESET[] = "WinchPositionA";
 private:
+	bool m_remote;
+
 	char m_presetLabel[sizeof(STR_PRESET)];
 	uint32_t m_button;
 	bool m_buttonHold;
 	bool m_goingUp;
 	Timer m_timer;
 public:
-	ReloadCatapult(uint32_t button_number);
+	ReloadCatapult(uint32_t button_number, bool remote=false);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

@@ -2,8 +2,9 @@
 #include "Subsystems/Catapult.h"
 #include "ReloadCatapult.h"
 
-ReloadCatapult::ReloadCatapult(uint32_t button)
-	: m_button(button)
+ReloadCatapult::ReloadCatapult(uint32_t button, bool remote=false)
+	: m_remote(remote)
+	, m_button(button)
 	, m_buttonHold(false)
 	, m_goingUp(false)
 	, m_timer()
@@ -29,7 +30,7 @@ void ReloadCatapult::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi) {
 		if (m_buttonHold) {
-			if (oi->gamepad->GetRawButton(m_button) == false) {
+			if (!oi->gamepad->GetRawButton(m_button) || m_remote) {
 				// Only when the button released start doing stuff
 				// or if the button never been pushed the timer will be ~0.0
 				m_buttonHold = false;
