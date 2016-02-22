@@ -21,8 +21,8 @@ void DefaultDrive::Initialize()
 void DefaultDrive::Execute()
 {
 	OI* oi = OI::GetInstance();
-	double moveSpeed = oi->stickL->GetY();
-	double turnSpeed = oi->stickR->GetX();
+	double moveSpeed = -oi->stickL->GetY();
+	double turnSpeed = -oi->stickR->GetX();
 
 	// Only driving manual should require Quadratic inputs. By default it should be turned off
 	// Therefore here we turn it on explicitly.
