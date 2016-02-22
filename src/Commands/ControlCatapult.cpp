@@ -33,6 +33,9 @@ void ControlCatapult::Execute()
 			if (danger) {
 				manualMode = thumb > 0 ? kOverloadUp : kOverloadDown;
 			}
+			else {
+				manualMode = kSafe;
+			}
 		}
 		if((thumb > 0.1 and manualMode != kOverloadUp) or (thumb < -0.1 and manualMode != kOverloadDown))
 		{
