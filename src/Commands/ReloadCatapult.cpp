@@ -2,7 +2,7 @@
 #include "Subsystems/Catapult.h"
 #include "ReloadCatapult.h"
 
-ReloadCatapult::ReloadCatapult(uint32_t button, bool remote=false)
+ReloadCatapult::ReloadCatapult(uint32_t button, bool remote)
 	: m_remote(remote)
 	, m_button(button)
 	, m_buttonHold(false)
