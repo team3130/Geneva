@@ -6,14 +6,14 @@
 /// Default constructor of the class.
 ControlCatapult::ControlCatapult()
 {
-	manualMode = true;
+	manualMode = kSafe;
 	Requires(Catapult::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
 void ControlCatapult::Initialize()
 {
-	manualMode = true;
+	manualMode = kSafe;
 	Catapult::GetInstance()->moveCatapult(0);
 	timer.Reset();
 	timer.Start();
@@ -26,13 +26,15 @@ void ControlCatapult::Execute()
 	Catapult* cat = Catapult::GetInstance();
 	if(oi && cat)
 	{
+		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
 		bool danger = cat->WatchCurrent();
 		if (danger or timer.Get() > 2.0) {
 			timer.Reset();
-			manualMode = !danger;
+			if (danger) {
+				manualMode = thumb > 0 ? kOverloadUp : kOverloadDown;
+			}
 		}
-		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
-		if(fabs(thumb) > 0.1 && manualMode)
+		if((thumb > 0.1 and manualMode != kOverloadUp) or (thumb < -0.1 and manualMode != kOverloadDown))
 		{
 			cat->moveCatapult(thumb);
 		}
