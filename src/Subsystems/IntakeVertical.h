@@ -19,7 +19,8 @@ public:
 	void InitDefaultCommand();
 	void Actuate(bool extended);
 	void ActuateToggle(bool toggle);
-	bool GetToggleState() {return m_intakeToggle->getStatus();};
+	void SetState(bool state) {m_intakeToggle->setStatus(state);}
+	bool GetToggleState() {return m_intakeToggle->getStatus();}
 };
 
 #endif
