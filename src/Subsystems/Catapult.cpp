@@ -13,7 +13,6 @@ Catapult* Catapult::GetInstance()
 Catapult::Catapult()
 		:Subsystem("Catapult")
 		,m_bOnPID(false)
-		,m_limitSwitch(DIO_CATAPULTBOTTOMLIMIT)
 		,m_currentTimer()
 		,m_voltageTimer()
 {
@@ -83,13 +82,14 @@ void Catapult::moveCatapult(float speed) {
 }
 
 bool Catapult::CheckZero(){
-	if(isBottomHit() or WatchCurrent()){
+	if(isBottomHit()){
 		m_shooterController->SetPosition(0);
 		return true;
 	}
 	else return false;
 }
 
+/*
 bool Catapult::WatchCurrent() {
 	if (fabs(m_shooterController->GetOutputVoltage()) < 3.0) m_voltageTimer.Reset();
 	if (m_shooterController->GetOutputCurrent() > Preferences::GetInstance()->GetFloat("CatapultMaxCurrent", SHOOTER_MAXCURRENT)) {
@@ -104,3 +104,4 @@ bool Catapult::WatchCurrent() {
 	}
 	return false;
 }
+*/

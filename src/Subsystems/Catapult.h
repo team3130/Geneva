@@ -15,7 +15,6 @@ private:
 	bool m_bOnPID;
 	CANTalon* m_shooterController;
 	bool m_bResetStepOneDone;
-	DigitalInput m_limitSwitch;
 	Timer m_currentTimer;
 	Timer m_voltageTimer;
 
@@ -31,12 +30,12 @@ public:
 	void toSetpoint(float goal);
 	void moveCatapult(float goal);
 	void readyShot(int goal);
-	bool isBottomHit() { return !m_limitSwitch.Get(); };
+	bool isBottomHit() { return !m_shooterController->GetReverseLimitOK(); };
 	double GetPosition() { return m_shooterController->GetPosition(); };
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
 	double GetPIDError() { return (double)(m_shooterController->GetClosedLoopError())/RATIO_WINCHMOTORENCODERTICKSTOINCH; };
 	bool CheckZero();
-	bool WatchCurrent();
+//	bool WatchCurrent();
 };
 
 #endif
