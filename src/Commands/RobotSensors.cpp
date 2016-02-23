@@ -25,10 +25,15 @@ void RobotSensors::Execute()
 {
 	SmartDashboard::PutBoolean("Shooter Lower Limit",Catapult::GetInstance()->isBottomHit());
 	SmartDashboard::PutNumber("Shooter Position",Catapult::GetInstance()->GetPosition());
+
 	std::ostringstream oss0;
 	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
 	oss0 << " Ang:" << Chassis::GetInstance()->GetAngle();
 	SmartDashboard::PutString("DB/String 0", oss0.str());
+
+	std::ostringstream oss2;
+	oss0 << "Cat: " << Catapult::GetInstance()->GetPosition();
+	SmartDashboard::PutString("DB/String 2", oss2.str());
 
 	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
 	SmartDashboard::PutNumber("Accelerometor Y", accelerometer->GetY());
