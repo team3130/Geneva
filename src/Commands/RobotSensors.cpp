@@ -32,7 +32,7 @@ void RobotSensors::Execute()
 	SmartDashboard::PutString("DB/String 0", oss0.str());
 
 	std::ostringstream oss2;
-	oss0 << "Cat: " << Catapult::GetInstance()->GetPosition();
+	oss2 << "Cat: " << Catapult::GetInstance()->GetPosition();
 	SmartDashboard::PutString("DB/String 2", oss2.str());
 
 	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
