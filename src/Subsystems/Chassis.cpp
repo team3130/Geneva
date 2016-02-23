@@ -78,8 +78,8 @@ void Chassis::UsePIDOutput(double bias)
 	SmartDashboard::PutNumber("Turn PID bias",bias);
 	if(bias >  speedLimit) bias = speedLimit;
 	if(bias < -speedLimit) bias = -speedLimit;
-	double speed_L = moveSpeed+bias;
-	double speed_R = moveSpeed-bias;
+	double speed_L = moveSpeed-bias;
+	double speed_R = moveSpeed+bias;
 	m_drive->TankDrive(speed_L, speed_R, false);
 }
 

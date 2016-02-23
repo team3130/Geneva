@@ -23,7 +23,7 @@ private:
 	Catapult(Catapult const&);
 	Catapult& operator=(Catapult const&);
 public:
-	const int TOP_ZONE = 24;
+	const int TOP_ZONE = 34;
 	const int SLOW_ZONE = 3;
 
 	static Catapult* GetInstance();

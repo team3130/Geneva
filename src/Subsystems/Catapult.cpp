@@ -46,7 +46,6 @@ void Catapult::InitDefaultCommand()
 
 void Catapult::toSetpoint(float goal)
 {
-	float mutableGoal = goal;
 	if(!m_bOnPID){
 		m_bOnPID = true;
 		double termP = Preferences::GetInstance()->GetDouble("Catapult P Value", 1);
@@ -57,8 +56,7 @@ void Catapult::toSetpoint(float goal)
 		m_shooterController->SetPID(termP,termI,termD);
 		m_shooterController->EnableControl();
 	}
-	if(WatchCurrent()) mutableGoal = GetPosition();
-	m_shooterController->Set(mutableGoal);
+	m_shooterController->Set(goal);
 }
 
 void Catapult::moveCatapult(float speed) {
