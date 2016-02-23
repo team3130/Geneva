@@ -25,7 +25,7 @@ void ControlClimber::Execute()
 	int pov = oi->gamepad->GetPOV();
 	if (pov >= 0) {
 		if(pov > LST_POV_E && pov < LST_POV_W){
-			Climber::GetInstance()->MoveClimberWinch(-1);
+			Climber::GetInstance()->MoveClimberWinch(Preferences::GetInstance()->GetFloat("ClimbSpeed",-1));
 		} else if(pov < LST_POV_E || pov > LST_POV_W) {
 			Climber::GetInstance()->MoveClimberWinch(0.3);
 		}
