@@ -54,6 +54,9 @@ void ReloadCatapult::Execute()
 				m_timer.Reset();
 			}
 		}
+		else if (m_timer.Get() > 0.2 and Catapult::GetInstance()->WatchCurrent()) {
+			Catapult::GetInstance()->moveCatapult(0);
+		}
 	}
 }
 
