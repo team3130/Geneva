@@ -48,15 +48,13 @@ void CameraAim::Execute()
 		RobotVideo::GetInstance()->mutex_unlock();
 
 		if (nTurns > 0) {
-			if (dist > 100) {
+			if (dist > 0) {
 				// Magic function.
 				//double m_catStop =2*log(7.75*dist-770)+7.5;
 				//Catapult::GetInstance()->toSetpoint(m_catStop);
 
-				// The height of the goal is 96 inches. We want the distance to the tower base.
-				dist = sqrt(dist*dist - 96*96);
-				// Now as we know the actual distance, the camera offset over that distance is the adjustment angle's tangent
-				turn += atan2f(RobotVideo::CAMERA_OFFSET, dist);
+				// The camera offset over the distance is the adjustment angle's tangent
+				turn += atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
 			}
 			chassis->HoldAngle(turn);
 			timer.Reset();
