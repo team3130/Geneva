@@ -50,8 +50,10 @@ void CameraAim::Execute()
 		if (nTurns > 0) {
 			if (dist > 0) {
 				// Magic function.
-				//double m_catStop =2*log(7.75*dist-770)+7.5;
-				//Catapult::GetInstance()->toSetpoint(m_catStop);
+				float catStop = 0.0917*(dist+90);
+				if (catStop > Catapult::TOP_ZONE) catStop = Catapult::TOP_ZONE;
+				if (catStop < Catapult::SLOW_ZONE) catStop = Catapult::SLOW_ZONE;
+				Catapult::GetInstance()->toSetpoint(catStop);
 
 				// The camera offset over the distance is the adjustment angle's tangent
 				turn += atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
