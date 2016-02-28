@@ -28,8 +28,6 @@ void CameraAim::Execute()
 	OI* oi = OI::GetInstance();
 	if (chassis == nullptr or oi == nullptr) return;
 
-	double angularVelocity = chassis->GetAngle() - m_prevAngle;
-
 	if (m_prevAngle == nan("NaN") or timer.Get() > AIM_COOLDOWN) {
 		float turn = 0;
 		float dist = 0;
@@ -62,14 +60,13 @@ void CameraAim::Execute()
 			timer.Reset();
 		}
 	}
-	else if (fabs(angularVelocity) > MAX_ANGULAR_V) {
+	else if (fabs(chassis->GetAngle() - m_prevAngle) > MAX_ANGULAR_V) {
 		timer.Reset();
 	}
+
 	m_prevAngle = chassis->GetAngle();
 
-	double LSpeed = oi->stickL->GetY();
-	double RSpeed = oi->stickR->GetY();
-	double moveSpeed = fabs(LSpeed) > fabs(RSpeed) ? LSpeed : RSpeed;
+	double moveSpeed = -oi->stickL->GetY();
 	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
 	chassis->DriveStraight(moveSpeed);
 }
