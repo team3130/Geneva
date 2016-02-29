@@ -21,6 +21,19 @@ void CameraAim::Initialize()
 	RobotVideo::GetInstance()->SetLocationQueueSize(10);
 }
 
+/**
+ * \brief Magic function that returns desired stop angle in rope inches
+ *
+ * The data collected from repeated shooting at the last night of the build
+ * season suggest that the stop angle of the catapult is pretty much a linear
+ * function. Here we are going to account for the robot's velocity related
+ * to the tower.
+ */
+double calculateStop(double dist, double speed=0)
+{
+	return 0.0917 * (dist + 90);
+}
+
 // Called repeatedly when this Command is scheduled to run
 void CameraAim::Execute()
 {
@@ -47,8 +60,8 @@ void CameraAim::Execute()
 
 		if (nTurns > 0) {
 			if (dist > 0) {
-				// Magic function.
-				float catStop = 0.0917*(dist+90);
+				// Call the Magic function to determine the stop angle.
+				float catStop = calculateStop(dist);
 				if (catStop > Catapult::TOP_ZONE) catStop = Catapult::TOP_ZONE;
 				if (catStop < Catapult::SLOW_ZONE) catStop = Catapult::SLOW_ZONE;
 				Catapult::GetInstance()->toSetpoint(catStop);
