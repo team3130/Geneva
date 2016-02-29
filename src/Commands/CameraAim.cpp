@@ -32,10 +32,7 @@ void CameraAim::Initialize()
 double calculateStop(double dist, double speed=0)
 {
 	// Interpolated by Google Spreadsheets
-	// Linear for short distances < 156 inches from the tower
-	if (dist < 156)	return 0.09 * dist + 8.315;
-	// Otherwise a cubic parabola, probably, up to 200 inches anyway
-	else return 1.956e-5 * dist*dist*dist - 0.011 * dist*dist + 1.927 * dist - 83.749;
+	return -1.99e-4 * dist*dist + 0.08 * dist + 10.752;
 }
 
 // Called repeatedly when this Command is scheduled to run
