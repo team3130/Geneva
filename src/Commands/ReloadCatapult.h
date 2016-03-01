@@ -13,7 +13,7 @@ private:
 	bool m_goingUp;
 	Timer m_timer;
 public:
-	ReloadCatapult(uint32_t button_number);
+	ReloadCatapult(uint32_t button_number, bool remote = false);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

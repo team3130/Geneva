@@ -38,6 +38,8 @@ public:
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double outputAngle);
+	double GetDistanceL() {return m_leftMotorFront->GetPosition();};
+	double GetDistanceR() {return m_rightMotorFront->GetPosition();};
 	double GetDistance();
 	double GetPIDError() {return GetSetpoint() - GetPosition();};
 	void ResetEncoders();

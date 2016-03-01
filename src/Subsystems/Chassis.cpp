@@ -82,21 +82,16 @@ double Chassis::ReturnPIDInput()
 void Chassis::UsePIDOutput(double bias)
 {
 	const double speedLimit = 1.0;
-	SmartDashboard::PutNumber("Turn PID bias",bias);
 	if(bias >  speedLimit) bias = speedLimit;
 	if(bias < -speedLimit) bias = -speedLimit;
-	double speed_L = moveSpeed+bias;
-	double speed_R = moveSpeed-bias;
+	double speed_L = moveSpeed-bias;
+	double speed_R = moveSpeed+bias;
 	m_drive->TankDrive(speed_L, speed_R, false);
 }
 
 double Chassis::GetDistance()
 {
-	std::ostringstream oss0;
-	oss0 << "L:" << m_leftMotorFront->GetPosition();
-	oss0 << " R:" << m_rightMotorFront->GetPosition();
-	SmartDashboard::PutString("DB/String 1", oss0.str());
-	return ( m_leftMotorFront->GetPosition() + m_rightMotorFront->GetPosition() ) / 2.0;
+	return ( GetDistanceL() + GetDistanceR() ) / 2.0;
 }
 
 void Chassis::ResetEncoders()

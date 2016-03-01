@@ -259,21 +259,11 @@ size_t RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours)
 
 float RobotVideo::GetDistance(size_t i)
 {
-	// Correct calculations would be to return a square root of the dot product if it worked
-	// return sqrtf(m_locations[i].dot(m_locations[i]));
-
-	// Another idea was to take the length of the top edge and estimate the distance from there.
-	//int dx = m_boxes[i][1].x - m_boxes[i][0].x;
-	//int dy = m_boxes[i][1].y - m_boxes[i][0].y;
-	//double len = sqrt(dx*dx + dy*dy);
-	//double alpha = atan2(len, CAPTURE_FOCAL);
-	//return 20.0 / asin(alpha);
-
 	// Distance by the height. The real height of the target is 97 inches.
 	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
 	float tower = 97 - Preferences::GetInstance()->GetFloat("CameraHeight", 12);
-	float alpha = atan2(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 166));
-	return tower / sin(alpha - atan2f(dy, CAPTURE_FOCAL));
+	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 166));
+	return tower / tanf(alpha - atan2f(dy, CAPTURE_FOCAL));
 }
 
 

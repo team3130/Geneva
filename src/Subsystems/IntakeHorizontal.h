@@ -16,6 +16,7 @@ public:
 	static IntakeHorizontal* GetInstance();
 	void InitDefaultCommand();
 	void Actuate(bool extended);
+	bool IsExtended() {return m_intakeActuater->Get();}
 };
 
 #endif

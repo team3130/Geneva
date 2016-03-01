@@ -23,12 +23,22 @@ void RobotSensors::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void RobotSensors::Execute()
 {
-	SmartDashboard::PutBoolean("Shooter Lower Limit",Catapult::GetInstance()->isBottomHit());
-	SmartDashboard::PutNumber("Shooter Position",Catapult::GetInstance()->GetPosition());
-	std::ostringstream oss0;
+	SmartDashboard::PutBoolean("DB/LED 0", Catapult::GetInstance()->isBottomHit());
+	SmartDashboard::PutBoolean("DB/LED 0", Chassis::GetInstance()->GetDistanceL()==0 or Chassis::GetInstance()->GetDistanceR()==0);
+
+	std::ostringstream oss0; // Replace this one with something more important
 	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
 	oss0 << " Ang:" << Chassis::GetInstance()->GetAngle();
 	SmartDashboard::PutString("DB/String 0", oss0.str());
+
+	std::ostringstream oss1;
+	oss1 << "L:" << ((int)(10*Chassis::GetInstance()->GetDistanceL())) / 10;
+	oss1 << ", R:" << ((int)(10*Chassis::GetInstance()->GetDistanceR())) / 10;
+	SmartDashboard::PutString("DB/String 1", oss1.str());
+
+	std::ostringstream oss2;
+	oss2 << "Cat: " << Catapult::GetInstance()->GetPosition();
+	SmartDashboard::PutString("DB/String 2", oss2.str());
 
 	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
 	SmartDashboard::PutNumber("Accelerometor Y", accelerometer->GetY());

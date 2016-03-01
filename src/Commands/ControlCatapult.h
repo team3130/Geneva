@@ -11,9 +11,9 @@
  */
 class ControlCatapult: public Command
 {
-	enum PresetButton { kX, kY };
+	enum WinchState { kSafe, kOverloadUp, kOverloadDown };
 private:
-	bool manualMode;
+	WinchState manualMode;
 	Timer timer;
 public:
 	ControlCatapult();

@@ -13,7 +13,7 @@
  */
 //Constant Ratios
 	const int RATIO_WINCHMOTORENCODERTICKSTOINCH = 1024/(M_PI*0.965); //0.965 is drum diameter.
-	const int RATIO_DRIVEENCODERTICKSTOINCH = 360/(M_PI*7.625); // 7.625 is wheel diameter.
+	const int RATIO_DRIVEENCODERTICKSTOINCH = 360.0 * (22.0/15.0) / (M_PI*7.625); // 7.625 is wheel diameter.
 
 //DIO Ports
 	const int DIO_CATAPULTBOTTOMLIMIT = 0;
@@ -25,7 +25,7 @@
 
 //Motors-CAN
 	const int CAN_PNMMODULE = 1;
-	const int CAN_SHOOTERMOTOR = 22;
+	const int CAN_SHOOTERMOTOR = 2;
 	const int CAN_LEFTMOTORFRONT = 3;
 	const int CAN_LEFTMOTORREAR = 4;
 	const int CAN_RIGHTMOTORFRONT = 5;
