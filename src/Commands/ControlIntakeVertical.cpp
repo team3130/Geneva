@@ -1,5 +1,7 @@
 #include "OI.h"
 #include "ControlIntakeVertical.h"
+#include "Subsystems/IntakeHorizontal.h"
+#include "Subsystems/IntakePin.h"
 #include "Subsystems/IntakeVertical.h"
 #include "Misc/ToggleClass.h"
 
@@ -19,8 +21,18 @@ void ControlIntakeVertical::Execute()
 {
 	OI* oi = OI::GetInstance();
 
-	//Toggles actuator position on button press
-	IntakeVertical::GetInstance()->ActuateToggle(oi->gamepad->GetRawButton(BTN_INTAKEVERTICAL));
+	//Comment out testing Systems
+	//Check if extending down while full
+	/*
+	if(!IntakePin::GetInstance()->IsActive() && !IntakeVertical::GetInstance()->GetToggleState()
+			&& oi->gamepad->GetRawButton(BTN_INTAKEVERTICAL))
+	{
+		IntakeHorizontal::GetInstance()->Actuate(true);
+		IntakeVertical::GetInstance()->Actuate(true);
+		IntakeVertical::GetInstance()->SetState(true);
+	}else{*/
+		IntakeVertical::GetInstance()->ActuateToggle(oi->gamepad->GetRawButton(BTN_INTAKEVERTICAL));
+	//}			//Comment out testing systems
 }
 
 // Make this return true when this Command no longer needs to run execute()

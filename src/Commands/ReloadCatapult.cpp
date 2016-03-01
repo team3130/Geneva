@@ -2,7 +2,7 @@
 #include "Subsystems/Catapult.h"
 #include "ReloadCatapult.h"
 
-ReloadCatapult::ReloadCatapult(uint32_t button)
+ReloadCatapult::ReloadCatapult(uint32_t button, bool remote)
 	: m_button(button)
 	, m_buttonHold(false)
 	, m_goingUp(false)
@@ -29,7 +29,7 @@ void ReloadCatapult::Execute()
 	OI* oi = OI::GetInstance();
 	if(oi) {
 		if (m_buttonHold) {
-			if (oi->gamepad->GetRawButton(m_button) == false) {
+			if (!oi->gamepad->GetRawButton(m_button)) {
 				// Only when the button released start doing stuff
 				// or if the button never been pushed the timer will be ~0.0
 				m_buttonHold = false;
@@ -41,7 +41,7 @@ void ReloadCatapult::Execute()
 					m_timer.Reset();
 				}
 				else {
-					Catapult::GetInstance()->moveCatapult(-1.0);
+					Catapult::GetInstance()->moveCatapult(-0.75);
 					m_goingUp = false;
 				}
 			}
@@ -53,7 +53,8 @@ void ReloadCatapult::Execute()
 				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}
-		}else if(Catapult::GetInstance()->WatchCurrent()){
+		}
+		else if (m_timer.Get() > 0.2 and Catapult::GetInstance()->WatchCurrent()) {
 			Catapult::GetInstance()->moveCatapult(0);
 		}
 	}

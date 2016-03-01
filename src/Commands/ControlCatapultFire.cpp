@@ -39,6 +39,7 @@ void ControlCatapultFire::Execute()
 	if(!m_waiting or timer->Get() > .25)
 	{
 		CatapultFire::GetInstance()->Actuate(true);
+		m_waiting = false;
 	}
 
 }
@@ -54,7 +55,7 @@ bool ControlCatapultFire::IsFinished()
 void ControlCatapultFire::End()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(!m_waiting) m_nextCommand->Start();
+	if(!m_waiting and timer->Get() < 3.0) m_nextCommand->Start();
 }
 
 /// Called when another command which requires one or more of the same
