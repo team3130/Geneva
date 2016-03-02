@@ -19,7 +19,6 @@ OI::OI()
 	preset1 	= new JoystickButton(gamepad, BTN_PRESET_1);
 	preset2 	= new JoystickButton(gamepad, BTN_PRESET_2);
 	bincher 	= new JoystickButton(gamepad, BTN_BINCHER);
-	intakePin 	= new JoystickButton(gamepad, BTN_INTAKEPIN);
 	aimLeft 	= new JoystickButton(stickR, BTN_AIMLEFT);
 	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
 	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
@@ -28,7 +27,6 @@ OI::OI()
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
 	bincher->ToggleWhenPressed(new PinchBall());
-	intakePin->ToggleWhenPressed(new Pintake());
 	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());

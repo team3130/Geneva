@@ -19,7 +19,6 @@ public:
 	JoystickButton* preset1;
 	JoystickButton* preset2;
 	JoystickButton* bincher;
-	JoystickButton* intakePin;
 	JoystickButton*	aimLeft;
 	JoystickButton*	aimRight;
 	JoystickButton* fire;
