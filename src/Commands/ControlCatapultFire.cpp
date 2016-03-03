@@ -1,6 +1,6 @@
 #include "OI.h"
 #include "Subsystems/CatapultFire.h"
-#include "Subsystems/IntakeVertical.h"
+#include "Subsystems/IntakeHorizontal.h"
 #include "Subsystems/Bincher.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/ReloadCatapult.h"
@@ -12,7 +12,7 @@ ControlCatapultFire::ControlCatapultFire()
 	, m_waiting(false)
 {
 	Requires(CatapultFire::GetInstance());
-	Requires(IntakeVertical::GetInstance());
+	Requires(IntakeHorizontal::GetInstance());
 	Requires(Bincher::GetInstance());
 }
 
@@ -20,9 +20,9 @@ ControlCatapultFire::ControlCatapultFire()
 void ControlCatapultFire::Initialize()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(IntakeVertical::GetInstance()->GetToggleState() == false or Bincher::GetInstance()->IsActive())
+	if(IntakeHorizontal::GetInstance()->IsExtended() or Bincher::GetInstance()->IsActive())
 	{
-		IntakeVertical::GetInstance()->Actuate(true);
+		IntakeHorizontal::GetInstance()->Actuate(true);
 		Bincher::GetInstance()->Actuate(false);
 		m_waiting = true;
 	}

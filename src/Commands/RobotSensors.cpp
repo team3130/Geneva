@@ -24,7 +24,7 @@ void RobotSensors::Initialize()
 void RobotSensors::Execute()
 {
 	SmartDashboard::PutBoolean("DB/LED 0", Catapult::GetInstance()->isBottomHit());
-	SmartDashboard::PutBoolean("DB/LED 0", Chassis::GetInstance()->GetDistanceL()==0 or Chassis::GetInstance()->GetDistanceR()==0);
+	SmartDashboard::PutBoolean("DB/LED 1", Chassis::GetInstance()->GetDistanceL()==0 or Chassis::GetInstance()->GetDistanceR()==0);
 
 	std::ostringstream oss0; // Replace this one with something more important
 	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
