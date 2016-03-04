@@ -1,4 +1,6 @@
 #include "Pintake.h"
+#include "OI.h"
+#include "RobotMap.h"
 #include "Subsystems/IntakePin.h"
 
 Pintake::Pintake()
@@ -9,13 +11,13 @@ Pintake::Pintake()
 // Called just before this Command runs the first time
 void Pintake::Initialize()
 {
-	IntakePin::GetInstance()->Actuate(true);
+
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Pintake::Execute()
 {
-
+	IntakePin::GetInstance()->ActuateToggle(OI::GetInstance()->gamepad->GetRawButton(BTN_INTAKEPIN));
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -27,7 +29,7 @@ bool Pintake::IsFinished()
 // Called once after isFinished returns true
 void Pintake::End()
 {
-	IntakePin::GetInstance()->Actuate(false);
+
 }
 
 // Called when another command which requires one or more of the same
