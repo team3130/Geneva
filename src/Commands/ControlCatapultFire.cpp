@@ -12,7 +12,7 @@ ControlCatapultFire::ControlCatapultFire()
 	, m_waiting(false)
 {
 	Requires(CatapultFire::GetInstance());
-	Requires(IntakeHorizontal::GetInstance());
+	//Requires(IntakeHorizontal::GetInstance());
 	Requires(Bincher::GetInstance());
 }
 
@@ -20,7 +20,7 @@ ControlCatapultFire::ControlCatapultFire()
 void ControlCatapultFire::Initialize()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(IntakeHorizontal::GetInstance()->IsExtended() or Bincher::GetInstance()->IsActive())
+	if(IntakeHorizontal::GetInstance()->IsExtended() == false or Bincher::GetInstance()->IsActive())
 	{
 		IntakeHorizontal::GetInstance()->Actuate(true);
 		Bincher::GetInstance()->Actuate(false);
