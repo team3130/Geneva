@@ -19,7 +19,7 @@ OI::OI()
 	preset1 	= new JoystickButton(gamepad, BTN_PRESET_1);
 	preset2 	= new JoystickButton(gamepad, BTN_PRESET_2);
 	bincher 	= new JoystickButton(gamepad, BTN_BINCHER);
-	intakePin 	= new JoystickButton(gamepad, BTN_INTAKEPIN);
+	intakePin 	= new JoystickButton(gamepad, POV_INTAKEPIN);
 	aimLeft 	= new JoystickButton(stickR, BTN_AIMLEFT);
 	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
 	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
