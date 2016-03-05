@@ -46,10 +46,11 @@ void AutonDriveToPoint::SetParam(double travelDistance, double angle, double spe
 // Called just before this Command runs the first time
 void AutonDriveToPoint::Initialize()
 {
+	Chassis::GetInstance()->ResetEncoders();
 	GetPIDController()->Disable();
 	GetPIDController()->SetSetpoint(m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
-	Chassis::GetInstance()->ResetEncoders();
+
 	Chassis::GetInstance()->HoldAngle(m_angle);
 	GetPIDController()->Reset();
 	GetPIDController()->Enable();

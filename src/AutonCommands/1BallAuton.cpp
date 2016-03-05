@@ -5,7 +5,7 @@
 #include "AutonDriveToPoint.h"
 #include "AutonFire.h"
 #include "AutonPinchBall.h"
-#include "AutonAim.h"
+#include "Commands/CameraAim.h"
 
 OneBallAuton::OneBallAuton()
 {
@@ -16,15 +16,15 @@ OneBallAuton::OneBallAuton()
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Drive_DriveToShootPosition = new AutonDriveToPoint();
 	Drive_TurnToSeeTarget = new AutonDriveToPoint();
-	Vision_AimAtTarget = new AutonAim();
+	Vision_AimAtTarget = new CameraAim();
 
-	AddParallel(Bincher_HoldBall);
+//	AddParallel(Bincher_HoldBall);
 	AddParallel(Intake_LowerIntake);
 	AddParallel(Catapult_ReadyShotOne);
 	AddSequential(Drive_DriveToDefense);
 	AddSequential(Drive_DriveToShootPosition);
 	AddSequential(Drive_TurnToSeeTarget);
-	AddSequential(Vision_AimAtTarget);
+	AddSequential(Vision_AimAtTarget, 3);
 	AddSequential(Catapult_ShootOne);
 }
 
@@ -44,7 +44,7 @@ OneBallAuton::~OneBallAuton()
 void OneBallAuton::Initialize()
 {
 	Catapult_ReadyShotOne->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton StopAngle",21),
+			Preferences::GetInstance()->GetDouble("1BallAuton StopAngle",3),
 			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Threshold",0.5),
 			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Timeout",5)
 	);
@@ -81,11 +81,6 @@ void OneBallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Speed", 0.7),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Tolerence", 0.5),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Timeout", 3)
-	);
-
-	Vision_AimAtTarget->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Aim Timeout", 4),
-			Vision_AimAtTarget->kLeft	//Can't be gotten through preferences
 	);
 }
 

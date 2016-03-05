@@ -82,7 +82,7 @@ void Catapult::moveCatapult(float speed) {
 
 bool Catapult::CheckZero(){
 	if(isBottomHit() or WatchCurrent()){
-		m_shooterController->SetPosition(0);
+		if(isBottomHit()) m_shooterController->SetPosition(0);
 		return true;
 	}
 	else return false;

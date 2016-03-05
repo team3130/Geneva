@@ -8,7 +8,7 @@
 #include "AutonDriveToPoint.h"
 #include "AutonFire.h"
 #include "AutonPinchBall.h"
-#include "AutonAim.h"
+#include "Commands/CameraAim.h"
 
 class OneBallAuton: public CommandGroup
 {
@@ -25,7 +25,7 @@ private:
 	AutonDriveToPoint* Drive_DriveToShootPosition;
 	AutonDriveToPoint* Drive_TurnToSeeTarget;
 
-	AutonAim* Vision_AimAtTarget;
+	CameraAim* Vision_AimAtTarget;
 
 public:
 	OneBallAuton();
