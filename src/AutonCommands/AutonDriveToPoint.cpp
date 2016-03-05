@@ -28,7 +28,7 @@ void AutonDriveToPoint::UsePIDOutput(double output)
 {
 	if(output > m_speed) output = m_speed;
 	if(output < -m_speed) output = -m_speed;
-	Chassis::GetInstance()->DriveStraight(output);
+	Chassis::GetInstance()->Drive(output,0);
 }
 
 void AutonDriveToPoint::SetParam(double travelDistance, double angle, double speed, double tolerance, double timeout)
