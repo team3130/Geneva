@@ -1,5 +1,5 @@
 #include "AutonCommands/AutonPintake.h"
-#include "Subsystems/Bincher.h"
+#include "Subsystems/IntakePin.h"
 
 AutonPintake::AutonPintake()
 {
@@ -8,7 +8,7 @@ AutonPintake::AutonPintake()
 	m_timeout = 0;
 	m_state = false;
 
-	Requires(Bincher::GetInstance());
+	Requires(IntakePin::GetInstance());
 }
 
 AutonPintake::~AutonPintake()
@@ -22,7 +22,7 @@ void AutonPintake::Initialize()
 	timer->Reset();
 	timer->Start();
 
-	Bincher::GetInstance()->Actuate(m_state);
+	IntakePin::GetInstance()->Actuate(m_state);
 }
 
 // Called repeatedly when this Command is scheduled to run

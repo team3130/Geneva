@@ -7,7 +7,6 @@
 #include "AutonControlIntakeVertical.h"
 #include "AutonDriveToPoint.h"
 #include "AutonFire.h"
-#include "AutonPinchBall.h"
 #include "Commands/CameraAim.h"
 
 class OneBallAuton: public CommandGroup
@@ -16,8 +15,6 @@ private:
 	AutonCatapult* Catapult_ReadyShotOne;
 
 	AutonFire* Catapult_ShootOne;
-
-	AutonPinchBall* Bincher_HoldBall;
 
 	AutonControlIntakeVertical* Intake_LowerIntake;
 

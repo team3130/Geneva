@@ -1,6 +1,5 @@
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/IntakeVertical.h"
-#include "Subsystems/Bincher.h"
 #include "AutonCommands/AutonFire.h"
 
 /// Default constructor of the class.
@@ -13,7 +12,6 @@ AutonFire::AutonFire()
 
 	Requires(CatapultFire::GetInstance());
 	Requires(IntakeVertical::GetInstance());
-	Requires(Bincher::GetInstance());
 }
 
 AutonFire::~AutonFire()
@@ -25,10 +23,9 @@ AutonFire::~AutonFire()
 void AutonFire::Initialize()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(IntakeVertical::GetInstance()->GetToggleState() == false or Bincher::GetInstance()->IsActive())
+	if(IntakeVertical::GetInstance()->GetToggleState() == false)
 	{
 		IntakeVertical::GetInstance()->Actuate(true);
-		Bincher::GetInstance()->Actuate(false);
 		m_waiting = true;
 	}
 	else {

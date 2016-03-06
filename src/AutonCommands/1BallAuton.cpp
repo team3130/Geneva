@@ -4,14 +4,12 @@
 #include "AutonControlIntakeVertical.h"
 #include "AutonDriveToPoint.h"
 #include "AutonFire.h"
-#include "AutonPinchBall.h"
 #include "Commands/CameraAim.h"
 
 OneBallAuton::OneBallAuton()
 {
 	Catapult_ReadyShotOne = new AutonCatapult();
 	Catapult_ShootOne = new AutonFire();
-	Bincher_HoldBall = new AutonPinchBall();
 	Intake_LowerIntake = new AutonControlIntakeVertical();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Drive_DriveToShootPosition = new AutonDriveToPoint();
@@ -32,7 +30,6 @@ OneBallAuton::~OneBallAuton()
 {
 	delete Catapult_ReadyShotOne;
 	delete Catapult_ShootOne;
-	delete Bincher_HoldBall;
 	delete Intake_LowerIntake;
 	delete Drive_DriveToDefense;
 	delete Drive_DriveToShootPosition;
@@ -52,8 +49,6 @@ void OneBallAuton::Initialize()
 	Catapult_ShootOne->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton Shoot Timeout",2)
 	);
-
-	Bincher_HoldBall->SetParam(true);	//Doesn't require Tuning
 
 	Intake_LowerIntake->SetParam(true,
 			Preferences::GetInstance()->GetDouble("1BallAuton Intake Timeout",1)
