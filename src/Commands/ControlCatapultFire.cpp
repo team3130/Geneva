@@ -1,7 +1,6 @@
 #include "OI.h"
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/IntakeHorizontal.h"
-#include "Subsystems/Bincher.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/ReloadCatapult.h"
 
@@ -13,17 +12,15 @@ ControlCatapultFire::ControlCatapultFire()
 {
 	Requires(CatapultFire::GetInstance());
 	//Requires(IntakeHorizontal::GetInstance());
-	Requires(Bincher::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
 void ControlCatapultFire::Initialize()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(IntakeHorizontal::GetInstance()->IsExtended() == false or Bincher::GetInstance()->IsActive())
+	if(IntakeHorizontal::GetInstance()->IsExtended() == false)
 	{
 		IntakeHorizontal::GetInstance()->Actuate(true);
-		Bincher::GetInstance()->Actuate(false);
 		m_waiting = true;
 	}
 	else {

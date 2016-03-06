@@ -16,7 +16,7 @@
 	const int RATIO_DRIVEENCODERTICKSTOINCH = 360.0 * (22.0/15.0) / (M_PI*7.625); // 7.625 is wheel diameter.
 
 //DIO Ports
-	const int DIO_CATAPULTBOTTOMLIMIT = 0;
+	// Prefix DIO_
 
 //Motors-PWM
 	const int PORT_CLIMBERTAPE = 0;
@@ -41,7 +41,6 @@
 	const int PNM_GEARSHIFTER = 2;
 	const int PNM_INTAKEACTUATEOUT = 3;
 	const int PNM_INTAKEACTUATEUP = 4;
-	const int PNM_BINCHER = 5;
 
 //Buttons and Axes
 
@@ -93,7 +92,6 @@
 	const int BTN_OUTAKE = LST_BTN_B;
 	const int BTN_INTAKEVERTICAL = LST_BTN_LBUMPER;
 	const int AXS_INTAKEHORIZONTAL = LST_AXS_LTRIGGER;
-	const int BTN_BINCHER = LST_BTN_START;
 	const int BTN_INTAKEPIN = LST_BTN_BACK;
 
 	//Defenses
