@@ -27,7 +27,9 @@ void ControlCatapult::Execute()
 	if(oi && cat)
 	{
 		double thumb = -oi->gamepad->GetRawAxis(AXS_WINCH); // Y-axis is positive down.
-		bool danger = cat->CheckZero();
+		if (thumb < 0) cat->CheckZero();
+
+		bool danger = cat->WatchCurrent();
 		if (danger or timer.Get() > 2.0) {
 			timer.Reset();
 			if (danger) {
