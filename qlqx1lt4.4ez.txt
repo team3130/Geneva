@@ -1,0 +1,35 @@
+﻿Merge remote-tracking branch 'refs/remotes/origin/PostBuild' into AutonCreation
+
+# Conflicts:
+#	src/Subsystems/Catapult.cpp
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch AutonCreation
+# Your branch is up-to-date with 'origin/AutonCreation'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   src/Commands/CameraAim.cpp
+#	modified:   src/Commands/ControlCatapult.cpp
+#	modified:   src/Commands/ControlCatapultFire.cpp
+#	deleted:    src/Commands/PinchBall.cpp
+#	deleted:    src/Commands/PinchBall.h
+#	modified:   src/Commands/ReloadCatapult.cpp
+#	modified:   src/Commands/ReloadCatapult.h
+#	modified:   src/OI.cpp
+#	modified:   src/OI.h
+#	modified:   src/RobotMap.h
+#	deleted:    src/Subsystems/Bincher.cpp
+#	deleted:    src/Subsystems/Bincher.h
+#	modified:   src/Subsystems/Catapult.cpp
+#
+
+Merge PostBuild with AutonCreation

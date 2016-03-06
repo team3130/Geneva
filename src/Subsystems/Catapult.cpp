@@ -61,7 +61,7 @@ void Catapult::toSetpoint(float goal)
 void Catapult::moveCatapult(float speed) {
 	m_bOnPID = false;
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-	if (speed >= 0) {
+	if (speed > 0) {
 		if (GetPosition() < TOP_ZONE) {
 			m_shooterController->Set(speed);
 		}
@@ -81,8 +81,8 @@ void Catapult::moveCatapult(float speed) {
 }
 
 bool Catapult::CheckZero(){
-	if(isBottomHit() or WatchCurrent()){
-		if(isBottomHit()) m_shooterController->SetPosition(0);
+	if(isBottomHit()){
+		m_shooterController->SetPosition(0);
 		return true;
 	}
 	else return false;

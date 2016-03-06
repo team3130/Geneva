@@ -74,12 +74,21 @@ void CameraAim::Execute()
 			timer.Reset();
 		}
 	}
-	else if (fabs(chassis->GetAngle() - m_prevAngle) > MAX_ANGULAR_V) {
-		timer.Reset();
+	else {
+		double angular_v = chassis->GetAngle() - m_prevAngle;
+		if (fabs(angular_v) > MAX_ANGULAR_V) timer.Reset();
+
+		// Take this measurement for tuning purposes. Remove after the tuning is done
+		SmartDashboard::PutNumber("Angular Velocity", angular_v);
 	}
+
 
 	m_prevAngle = chassis->GetAngle();
 
+	// Check the catapult output current for safety
+	if (Catapult::GetInstance()->WatchCurrent()) Catapult::GetInstance()->moveCatapult(0);
+
+	// Drive forward or back while aiming
 	double moveSpeed = -oi->stickL->GetY();
 	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
 	chassis->DriveStraight(moveSpeed);

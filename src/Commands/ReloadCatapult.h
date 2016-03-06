@@ -10,7 +10,8 @@ private:
 	char m_presetLabel[sizeof(STR_PRESET)];
 	uint32_t m_button;
 	bool m_buttonHold;
-	bool m_goingUp;
+	bool m_goingDown;
+	bool m_done;
 	Timer m_timer;
 public:
 	ReloadCatapult(uint32_t button_number, bool remote = false);
