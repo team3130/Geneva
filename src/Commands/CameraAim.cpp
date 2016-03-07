@@ -19,6 +19,7 @@ void CameraAim::Initialize()
 	m_prevAngle = nan("NaN");
 	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
 	RobotVideo::GetInstance()->SetLocationQueueSize(10);
+	Chassis::GetInstance()->Shift(true);
 }
 
 /**
@@ -42,7 +43,7 @@ void CameraAim::Execute()
 	OI* oi = OI::GetInstance();
 	if (chassis == nullptr or oi == nullptr) return;
 
-	if (m_prevAngle == nan("NaN") or timer.Get() > AIM_COOLDOWN) {
+	if (m_prevAngle == nan("NaN") or timer.Get() > Preferences::GetInstance()->GetDouble("CameraLag", AIM_COOLDOWN)) {
 		float turn = 0;
 		float dist = 0;
 		size_t nTurns = 0;
@@ -76,7 +77,7 @@ void CameraAim::Execute()
 	}
 	else {
 		double angular_v = chassis->GetAngle() - m_prevAngle;
-		if (fabs(angular_v) > MAX_ANGULAR_V) timer.Reset();
+		if (fabs(angular_v) > Preferences::GetInstance()->GetDouble("AngularVelocity", MAX_ANGULAR_V)) timer.Reset();
 
 		// Take this measurement for tuning purposes. Remove after the tuning is done
 		SmartDashboard::PutNumber("Angular Velocity", angular_v);
