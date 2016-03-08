@@ -11,8 +11,8 @@ public:
 		kLeft,
 		kRight
 	};
-	static constexpr double MAX_ANGULAR_V = 0.2; //!< degrees per cycle (20ms) to say that the robot is not in motion
-	static constexpr double AIM_COOLDOWN = 0.25; //!< seconds to sit still before acquiring a new visual
+	static constexpr double MAX_ANGULAR_V = 2; //!<- degrees per second
+	static constexpr double AIM_COOLDOWN = 0.25; //!<- seconds to sit still before acquiring a new visual
 
 	CameraAim(Target_side side=kLeft);
 	void Initialize();
@@ -22,9 +22,11 @@ public:
 	void Interrupted();
 
 private:
-	Timer timer;
+	Timer frame_timer;
+	Timer cycle_timer;
 	Target_side m_side;
 	double m_prevAngle;
+	bool m_gotVisual;
 };
 
 #endif
