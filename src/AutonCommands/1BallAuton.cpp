@@ -4,6 +4,7 @@
 #include "AutonControlIntakeVertical.h"
 #include "AutonDriveToPoint.h"
 #include "AutonFire.h"
+#include "AutonTurn.h"
 #include "Commands/CameraAim.h"
 
 OneBallAuton::OneBallAuton()
@@ -13,7 +14,7 @@ OneBallAuton::OneBallAuton()
 	Intake_LowerIntake = new AutonControlIntakeVertical();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Drive_DriveToShootPosition = new AutonDriveToPoint();
-	Drive_TurnToSeeTarget = new AutonDriveToPoint();
+	Turn_TurnToSeeTarget = new AutonTurn();
 	Drive_ShiftDown = new AutonDriveToPoint();
 	Vision_AimAtTarget = new CameraAim();
 
@@ -22,8 +23,8 @@ OneBallAuton::OneBallAuton()
 	AddParallel(Catapult_ReadyShotOne);
 //	AddSequential(Drive_ShiftDown, 0.5);
 	AddSequential(Drive_DriveToDefense);
-	AddSequential(Drive_DriveToShootPosition);
-	AddSequential(Drive_TurnToSeeTarget);
+//	AddSequential(Drive_DriveToShootPosition);
+	AddSequential(Turn_TurnToSeeTarget, 2);
 	AddSequential(Vision_AimAtTarget, 3);
 	AddSequential(Catapult_ShootOne);
 }
@@ -35,7 +36,7 @@ OneBallAuton::~OneBallAuton()
 	delete Intake_LowerIntake;
 	delete Drive_DriveToDefense;
 	delete Drive_DriveToShootPosition;
-	delete Drive_TurnToSeeTarget;
+	delete Turn_TurnToSeeTarget;
 	delete Vision_AimAtTarget;
 }
 
@@ -83,13 +84,8 @@ void OneBallAuton::Initialize()
 			true
 	);
 
-	Drive_TurnToSeeTarget->SetParam(
-			0,	//Turning Only, Don't need to tune distance
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -45),
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Speed", 0.7),
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Tolerence", 0.5),
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Timeout", 3),
-			true
+	Turn_TurnToSeeTarget->SetParam(
+			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -45)
 	);
 }
 

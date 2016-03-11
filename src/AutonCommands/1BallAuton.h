@@ -7,6 +7,7 @@
 #include "AutonControlIntakeVertical.h"
 #include "AutonDriveToPoint.h"
 #include "AutonFire.h"
+#include "AutonTurn.h"
 #include "Commands/CameraAim.h"
 
 class OneBallAuton: public CommandGroup
@@ -21,7 +22,7 @@ private:
 	AutonDriveToPoint* Drive_ShiftDown;
 	AutonDriveToPoint* Drive_DriveToDefense;
 	AutonDriveToPoint* Drive_DriveToShootPosition;
-	AutonDriveToPoint* Drive_TurnToSeeTarget;
+	AutonTurn* Turn_TurnToSeeTarget;
 
 	CameraAim* Vision_AimAtTarget;
 
