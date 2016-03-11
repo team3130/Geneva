@@ -8,6 +8,7 @@ AutonDriveToPoint::AutonDriveToPoint()
 	,m_angle(0)
 	,m_threshold(0)
 	,m_timeout(0)
+	,m_lowGear(false)
 {
 	timer = new Timer();
 
@@ -26,18 +27,21 @@ double AutonDriveToPoint::ReturnPIDInput()
 
 void AutonDriveToPoint::UsePIDOutput(double output)
 {
-	if(output > m_speed) output = m_speed;
-	if(output < -m_speed) output = -m_speed;
-	Chassis::GetInstance()->Drive(output,0);
+	double speed = m_speed;
+	if (timer->Get() < 0.5) speed = m_speed * timer->Get()/0.5;
+	if(output > speed) output = speed;
+	if(output < -speed) output = -speed;
+	Chassis::GetInstance()->Drive(output,output);
 }
 
-void AutonDriveToPoint::SetParam(double travelDistance, double angle, double speed, double tolerance, double timeout)
+void AutonDriveToPoint::SetParam(double travelDistance, double angle, double speed, double tolerance, double timeout, bool lowGear)
 {
 	m_setPoint = travelDistance;
 	m_speed = speed;
 	m_angle = angle;
 	m_threshold = tolerance;
 	m_timeout = timeout;
+	m_lowGear = lowGear;
 	GetPIDController()->SetSetpoint(m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
 }
@@ -50,8 +54,10 @@ void AutonDriveToPoint::Initialize()
 	GetPIDController()->Disable();
 	GetPIDController()->SetSetpoint(m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
+	Chassis::GetInstance()->Shift(m_lowGear);
 
-	Chassis::GetInstance()->HoldAngle(m_angle);
+	//Chassis::GetInstance()->HoldAngle(m_angle);
+	Chassis::GetInstance()->ReleaseAngle();
 	GetPIDController()->Reset();
 	GetPIDController()->Enable();
 	timer->Reset();

@@ -18,6 +18,7 @@ private:
 
 	AutonControlIntakeVertical* Intake_LowerIntake;
 
+	AutonDriveToPoint* Drive_ShiftDown;
 	AutonDriveToPoint* Drive_DriveToDefense;
 	AutonDriveToPoint* Drive_DriveToShootPosition;
 	AutonDriveToPoint* Drive_TurnToSeeTarget;

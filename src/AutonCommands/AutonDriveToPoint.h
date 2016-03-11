@@ -12,6 +12,7 @@ private:
 	double m_angle;
 	double m_threshold;
 	double m_timeout;
+	bool m_lowGear;
 
 public:
 	AutonDriveToPoint();
@@ -21,7 +22,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(double travelDistance, double angle=0, double speed=0.5, double tolerance=0.5, double timeout=0);
+	void SetParam(double travelDistance, double angle=0, double speed=0.5, double tolerance=0.5, double timeout=0, bool lowGear = false);
 
 	double ReturnPIDInput();
 	void UsePIDOutput(double output);

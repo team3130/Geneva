@@ -48,6 +48,7 @@ void Chassis::Drive(double moveL, double moveR, bool quad)
 
 void Chassis::DriveArcade(double move, double turn, bool squaredInputs)
 {
+
 	m_drive->ArcadeDrive(move, turn, squaredInputs);
 }
 

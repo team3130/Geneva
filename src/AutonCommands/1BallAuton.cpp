@@ -14,11 +14,13 @@ OneBallAuton::OneBallAuton()
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Drive_DriveToShootPosition = new AutonDriveToPoint();
 	Drive_TurnToSeeTarget = new AutonDriveToPoint();
+	Drive_ShiftDown = new AutonDriveToPoint();
 	Vision_AimAtTarget = new CameraAim();
 
 //	AddParallel(Bincher_HoldBall);
 	AddParallel(Intake_LowerIntake);
 	AddParallel(Catapult_ReadyShotOne);
+//	AddSequential(Drive_ShiftDown, 0.5);
 	AddSequential(Drive_DriveToDefense);
 	AddSequential(Drive_DriveToShootPosition);
 	AddSequential(Drive_TurnToSeeTarget);
@@ -54,12 +56,22 @@ void OneBallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("1BallAuton Intake Timeout",1)
 	);
 
+	Drive_ShiftDown->SetParam(
+			30,				//Distance to attempt to drive
+			0,				//No Angle
+			0,				//Don't actually drive
+			2,				//Arbitrary number significantly less than 30
+			0,				//Don't timeout from command
+			true			//Shift Down
+	);
+
 	Drive_DriveToDefense->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",70),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",-0.5),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",-1),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Timeout", 5)
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Timeout", 5),
+			true
 	);
 
 	Drive_DriveToShootPosition->SetParam(
@@ -67,7 +79,8 @@ void OneBallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Angle",0),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Speed",-0.8),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Tolerence",0.5),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Timeout", 5)
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Timeout", 5),
+			true
 	);
 
 	Drive_TurnToSeeTarget->SetParam(
@@ -75,7 +88,8 @@ void OneBallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -45),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Speed", 0.7),
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Tolerence", 0.5),
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Timeout", 3)
+			Preferences::GetInstance()->GetDouble("1BallAuton Turn Timeout", 3),
+			true
 	);
 }
 

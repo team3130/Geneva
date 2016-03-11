@@ -5,6 +5,7 @@
 #include "Commands/CameraAim.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/DriveShift.h"
+#include "Commands/DriveStreightTest.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -22,6 +23,7 @@ OI::OI()
 	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
 	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
 	shift   	= new JoystickButton(stickL, BTN_SHIFT);
+	streight	= new JoystickButton(stickR, 10);
 
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
@@ -30,6 +32,7 @@ OI::OI()
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());
 	shift->ToggleWhenPressed(new DriveShift());
+	streight->WhileHeld(new DriveStreightTest());
 }
 
 OI* OI::GetInstance()
