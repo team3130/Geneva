@@ -46,7 +46,8 @@ void ControlCatapultFire::Execute()
 /// \return always false since this is the default command and should never finish.
 bool ControlCatapultFire::IsFinished()
 {
-	return !m_bypass||!OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
+	if (m_bypass) return false;
+	else return not OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
 }
 
 /// Called once after isFinished returns true
