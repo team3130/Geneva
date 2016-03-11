@@ -13,8 +13,8 @@ AutonTurn::~AutonTurn()
 // Called just before this Command runs the first time
 void AutonTurn::Initialize()
 {
-	Chassis::GetInstance()->Drive(0,0);
 	Chassis::GetInstance()->HoldAngle(m_angle);
+	Chassis::GetInstance()->DriveStraight(0);
 }
 
 // Called repeatedly when this Command is scheduled to run

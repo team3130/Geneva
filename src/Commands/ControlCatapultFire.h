@@ -16,8 +16,9 @@ private:
 	Command* m_nextCommand;
 	Timer* timer;
 	bool m_waiting;
+	bool m_bypass;
 public:
-	ControlCatapultFire();
+	ControlCatapultFire(bool bypass=false);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

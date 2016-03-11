@@ -5,10 +5,11 @@
 #include "Commands/ReloadCatapult.h"
 
 /// Default constructor of the class.
-ControlCatapultFire::ControlCatapultFire()
+ControlCatapultFire::ControlCatapultFire(bool bypass)
 	: m_nextCommand(new ReloadCatapult(BTN_PRESET_2))
 	, timer(new Timer())
 	, m_waiting(false)
+	, m_bypass(bypass)
 {
 	Requires(CatapultFire::GetInstance());
 	//Requires(IntakeHorizontal::GetInstance());
@@ -45,7 +46,7 @@ void ControlCatapultFire::Execute()
 /// \return always false since this is the default command and should never finish.
 bool ControlCatapultFire::IsFinished()
 {
-	return not OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
+	return !m_bypass||!OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
 }
 
 /// Called once after isFinished returns true

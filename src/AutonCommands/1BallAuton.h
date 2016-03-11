@@ -5,8 +5,9 @@
 
 #include "AutonCatapult.h"
 #include "AutonControlIntakeVertical.h"
+#include "AutonControlIntakeHorizontal.h"
 #include "AutonDriveToPoint.h"
-#include "AutonFire.h"
+#include "Commands/ControlCatapultFire.h"
 #include "AutonTurn.h"
 #include "Commands/CameraAim.h"
 
@@ -15,9 +16,12 @@ class OneBallAuton: public CommandGroup
 private:
 	AutonCatapult* Catapult_ReadyShotOne;
 
-	AutonFire* Catapult_ShootOne;
+	ControlCatapultFire* Catapult_ShootOne;
 
 	AutonControlIntakeVertical* Intake_LowerIntake;
+	AutonControlIntakeVertical* Intake_RaiseIntake;
+
+	AutonControlIntakeHorizontal* Intake_ExtendIntake;
 
 	AutonDriveToPoint* Drive_ShiftDown;
 	AutonDriveToPoint* Drive_DriveToDefense;

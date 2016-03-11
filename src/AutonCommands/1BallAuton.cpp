@@ -3,15 +3,17 @@
 #include "AutonCatapult.h"
 #include "AutonControlIntakeVertical.h"
 #include "AutonDriveToPoint.h"
-#include "AutonFire.h"
+#include "Commands/ControlCatapultFire.h"
 #include "AutonTurn.h"
 #include "Commands/CameraAim.h"
 
 OneBallAuton::OneBallAuton()
 {
 	Catapult_ReadyShotOne = new AutonCatapult();
-	Catapult_ShootOne = new AutonFire();
+	Catapult_ShootOne = new ControlCatapultFire(true);
 	Intake_LowerIntake = new AutonControlIntakeVertical();
+	Intake_RaiseIntake = new AutonControlIntakeVertical();
+	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Drive_DriveToShootPosition = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
@@ -24,9 +26,11 @@ OneBallAuton::OneBallAuton()
 //	AddSequential(Drive_ShiftDown, 0.5);
 	AddSequential(Drive_DriveToDefense);
 //	AddSequential(Drive_DriveToShootPosition);
+	AddParallel(Intake_RaiseIntake, 1);
+	AddParallel(Intake_ExtendIntake, 1);
 	AddSequential(Turn_TurnToSeeTarget, 2);
-	AddSequential(Vision_AimAtTarget, 3);
-	AddSequential(Catapult_ShootOne);
+	AddSequential(Vision_AimAtTarget, 5);
+	AddSequential(Catapult_ShootOne, 2);
 }
 
 OneBallAuton::~OneBallAuton()
@@ -49,10 +53,6 @@ void OneBallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Timeout",5)
 	);
 
-	Catapult_ShootOne->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Shoot Timeout",2)
-	);
-
 	Intake_LowerIntake->SetParam(true,
 			Preferences::GetInstance()->GetDouble("1BallAuton Intake Timeout",1)
 	);
@@ -67,7 +67,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Drive_DriveToDefense->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",70),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",60),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",-1),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),
@@ -75,14 +75,14 @@ void OneBallAuton::Initialize()
 			true
 	);
 
-	Drive_DriveToShootPosition->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Distance",74),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Angle",0),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Speed",-0.8),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Tolerence",0.5),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Timeout", 5),
-			true
-	);
+//	Drive_DriveToShootPosition->SetParam(
+	//		Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Distance",74),
+		//	Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Angle",0),
+			//Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Speed",-0.8),
+			//Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Tolerence",0.5),
+			//Preferences::GetInstance()->GetDouble("1BallAuton Drive2 Timeout", 5),
+			//true
+//	);
 
 	Turn_TurnToSeeTarget->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -45)
