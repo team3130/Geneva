@@ -396,7 +396,8 @@ void RobotVideo::Run()
 
 				mutex_lock();
 				m_locations[i] = loc;
-				m_turns[i] = atan2(CAPTURE_COLS/2.0 - turn, CAPTURE_FOCAL) * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0);
+				double real_angle = atan2(CAPTURE_COLS/2.0 - turn, Preferences::GetInstance()->GetFloat("CameraFocal",CAPTURE_FOCAL));
+				m_turns[i] = real_angle * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0);
 				mutex_unlock();
 			}
 		}

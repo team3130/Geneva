@@ -23,7 +23,7 @@ class RobotVideo {
 public:
 	static const char* IMG_FILE_NAME;
 	static constexpr double CAPTURE_FPS = 20;
-	static constexpr double CAPTURE_FOCAL = 370.0;
+	static constexpr double CAPTURE_FOCAL = 290;
 	static constexpr double CAMERA_OFFSET = 7.5; //!<- Offset of the camera from the catapult
 
 	//static const int CAPTURE_COLS=640, CAPTURE_ROWS=480;

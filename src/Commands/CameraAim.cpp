@@ -7,6 +7,7 @@
 CameraAim::CameraAim(Target_side side)
 	: m_side(side)
 	, m_prevAngle(0)
+	, m_gotVisual(false)
 {
 	Requires(Chassis::GetInstance());
 }
@@ -14,11 +15,15 @@ CameraAim::CameraAim(Target_side side)
 // Called just before this Command runs the first time
 void CameraAim::Initialize()
 {
-	timer.Reset();
-	timer.Start();
-	m_prevAngle = nan("NaN");
+	frame_timer.Reset();
+	frame_timer.Start();
+	m_prevAngle = Chassis::GetInstance()->GetAngle();
+	cycle_timer.Reset();
+	cycle_timer.Start();
 	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
 	RobotVideo::GetInstance()->SetLocationQueueSize(10);
+	Chassis::GetInstance()->Shift(true);
+	m_gotVisual = false;
 }
 
 /**
@@ -42,7 +47,7 @@ void CameraAim::Execute()
 	OI* oi = OI::GetInstance();
 	if (chassis == nullptr or oi == nullptr) return;
 
-	if (m_prevAngle == nan("NaN") or timer.Get() > AIM_COOLDOWN) {
+	if (!m_gotVisual or frame_timer.Get() > Preferences::GetInstance()->GetDouble("CameraLag", AIM_COOLDOWN)) {
 		float turn = 0;
 		float dist = 0;
 		size_t nTurns = 0;
@@ -71,27 +76,38 @@ void CameraAim::Execute()
 				turn += atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
 			}
 			chassis->HoldAngle(turn);
-			timer.Reset();
+			frame_timer.Reset();
+			m_gotVisual = true;
+		}
+		else {
+			m_gotVisual = false;
 		}
 	}
-	else {
-		double angular_v = chassis->GetAngle() - m_prevAngle;
-		if (fabs(angular_v) > MAX_ANGULAR_V) timer.Reset();
+	else if (cycle_timer.Get() > 0) {
+		double angular_v = (chassis->GetAngle() - m_prevAngle) / cycle_timer.Get();
+		if (fabs(angular_v) > Preferences::GetInstance()->GetDouble("AngularVelocity", MAX_ANGULAR_V))
+			frame_timer.Reset();
 
 		// Take this measurement for tuning purposes. Remove after the tuning is done
 		SmartDashboard::PutNumber("Angular Velocity", angular_v);
 	}
 
-
 	m_prevAngle = chassis->GetAngle();
+	cycle_timer.Reset();
 
 	// Check the catapult output current for safety
 	if (Catapult::GetInstance()->WatchCurrent()) Catapult::GetInstance()->moveCatapult(0);
 
 	// Drive forward or back while aiming
 	double moveSpeed = -oi->stickL->GetY();
-	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
-	chassis->DriveStraight(moveSpeed);
+	if (m_gotVisual) {
+		moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
+		chassis->DriveStraight(moveSpeed);
+	}
+	else {
+		// If we still have no visual the chassis is not in PID mode yet, so drive Arcade
+		chassis->DriveArcade(moveSpeed, 0, true);
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
