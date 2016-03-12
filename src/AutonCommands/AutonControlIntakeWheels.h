@@ -13,8 +13,6 @@
 class AutonControlIntakeWheels: public Command
 {
 private:
-Timer* timer;
-float m_TimeOut;
 float m_Speed;
 
 public:
@@ -25,7 +23,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(float speed, float timeout){m_Speed = speed, m_TimeOut = timeout;}
+	void SetParam(float speed){m_Speed = speed;}
 };
 
 #endif

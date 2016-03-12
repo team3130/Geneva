@@ -23,9 +23,7 @@ private:
 
 	AutonControlIntakeHorizontal* Intake_ExtendIntake;
 
-	AutonDriveToPoint* Drive_ShiftDown;
 	AutonDriveToPoint* Drive_DriveToDefense;
-	AutonDriveToPoint* Drive_DriveToShootPosition;
 	AutonTurn* Turn_TurnToSeeTarget;
 
 	CameraAim* Vision_AimAtTarget;

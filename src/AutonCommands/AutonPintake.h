@@ -6,9 +6,6 @@
 class AutonPintake: public Command
 {
 private:
-	Timer* timer;
-
-	float m_timeout;
 	bool m_state;
 public:
 	AutonPintake();
@@ -18,8 +15,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(float timeout, bool stateSet){
-		m_timeout = timeout;
+	void SetParam(bool stateSet){
 		m_state = stateSet;
 	}
 };

@@ -6,9 +6,7 @@
 class AutonControlIntakeVertical: public Command
 {
 private:
-Timer* timer;
 bool m_bExtend;
-float m_TimeOut;
 
 public:
 	AutonControlIntakeVertical();
@@ -18,7 +16,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(bool extend, float timeout){ m_bExtend = extend, m_TimeOut = timeout;}
+	void SetParam(bool extend){ m_bExtend = extend;}
 
 };
 

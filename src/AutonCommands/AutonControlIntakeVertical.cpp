@@ -1,19 +1,15 @@
 #include "AutonCommands/AutonControlIntakeVertical.h"
 #include "OI.h"
 #include "Subsystems/IntakeVertical.h"
-#include "Misc/ToggleClass.h"
 
 AutonControlIntakeVertical::AutonControlIntakeVertical()
 {
 	Requires(IntakeVertical::GetInstance());
-	m_TimeOut = 0;
 	m_bExtend = false;
-	timer = new Timer();
 }
 
 AutonControlIntakeVertical::~AutonControlIntakeVertical()
 {
-delete timer;
 
 }
 
@@ -21,8 +17,6 @@ delete timer;
 void AutonControlIntakeVertical::Initialize()
 {
 
-	timer->Reset();
-	timer->Start();
 	IntakeVertical::GetInstance()->Actuate(m_bExtend);
 }
 
@@ -37,7 +31,7 @@ void AutonControlIntakeVertical::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool AutonControlIntakeVertical::IsFinished()
 {
-	return (timer->Get() > m_TimeOut);
+	return false;
 }
 
 // Called once after isFinished returns true

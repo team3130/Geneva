@@ -2,22 +2,18 @@
 #include "OI.h"
 #include "RobotMap.h"
 #include "Subsystems/IntakeHorizontal.h"
-#include "Misc/ToggleClass.h"
 
 #include <math.h>
 
 AutonControlIntakeHorizontal::AutonControlIntakeHorizontal()
 {
 	Requires(IntakeHorizontal::GetInstance());
-	m_TimeOut = 0;
 	m_bExtend = false;
-	timer = new Timer();
 
 }
 
 AutonControlIntakeHorizontal::~AutonControlIntakeHorizontal()
 {
-delete timer;
 
 }
 
@@ -25,8 +21,6 @@ delete timer;
 void AutonControlIntakeHorizontal::Initialize()
 {
 
-	timer->Reset();
-	timer->Start();
 	IntakeHorizontal::GetInstance()->Actuate(m_bExtend);
 
 
@@ -42,7 +36,7 @@ void AutonControlIntakeHorizontal::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool AutonControlIntakeHorizontal::IsFinished()
 {
-	return (timer->Get() > m_TimeOut);
+	return false;
 }
 
 // Called once after isFinished returns true
