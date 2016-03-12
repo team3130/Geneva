@@ -5,7 +5,7 @@
 #include "Commands/CameraAim.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/DriveShift.h"
-#include "Commands/DriveStreightTest.h"
+#include "Commands/TestTurnPID.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -32,7 +32,7 @@ OI::OI()
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());
 	shift->ToggleWhenPressed(new DriveShift());
-	streight->WhileHeld(new DriveStreightTest());
+	streight->WhileHeld(new TestTurnPID());
 }
 
 OI* OI::GetInstance()

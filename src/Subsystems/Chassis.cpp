@@ -2,6 +2,8 @@
 #include "Commands/DefaultDrive.h"
 #include "Misc/Video.h"
 
+#define CHASSIS_USE_ENCODERS
+
 Chassis* Chassis::m_pInstance = NULL;
 
 Chassis* Chassis::GetInstance()
@@ -71,7 +73,9 @@ double Chassis::GetAngle()
 
 double Chassis::ReturnPIDInput()
 {
-	//return GetAngle();
+#ifdef CHASSIS_USE_ENCODERS
+	return GetAngle();
+#else
 	RobotVideo::GetInstance()->mutex_lock();
 	size_t nTurns = RobotVideo::GetInstance()->HaveHeading();
 	float turn, dist;
@@ -93,6 +97,7 @@ double Chassis::ReturnPIDInput()
 		m_lastAngle = -turn;
 	}
 	return m_lastAngle;
+#endif
 }
 
 void Chassis::UsePIDOutput(double bias)
@@ -122,8 +127,12 @@ void Chassis::HoldAngle(double angle)
 			Preferences::GetInstance()->GetDouble("ChassisP", 0.05),
 			Preferences::GetInstance()->GetDouble("ChassisI", 0.01),
 			Preferences::GetInstance()->GetDouble("ChassisD", 0.15));
-	//GetPIDController()->SetSetpoint(GetAngle() + angle);
+#ifdef CHASSIS_USE_ENCODERS
+	GetPIDController()->SetSetpoint(GetAngle() + angle);
+	GetPIDController()->SetToleranceBuffer(15); // Num cycles to average onTarget over
+#else
 	GetPIDController()->SetSetpoint(0);
+#endif
 	GetPIDController()->Enable();
 	m_onPID = true;
 }
