@@ -1,5 +1,6 @@
 #include "Subsystems/Chassis.h"
 #include "Commands/DefaultDrive.h"
+#include "Misc/Video.h"
 
 Chassis* Chassis::m_pInstance = NULL;
 
@@ -70,7 +71,28 @@ double Chassis::GetAngle()
 
 double Chassis::ReturnPIDInput()
 {
-	return GetAngle();
+	//return GetAngle();
+	RobotVideo::GetInstance()->mutex_lock();
+	size_t nTurns = RobotVideo::GetInstance()->HaveHeading();
+	float turn, dist;
+	if(nTurns > 0) {
+		turn = RobotVideo::GetInstance()->GetTurn(0);
+		dist = RobotVideo::GetInstance()->GetDistance(0);
+	}
+	if(false /*m_side == kRight*/ and nTurns > 1) {
+		turn = RobotVideo::GetInstance()->GetTurn(1);
+		dist = RobotVideo::GetInstance()->GetDistance(1);
+	}
+	RobotVideo::GetInstance()->mutex_unlock();
+
+	if (nTurns > 0) {
+		if (dist > 0) {
+			// The camera offset over the distance is the adjustment angle's tangent
+			turn += atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
+		}
+		m_lastAngle = -turn;
+	}
+	return m_lastAngle;
 }
 
 void Chassis::UsePIDOutput(double bias)
@@ -100,7 +122,8 @@ void Chassis::HoldAngle(double angle)
 			Preferences::GetInstance()->GetDouble("ChassisP", 0.05),
 			Preferences::GetInstance()->GetDouble("ChassisI", 0.01),
 			Preferences::GetInstance()->GetDouble("ChassisD", 0.15));
-	GetPIDController()->SetSetpoint(GetAngle() + angle);
+	//GetPIDController()->SetSetpoint(GetAngle() + angle);
+	GetPIDController()->SetSetpoint(0);
 	GetPIDController()->Enable();
 	m_onPID = true;
 }

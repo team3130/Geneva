@@ -23,6 +23,7 @@ void CameraAim::Initialize()
 	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
 	RobotVideo::GetInstance()->SetLocationQueueSize(10);
 	Chassis::GetInstance()->Shift(true);
+	Chassis::GetInstance()->ResetPID();
 	m_gotVisual = false;
 }
 

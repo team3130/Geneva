@@ -23,6 +23,7 @@ private:
 	CANTalon* m_rightMotorRear;
 	bool m_bShiftedLow;
 	double moveSpeed;
+	float m_lastAngle;
 	bool m_onPID;
 
 	Chassis();
@@ -43,6 +44,7 @@ public:
 	double GetDistance();
 	double GetPIDError() {return GetSetpoint() - GetPosition();};
 	void ResetEncoders();
+	void ResetPID() {GetPIDController()->Reset();};
 	double GetAngle();
 	void HoldAngle(double angle = 0);
 	void ReleaseAngle() { GetPIDController()->Disable(); m_onPID=false; };
