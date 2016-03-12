@@ -21,8 +21,8 @@ void DefaultDrive::Initialize()
 void DefaultDrive::Execute()
 {
 	OI* oi = OI::GetInstance();
-	double moveSpeed = -oi->gamepad->GetRawAxis(LST_AXS_LJOYSTICKY);
-	double turnSpeed = -oi->gamepad->GetRawAxis(LST_AXS_RJOYSTICKX);
+	double moveSpeed = -oi->gamepad1->GetRawAxis(LST_AXS_LJOYSTICKY);
+	double turnSpeed = -oi->gamepad1->GetRawAxis(LST_AXS_RJOYSTICKX);
 
 	// Only driving manual should require Quadratic inputs. By default it should be turned off
 	// Therefore here we turn it on explicitly.

@@ -16,7 +16,7 @@ void DriveStreightTest::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void DriveStreightTest::Execute()
 {
-	Chassis::GetInstance()->DriveStraight(-OI::GetInstance()->stickL->GetY());
+	Chassis::GetInstance()->DriveStraight(-OI::GetInstance()->gamepad1->GetRawAxis(LST_AXS_LJOYSTICKY));
 }
 
 // Make this return true when this Command no longer needs to run execute()

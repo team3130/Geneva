@@ -13,9 +13,10 @@ private:
 
 public:
 	static OI* GetInstance();
-	Joystick*	stickL;
-	Joystick*	stickR;
+//	Joystick*	stickL;
+//	Joystick*	stickR;
 	Joystick*	gamepad;
+	Joystick*	gamepad1;
 	JoystickButton* preset1;
 	JoystickButton* preset2;
 	JoystickButton* intakePin;

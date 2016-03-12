@@ -99,7 +99,7 @@ void CameraAim::Execute()
 	if (Catapult::GetInstance()->WatchCurrent()) Catapult::GetInstance()->moveCatapult(0);
 
 	// Drive forward or back while aiming
-	double moveSpeed = -oi->stickL->GetY();
+	double moveSpeed = -oi->gamepad1->GetRawAxis(LST_AXS_LJOYSTICKY);
 	if (m_gotVisual) {
 		moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
 		chassis->DriveStraight(moveSpeed);

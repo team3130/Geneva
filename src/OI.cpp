@@ -12,18 +12,22 @@ OI* OI::m_pInstance = NULL;
 OI::OI()
 {
 	// Process operator interface input here.
-	stickL = new Joystick(0);
-	stickR = new Joystick(1);
-	gamepad = new Joystick(2);
+
+//	stickL = new Joystick(0);
+//	stickR = new Joystick(1);
+//	gamepad = new Joystick(2);
+
+	gamepad1 = new Joystick(0);
+	gamepad = new Joystick(1);
 
 	preset1 	= new JoystickButton(gamepad, BTN_PRESET_1);
 	preset2 	= new JoystickButton(gamepad, BTN_PRESET_2);
 	intakePin 	= new JoystickButton(gamepad, BTN_INTAKEPIN);
-	aimLeft 	= new JoystickButton(stickR, BTN_AIMLEFT);
-	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
+	aimLeft 	= new JoystickButton(gamepad1, BTN_AIMLEFT);
+	aimRight	= new JoystickButton(gamepad1, BTN_AIMRIGHT);
 	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
-	shift   	= new JoystickButton(stickL, BTN_SHIFT);
-	streight	= new JoystickButton(stickR, 10);
+	shift   	= new JoystickButton(gamepad1, BTN_SHIFT);
+	streight	= new JoystickButton(gamepad1, 10);
 
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
