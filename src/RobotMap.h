@@ -13,7 +13,7 @@
  */
 //Constant Ratios
 	const int RATIO_WINCHMOTORENCODERTICKSTOINCH = 1024/(M_PI*0.965); //0.965 is drum diameter.
-	const int RATIO_DRIVEENCODERTICKSTOINCH = 360.0 * (22.0/15.0) / (M_PI*7.625); // 7.625 is wheel diameter.
+	const int RATIO_DRIVECODESPERREV = 360;
 
 //DIO Ports
 	// Prefix DIO_
