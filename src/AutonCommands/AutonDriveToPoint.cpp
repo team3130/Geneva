@@ -74,8 +74,7 @@ void AutonDriveToPoint::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool AutonDriveToPoint::IsFinished()
 {
-	if(GetPIDController()->OnTarget()) return true;
-	return (m_timeout > 0 && timer->Get() > m_timeout);
+	return GetPIDController()->OnTarget();
 }
 
 // Called once after isFinished returns true
@@ -88,5 +87,5 @@ void AutonDriveToPoint::End()
 // subsystems is scheduled to run
 void AutonDriveToPoint::Interrupted()
 {
-
+End();
 }

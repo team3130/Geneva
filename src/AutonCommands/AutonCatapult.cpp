@@ -3,18 +3,16 @@
 
 AutonCatapult::AutonCatapult()
 {
-	timer = new Timer();
 
 	m_setpoint = 0;
 	m_threshold = 0;
-	m_timeout = 0;
 
 	Requires(Catapult::GetInstance());
 }
 
 AutonCatapult::~AutonCatapult()
 {
-	delete timer;
+
 }
 
 // Called just before this Command runs the first time
@@ -34,7 +32,6 @@ void AutonCatapult::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool AutonCatapult::IsFinished()
 {
-	if(timer->Get() > m_timeout) return true;
 	return (Catapult::GetInstance()->GetPosition() < m_setpoint+m_threshold
 			&& Catapult::GetInstance()->GetPosition() > m_setpoint-m_threshold);
 }

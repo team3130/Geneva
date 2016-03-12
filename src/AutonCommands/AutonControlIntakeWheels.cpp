@@ -7,21 +7,16 @@
 AutonControlIntakeWheels::AutonControlIntakeWheels()
 {
 	m_Speed = 0;
-	m_TimeOut = 0;
-	timer = new Timer();
 	Requires(IntakeWheel::GetInstance());
 }
 
 AutonControlIntakeWheels::~AutonControlIntakeWheels()
 {
-	delete timer;
 }
 
 /// Called just before this Command runs the first time.
 void AutonControlIntakeWheels::Initialize()
 {
-	timer->Reset();
-	timer->Start();
 	IntakeWheel::GetInstance()->SpinIntake(m_Speed);
 }
 
@@ -35,7 +30,7 @@ void AutonControlIntakeWheels::Execute()
 /// \return always false since this is the default command and should never finish.
 bool AutonControlIntakeWheels::IsFinished()
 {
-	return (timer->Get() > m_TimeOut);
+	return false;
 }
 
 /// Called once after isFinished returns true

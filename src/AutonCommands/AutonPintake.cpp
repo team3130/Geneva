@@ -3,9 +3,6 @@
 
 AutonPintake::AutonPintake()
 {
-	timer = new Timer();
-
-	m_timeout = 0;
 	m_state = false;
 
 	Requires(IntakePin::GetInstance());
@@ -13,14 +10,11 @@ AutonPintake::AutonPintake()
 
 AutonPintake::~AutonPintake()
 {
-	delete timer;
 }
 
 // Called just before this Command runs the first time
 void AutonPintake::Initialize()
 {
-	timer->Reset();
-	timer->Start();
 
 	IntakePin::GetInstance()->Actuate(m_state);
 }
@@ -34,7 +28,7 @@ void AutonPintake::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool AutonPintake::IsFinished()
 {
-	return (timer->Get() > m_timeout);
+	return false;
 }
 
 // Called once after isFinished returns true
