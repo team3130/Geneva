@@ -129,7 +129,7 @@ void Chassis::HoldAngle(double angle)
 			Preferences::GetInstance()->GetDouble("ChassisD", 0.15));
 #ifdef CHASSIS_USE_ENCODERS
 	GetPIDController()->SetSetpoint(GetAngle() + angle);
-	GetPIDController()->SetToleranceBuffer(15); // Num cycles to average onTarget over
+	GetPIDController()->SetToleranceBuffer(5); // Num cycles to average onTarget over
 #else
 	GetPIDController()->SetSetpoint(0);
 #endif

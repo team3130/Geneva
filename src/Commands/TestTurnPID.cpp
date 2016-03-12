@@ -15,7 +15,9 @@ void TestTurnPID::Initialize()
 	Chassis::GetInstance()->ResetPID();
 	Chassis::GetInstance()->SetAbsoluteTolerance(0.4);
 	Chassis::GetInstance()->Shift(true);
-	Chassis::GetInstance()->HoldAngle(SmartDashboard::GetNumber("Test Turn Angle", -20.0));
+	double angle = SmartDashboard::GetNumber("Test Turn Angle", -20.0);
+	Chassis::GetInstance()->HoldAngle(angle);
+	SmartDashboard::PutNumber("Test Turn Angle", angle);
 	elapsed = 0;
 	timer.Reset();
 	timer.Start();
@@ -25,7 +27,10 @@ void TestTurnPID::Initialize()
 void TestTurnPID::Execute()
 {
 	if (Chassis::GetInstance()->OnTarget()) {
-		if (elapsed == 0) elapsed = timer.Get();
+		if (elapsed == 0) {
+			elapsed = timer.Get();
+			SmartDashboard::PutNumber("Test Turn Time", elapsed);
+		}
 	}
 	double moveSpeed = -OI::GetInstance()->stickL->GetY();
 	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
@@ -41,7 +46,7 @@ bool TestTurnPID::IsFinished()
 // Called once after isFinished returns true
 void TestTurnPID::End()
 {
-	SmartDashboard::PutNumber("Test Turn Time", elapsed);
+	//SmartDashboard::PutNumber("Test Turn Time", elapsed);
 }
 
 // Called when another command which requires one or more of the same
