@@ -24,7 +24,7 @@ Catapult::Catapult()
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
 	m_shooterController->SetPID(0,0,0);
 
-	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
+	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHCODESPERREV);
 
 	LiveWindow::GetInstance()->AddActuator("Catapult","Winch Talon",m_shooterController);
 
@@ -40,8 +40,16 @@ void Catapult::InitDefaultCommand()
 	SetDefaultCommand(new ControlCatapult());
 }
 
-//Modifies the shooter wheel speed with the value speed
+double Catapult::GetPosition()
+{
+	 // 0.965 is drum diameter.
+	return m_shooterController->GetPosition() * M_PI * 0.965;
+}
 
+double Catapult::GetPIDError()
+{
+	return M_PI * 0.965 * m_shooterController->GetClosedLoopError() / RATIO_WINCHCODESPERREV;
+}
 
 void Catapult::toSetpoint(float goal)
 {

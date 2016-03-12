@@ -12,7 +12,7 @@
  * floating around.
  */
 //Constant Ratios
-	const int RATIO_WINCHMOTORENCODERTICKSTOINCH = 1024/(M_PI*0.965); //0.965 is drum diameter.
+	const int RATIO_WINCHCODESPERREV = 1024;
 	const int RATIO_DRIVECODESPERREV = 360;
 
 //DIO Ports
