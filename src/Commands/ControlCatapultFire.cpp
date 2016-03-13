@@ -34,7 +34,7 @@ void ControlCatapultFire::Initialize()
 
 void ControlCatapultFire::Execute()
 {
-	if(!m_waiting or timer->Get() > .25)
+	if((!m_waiting or timer->Get() > .25) && ((m_bypass && Catapult::GetInstance()->IsBallPresent()) || !m_bypass))
 	{
 		CatapultFire::GetInstance()->Actuate(true);
 		m_waiting = false;
