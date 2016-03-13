@@ -6,6 +6,7 @@
 #include "Commands/ControlCatapultFire.h"
 #include "AutonTurn.h"
 #include "Commands/CameraAim.h"
+#include "OI.h"
 
 OneBallAuton::OneBallAuton()
 {
@@ -67,7 +68,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Turn_TurnToSeeTarget->SetParam(
-			double(OI::GetInstance()->positionChooser->GetSelected())
+			*(float *)OI::GetInstance()->positionChooser->GetSelected()
 	);
 }
 
