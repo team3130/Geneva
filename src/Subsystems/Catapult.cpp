@@ -16,6 +16,8 @@ Catapult::Catapult()
 		,m_currentTimer()
 		,m_voltageTimer()
 {
+	m_ballChecker = new AnalogInput(ANG_CATAPULTBALLCHECK);
+
 	m_bResetStepOneDone = false;
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
 	m_shooterController->ConfigLimitMode(CANTalon::kLimitMode_SwitchInputsOnly);
