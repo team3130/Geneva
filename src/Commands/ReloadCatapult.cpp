@@ -62,7 +62,7 @@ void ReloadCatapult::Execute()
 				Catapult::GetInstance()->moveCatapult(0);
 				m_done = true;
 			}
-			else m_done = abs(Catapult::GetInstance()->GetPIDError()) < 0.1;
+			else m_done = abs(Catapult::GetInstance()->GetPIDError()) < 2;
 		}
 		// "else" it's just waiting for the timer doing nothing
 	}

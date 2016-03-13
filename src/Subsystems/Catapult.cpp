@@ -50,7 +50,7 @@ double Catapult::GetPosition()
 
 double Catapult::GetPIDError()
 {
-	return M_PI * 0.965 * m_shooterController->GetClosedLoopError() / RATIO_WINCHCODESPERREV;
+	return m_shooterController->GetClosedLoopError();
 }
 
 void Catapult::toSetpoint(float goal)
