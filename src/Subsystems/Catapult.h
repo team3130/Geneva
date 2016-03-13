@@ -38,7 +38,7 @@ public:
 	bool CheckZero();
 	bool WatchCurrent();
 	int BallPresentValue() {return m_ballChecker->GetValue();};
-	bool IsBallPresent() {return m_ballChecker->GetValue() > Preferences::GetInstance()->GetInt("Ball Present Value",2048);};	//TODO: Tune Ball Present Value, possibly change comparison direction
+	bool IsBallPresent() {return m_ballChecker->GetValue() < Preferences::GetInstance()->GetInt("Ball Present Value",3750);};	//TODO: Tune Ball Present Value, possibly change comparison direction
 };
 
 #endif

@@ -45,6 +45,7 @@ void RobotSensors::Execute()
 	SmartDashboard::PutNumber("Accelerometor Z", accelerometer->GetZ());
 
 	SmartDashboard::PutNumber("Line Follower Value", Catapult::GetInstance()->BallPresentValue());
+	SmartDashboard::PutBoolean("Ball Present", Catapult::GetInstance()->IsBallPresent());
 }
 
 // Make this return true when this Command no longer needs to run execute()
