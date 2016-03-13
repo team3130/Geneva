@@ -65,7 +65,7 @@ void Catapult::toSetpoint(float goal)
 		m_shooterController->SetPID(termP,termI,termD);
 		m_shooterController->EnableControl();
 	}
-	m_shooterController->Set(goal);
+	m_shooterController->Set(goal / (M_PI * 0.965));
 }
 
 void Catapult::moveCatapult(float speed) {
