@@ -24,6 +24,8 @@ public:
 	JoystickButton* fire;
 	JoystickButton* shift;
 	JoystickButton* streight;
+
+	SendableChooser* positionChooser;
 };
 
 #endif

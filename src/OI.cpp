@@ -33,6 +33,15 @@ OI::OI()
 	fire->WhileHeld(new ControlCatapultFire());
 	shift->ToggleWhenPressed(new DriveShift());
 	streight->WhileHeld(new DriveStreightTest());
+
+	//SMD Input for Auton
+	//Creates Radio Buttons for selection of Auton positions	//TODO:Determine the correct angles for this
+	positionChooser = new SendableChooser();
+	positionChooser->AddDefault("Low Bar",new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle LowBar", -45)));
+	positionChooser->AddObject("Position 2", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position2",-25)));
+	positionChooser->AddObject("Position 3", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position3",0)));
+	positionChooser->AddObject("Position 4", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position4",0)));
+	positionChooser->AddObject("position 5", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position5",25)));
 }
 
 OI* OI::GetInstance()

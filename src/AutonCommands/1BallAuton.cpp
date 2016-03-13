@@ -67,7 +67,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Turn_TurnToSeeTarget->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Turn Angle", -45)
+			double(OI::GetInstance()->positionChooser->GetSelected())
 	);
 }
 
