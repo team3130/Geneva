@@ -1,6 +1,7 @@
 #include "OI.h"
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/IntakeHorizontal.h"
+#include "Subsystems/Catapult.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/ReloadCatapult.h"
 
