@@ -24,7 +24,7 @@ Catapult::Catapult()
 	m_shooterController->ConfigNeutralMode(CANTalon::kNeutralMode_Brake);
 	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-	m_shooterController->SetPID(0,0,0);
+	m_shooterController->SetAllowableClosedLoopErr(2);
 
 	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHCODESPERREV);
 
