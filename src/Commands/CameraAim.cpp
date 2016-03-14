@@ -36,8 +36,15 @@ void CameraAim::Initialize()
  */
 double calculateStop(double dist, double speed=0)
 {
+	// Top slider sets the bias from "New" (0) to "Old" (5) balls
+	double bias = SmartDashboard::GetNumber("DB/Slider 0", 0) / 5;
+
 	// Interpolated by Google Spreadsheets
-	return -1.99e-4 * dist*dist + 0.08 * dist + 10.752;
+	double a = -2.573e-4 -6e-7 * bias;
+	double b = 0.088 -2e-3 * bias;
+	double c = 10.696 +0.042 * bias;
+
+	return a * dist * dist + b * dist + c;
 }
 
 // Called repeatedly when this Command is scheduled to run
