@@ -15,10 +15,12 @@ OneBallAuton::OneBallAuton()
 	Intake_LowerIntake = new AutonControlIntakeVertical();
 	Intake_RaiseIntake = new AutonControlIntakeVertical();
 	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
+	Drive_ShiftDown = new AutonDriveToPoint();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
 	Vision_AimAtTarget = new CameraAim();
 
+	AddParallel(Drive_ShiftDown, 1);
 	AddParallel(Intake_LowerIntake, 1);
 	AddParallel(Catapult_ReadyShotOne, 2);
 	AddSequential(Drive_DriveToDefense, 5);
@@ -36,6 +38,7 @@ OneBallAuton::~OneBallAuton()
 	delete Intake_LowerIntake;
 	delete Intake_RaiseIntake;
 	delete Intake_ExtendIntake;
+	delete Drive_ShiftDown;
 	delete Drive_DriveToDefense;
 	delete Turn_TurnToSeeTarget;
 	delete Vision_AimAtTarget;
@@ -58,6 +61,8 @@ void OneBallAuton::Initialize()
 	Intake_ExtendIntake->setParam(
 			true
 	);
+
+	Drive_ShiftDown->SetParam(50,0,0,0.5,true);				//Shift Down but don't move forward.
 
 	Drive_DriveToDefense->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",60),
