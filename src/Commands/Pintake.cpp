@@ -1,4 +1,6 @@
 #include "Pintake.h"
+#include "OI.h"
+#include "RobotMap.h"
 #include "Subsystems/IntakePin.h"
 
 Pintake::Pintake()

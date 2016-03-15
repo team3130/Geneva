@@ -9,11 +9,13 @@ IntakeHorizontal* IntakeHorizontal::GetInstance()
 	return m_pInstance;
 }
 
-IntakeHorizontal::IntakeHorizontal() :
-		Subsystem("IntakeHorizontal")
+IntakeHorizontal::IntakeHorizontal()
+	: Subsystem("IntakeHorizontal")
+	, IntakeArmPositionOut(new Toggle<bool>(false,true))
 {
 	m_intakeActuater = new Solenoid(CAN_PNMMODULE, PNM_INTAKEACTUATEOUT);
 	LiveWindow::GetInstance()->AddActuator("Intake","Horizontal Solenoid",m_intakeActuater);
+	IntakeArmPositionOut->setStatus(false);
 }
 
 
@@ -25,4 +27,10 @@ void IntakeHorizontal::InitDefaultCommand()
 void IntakeHorizontal::Actuate(bool extended)
 {
 	m_intakeActuater->Set(extended);
+	IntakeArmPositionOut->setStatus(extended);
+}
+
+void IntakeHorizontal::FlipOnChange(bool input)
+{
+	Actuate(IntakeArmPositionOut->toggleStatusOnEdgeChange(input));
 }

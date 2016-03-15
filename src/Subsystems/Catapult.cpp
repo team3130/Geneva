@@ -16,15 +16,17 @@ Catapult::Catapult()
 		,m_currentTimer()
 		,m_voltageTimer()
 {
+	m_ballChecker = new AnalogInput(ANG_CATAPULTBALLCHECK);
+
 	m_bResetStepOneDone = false;
 	m_shooterController = new CANTalon(CAN_SHOOTERMOTOR);
 	m_shooterController->ConfigLimitMode(CANTalon::kLimitMode_SwitchInputsOnly);
 	m_shooterController->ConfigNeutralMode(CANTalon::kNeutralMode_Brake);
 	m_shooterController->SetFeedbackDevice(CANTalon::QuadEncoder);
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-	m_shooterController->SetPID(0,0,0);
+	m_shooterController->SetAllowableClosedLoopErr(2);
 
-	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHMOTORENCODERTICKSTOINCH);
+	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHCODESPERREV);
 
 	LiveWindow::GetInstance()->AddActuator("Catapult","Winch Talon",m_shooterController);
 
@@ -40,8 +42,16 @@ void Catapult::InitDefaultCommand()
 	SetDefaultCommand(new ControlCatapult());
 }
 
-//Modifies the shooter wheel speed with the value speed
+double Catapult::GetPosition()
+{
+	 // 0.965 is drum diameter.
+	return m_shooterController->GetPosition() * M_PI * 0.965;
+}
 
+double Catapult::GetPIDError()
+{
+	return m_shooterController->GetClosedLoopError();
+}
 
 void Catapult::toSetpoint(float goal)
 {
@@ -55,13 +65,13 @@ void Catapult::toSetpoint(float goal)
 		m_shooterController->SetPID(termP,termI,termD);
 		m_shooterController->EnableControl();
 	}
-	m_shooterController->Set(goal);
+	m_shooterController->Set(goal / (M_PI * 0.965));
 }
 
 void Catapult::moveCatapult(float speed) {
 	m_bOnPID = false;
 	m_shooterController->SetControlMode(CANSpeedController::kPercentVbus);
-	if (speed >= 0) {
+	if (speed > 0) {
 		if (GetPosition() < TOP_ZONE) {
 			m_shooterController->Set(speed);
 		}
@@ -78,11 +88,10 @@ void Catapult::moveCatapult(float speed) {
 	else {
 		m_shooterController->Set(0);
 	}
-	//SmartDashboard::PutNumber("Catapult Current", m_shooterController->GetOutputCurrent());
 }
 
 bool Catapult::CheckZero(){
-	if(isBottomHit() or WatchCurrent()){
+	if(isBottomHit()){
 		m_shooterController->SetPosition(0);
 		return true;
 	}

@@ -17,8 +17,8 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	m_rightMotorRear = new CANTalon(CAN_RIGHTMOTORREAR);
 	m_leftMotorFront->SetSensorDirection(false);
 	m_rightMotorFront->SetSensorDirection(true);
-	m_leftMotorFront->ConfigEncoderCodesPerRev(RATIO_DRIVEENCODERTICKSTOINCH);
-	m_rightMotorFront->ConfigEncoderCodesPerRev(RATIO_DRIVEENCODERTICKSTOINCH);
+	m_leftMotorFront->ConfigEncoderCodesPerRev(RATIO_DRIVECODESPERREV);
+	m_rightMotorFront->ConfigEncoderCodesPerRev(RATIO_DRIVECODESPERREV);
 
 	m_drive = new RobotDrive(m_leftMotorFront, m_leftMotorRear, m_rightMotorFront, m_rightMotorRear);
 	m_drive->SetSafetyEnabled(false);
@@ -48,6 +48,7 @@ void Chassis::Drive(double moveL, double moveR, bool quad)
 
 void Chassis::DriveArcade(double move, double turn, bool squaredInputs)
 {
+
 	m_drive->ArcadeDrive(move, turn, squaredInputs);
 }
 
@@ -57,13 +58,27 @@ void Chassis::Shift(bool shiftDown)
 	m_bShiftedLow = shiftDown;
 }
 
+double Chassis::GetDistanceL()
+{
+	return m_leftMotorFront->GetPosition() * InchesPerRev;
+}
+
+double Chassis::GetDistanceR()
+{
+	return m_rightMotorFront->GetPosition() * InchesPerRev;
+}
+
+double Chassis::GetDistance()
+{
+	return ( GetDistanceL() + GetDistanceR() ) / 2.0;
+}
+
 double Chassis::GetAngle()
 {
-	return ( m_rightMotorFront->GetPosition() - m_leftMotorFront->GetPosition() ) * 180 / (25.5 * M_PI);
+	return ( GetDistanceR() - GetDistanceL() ) * 180 / (26.75 * M_PI);
 	/*
 	 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
 	 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
-	 *  Negative because our encoders connected backwards
 	 */
 }
 
@@ -75,21 +90,11 @@ double Chassis::ReturnPIDInput()
 void Chassis::UsePIDOutput(double bias)
 {
 	const double speedLimit = 1.0;
-	SmartDashboard::PutNumber("Turn PID bias",bias);
 	if(bias >  speedLimit) bias = speedLimit;
 	if(bias < -speedLimit) bias = -speedLimit;
 	double speed_L = moveSpeed-bias;
 	double speed_R = moveSpeed+bias;
 	m_drive->TankDrive(speed_L, speed_R, false);
-}
-
-double Chassis::GetDistance()
-{
-	std::ostringstream oss0;
-	oss0 << "L:" << m_leftMotorFront->GetPosition();
-	oss0 << " R:" << m_rightMotorFront->GetPosition();
-	SmartDashboard::PutString("DB/String 1", oss0.str());
-	return ( m_leftMotorFront->GetPosition() + m_rightMotorFront->GetPosition() ) / 2.0;
 }
 
 void Chassis::ResetEncoders()

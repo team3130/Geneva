@@ -5,7 +5,8 @@
 ReloadCatapult::ReloadCatapult(uint32_t button, bool remote)
 	: m_button(button)
 	, m_buttonHold(false)
-	, m_goingUp(false)
+	, m_goingDown(true)
+	, m_done(false)
 	, m_timer()
 {
 	Requires(Catapult::GetInstance());
@@ -18,7 +19,8 @@ void ReloadCatapult::Initialize()
 {
 	Catapult::GetInstance()->moveCatapult(0);
 	m_buttonHold = true;
-	m_goingUp = false;
+	m_goingDown = true;
+	m_done = false;
 	m_timer.Reset();
 	m_timer.Start();
 }
@@ -34,38 +36,44 @@ void ReloadCatapult::Execute()
 				// or if the button never been pushed the timer will be ~0.0
 				m_buttonHold = false;
 				double goal = Catapult::GetInstance()->GetPosition();
-				if (m_timer.Get() > 3.0 && goal > 2 && goal < Catapult::GetInstance()->TOP_ZONE) {
+				if (m_timer.Get() > 3.0 && goal > Catapult::SLOW_ZONE && goal < Catapult::TOP_ZONE) {
 					Preferences::GetInstance()->PutDouble(m_presetLabel, goal);
 					Catapult::GetInstance()->toSetpoint(goal);
-					m_goingUp = true;
+					m_goingDown = false;
 					m_timer.Reset();
 				}
 				else {
 					Catapult::GetInstance()->moveCatapult(-0.75);
-					m_goingUp = false;
+					m_goingDown = true;
 				}
 			}
 		}
-		else if (!m_goingUp){
-			if (Catapult::GetInstance()->CheckZero()) {
-				m_goingUp = true;
+		else if (m_goingDown){
+			if (Catapult::GetInstance()->CheckZero() or Catapult::GetInstance()->WatchCurrent()) {
+				m_goingDown = false;
 				float goal = Preferences::GetInstance()->GetDouble(m_presetLabel, 10);
 				Catapult::GetInstance()->toSetpoint(goal);
 				m_timer.Reset();
 			}
 		}
-		else if (m_timer.Get() > 0.2 and Catapult::GetInstance()->WatchCurrent()) {
-			Catapult::GetInstance()->moveCatapult(0);
+		else if (m_timer.Get() > 0.2) {
+			if (Catapult::GetInstance()->WatchCurrent()) {
+				// If it's some time on the way up watch for the current spike.
+				Catapult::GetInstance()->moveCatapult(0);
+				m_done = true;
+			}
+			else m_done = abs(Catapult::GetInstance()->GetPIDError()) < Preferences::GetInstance()->GetInt("WinchTolerance", 4);
 		}
+		// "else" it's just waiting for the timer doing nothing
 	}
+	else m_done = true;
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool ReloadCatapult::IsFinished()
 {
-	if (m_goingUp && m_timer.Get() > 0.2 && abs(Catapult::GetInstance()->GetPIDError()) < 0.1) return true;
 	if (OI::GetInstance()->gamepad->GetRawAxis(AXS_WINCH) > 0.1) return true;
-	return false;
+	return m_done;
 }
 
 // Called once after isFinished returns true

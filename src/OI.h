@@ -18,12 +18,14 @@ public:
 	Joystick*	gamepad;
 	JoystickButton* preset1;
 	JoystickButton* preset2;
-	JoystickButton* bincher;
 	JoystickButton* intakePin;
 	JoystickButton*	aimLeft;
 	JoystickButton*	aimRight;
 	JoystickButton* fire;
 	JoystickButton* shift;
+	JoystickButton* streight;
+
+	SendableChooser* positionChooser;
 };
 
 #endif

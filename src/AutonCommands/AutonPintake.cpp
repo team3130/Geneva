@@ -1,38 +1,45 @@
-#include "PinchBall.h"
-#include "Subsystems/Bincher.h"
+#include "AutonCommands/AutonPintake.h"
+#include "Subsystems/IntakePin.h"
 
-PinchBall::PinchBall()
+AutonPintake::AutonPintake()
 {
-	Requires(Bincher::GetInstance());
+	m_state = false;
+
+	Requires(IntakePin::GetInstance());
+}
+
+AutonPintake::~AutonPintake()
+{
 }
 
 // Called just before this Command runs the first time
-void PinchBall::Initialize()
+void AutonPintake::Initialize()
 {
-	Bincher::GetInstance()->Actuate(true);
+
+	IntakePin::GetInstance()->Actuate(m_state);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void PinchBall::Execute()
+void AutonPintake::Execute()
 {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool PinchBall::IsFinished()
+bool AutonPintake::IsFinished()
 {
 	return false;
 }
 
 // Called once after isFinished returns true
-void PinchBall::End()
+void AutonPintake::End()
 {
-	Bincher::GetInstance()->Actuate(false);
+
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PinchBall::Interrupted()
+void AutonPintake::Interrupted()
 {
 	End();
 }

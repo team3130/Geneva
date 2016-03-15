@@ -1,29 +1,28 @@
 #include "OI.h"
 #include "Subsystems/CatapultFire.h"
-#include "Subsystems/IntakeVertical.h"
-#include "Subsystems/Bincher.h"
+#include "Subsystems/IntakeHorizontal.h"
+#include "Subsystems/Catapult.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/ReloadCatapult.h"
 
 /// Default constructor of the class.
-ControlCatapultFire::ControlCatapultFire()
+ControlCatapultFire::ControlCatapultFire(bool bypass)
 	: m_nextCommand(new ReloadCatapult(BTN_PRESET_2))
 	, timer(new Timer())
 	, m_waiting(false)
+	, m_bypass(bypass)
 {
 	Requires(CatapultFire::GetInstance());
-	Requires(IntakeVertical::GetInstance());
-	Requires(Bincher::GetInstance());
+	//Requires(IntakeHorizontal::GetInstance());
 }
 
 /// Called just before this Command runs the first time.
 void ControlCatapultFire::Initialize()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(IntakeVertical::GetInstance()->GetToggleState() == false or Bincher::GetInstance()->IsActive())
+	if(IntakeHorizontal::GetInstance()->IsExtended() == false)
 	{
-		IntakeVertical::GetInstance()->Actuate(true);
-		Bincher::GetInstance()->Actuate(false);
+		IntakeHorizontal::GetInstance()->Actuate(true);
 		m_waiting = true;
 	}
 	else {
@@ -36,7 +35,7 @@ void ControlCatapultFire::Initialize()
 
 void ControlCatapultFire::Execute()
 {
-	if(!m_waiting or timer->Get() > .25)
+	if((!m_waiting or timer->Get() > .25) && ((m_bypass && Catapult::GetInstance()->IsBallPresent()) || !m_bypass))
 	{
 		CatapultFire::GetInstance()->Actuate(true);
 		m_waiting = false;
@@ -48,7 +47,8 @@ void ControlCatapultFire::Execute()
 /// \return always false since this is the default command and should never finish.
 bool ControlCatapultFire::IsFinished()
 {
-	return not OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
+	if (m_bypass) return false;
+	else return not OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
 }
 
 /// Called once after isFinished returns true

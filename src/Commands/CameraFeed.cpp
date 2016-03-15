@@ -30,33 +30,6 @@ void CameraFeed::Execute()
 			//frcDispose(image);
 			video->m_display = true;
 		}
-
-		float turn0, turn1, dist0, dist1;
-		size_t nGoals;
-		video->mutex_lock();
-		nGoals = video->HaveHeading();
-		if (nGoals > 0) {
-			turn0 = video->GetTurn(0);
-			dist0 = video->GetDistance(0);
-		}
-		if (nGoals > 1) {
-			turn1 = video->GetTurn(1);
-			dist1 = video->GetDistance(1);
-		}
-		video->mutex_unlock();
-
-		if (nGoals > 0) {
-			SmartDashboard::PutNumber("Video Heading L", turn0);
-			SmartDashboard::PutNumber("Video Distance L", dist0);
-		}
-		if (nGoals > 1) {
-			SmartDashboard::PutNumber("Video Heading R", turn1);
-			SmartDashboard::PutNumber("Video Distance R", dist1);
-		}
-		else {
-			SmartDashboard::PutNumber("Video Heading R", turn0);
-			SmartDashboard::PutNumber("Video Distance R", dist0);
-		}
 	}
 }
 

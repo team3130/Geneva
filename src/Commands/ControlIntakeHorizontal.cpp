@@ -11,7 +11,6 @@
 ControlIntakeHorizontal::ControlIntakeHorizontal()
 {
 	Requires(IntakeHorizontal::GetInstance());
-	IntakeArmPositionOut = new Toggle<bool>(false,true);
 }
 
 // Called just before this Command runs the first time
@@ -19,7 +18,6 @@ void ControlIntakeHorizontal::Initialize()
 {
 	IntakeHorizontal::GetInstance()->Actuate(false);
 
-	IntakeArmPositionOut->setStatus(false);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -35,7 +33,7 @@ void ControlIntakeHorizontal::Execute()
 			IntakeVertical::GetInstance()->SetState(false);
 		}*/
 	//Toggles actuator position on button press
-	IntakeHorizontal::GetInstance()->Actuate(IntakeArmPositionOut->toggleStatusOnEdgeChange(fabs(oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL) > 0.1)));
+	IntakeHorizontal::GetInstance()->FlipOnChange((fabs(oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL)) > 0.1));
 }
 
 // Make this return true when this Command no longer needs to run execute()

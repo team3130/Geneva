@@ -13,6 +13,11 @@
  */
 class Chassis: public PIDSubsystem
 {
+	 /* Wheel sprockets 22
+	  * Encoder shaft sprockets: 15
+	  * Wheel diameter: 7.625
+	  */
+	static constexpr double InchesPerRev = M_PI * 7.625 * 15 / 22;
 private:
 	static Chassis* m_pInstance;
 	RobotDrive *m_drive;
@@ -38,6 +43,8 @@ public:
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double outputAngle);
+	double GetDistanceL();
+	double GetDistanceR();
 	double GetDistance();
 	double GetPIDError() {return GetSetpoint() - GetPosition();};
 	void ResetEncoders();

@@ -1,5 +1,5 @@
-#ifndef CONTROL_CATAPULT_FIRE_H
-#define CONTROL_CATAPULT_FIRE_H
+#ifndef AUTON_CONTROL_INTAKE_WHEELS_H
+#define AUTON_CONTROL_INTAKE_WHEELS_H
 
 #include <WPILib.h>
 #include "Misc/ToggleClass.h"
@@ -10,20 +10,20 @@
  * This command reads the inputs from joysticks using the IO (operator interface) class
  * and controls the chassis via its public methods.
  */
-class ControlCatapultFire: public Command
+class AutonControlIntakeWheels: public Command
 {
 private:
-	Command* m_nextCommand;
-	Timer* timer;
-	bool m_waiting;
-	bool m_bypass;
+float m_Speed;
+
 public:
-	ControlCatapultFire(bool bypass=false);
+	AutonControlIntakeWheels();
+	~AutonControlIntakeWheels();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
+	void SetParam(float speed){m_Speed = speed;}
 };
 
 #endif

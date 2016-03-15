@@ -17,13 +17,14 @@ private:
 	bool m_bResetStepOneDone;
 	Timer m_currentTimer;
 	Timer m_voltageTimer;
+	AnalogInput* m_ballChecker;
 
 	Catapult();
 	Catapult(Catapult const&);
 	Catapult& operator=(Catapult const&);
 public:
-	const int TOP_ZONE = 34;
-	const int SLOW_ZONE = 3;
+	static constexpr double TOP_ZONE = 26;
+	static constexpr double SLOW_ZONE = 3;
 
 	static Catapult* GetInstance();
 	void InitDefaultCommand();
@@ -31,11 +32,13 @@ public:
 	void moveCatapult(float goal);
 	void readyShot(int goal);
 	bool isBottomHit() { return m_shooterController->IsRevLimitSwitchClosed(); };
-	double GetPosition() { return m_shooterController->GetPosition(); };
+	double GetPosition();
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
-	double GetPIDError() { return (double)(m_shooterController->GetClosedLoopError())/RATIO_WINCHMOTORENCODERTICKSTOINCH; };
+	double GetPIDError();
 	bool CheckZero();
 	bool WatchCurrent();
+	int BallPresentValue() {return m_ballChecker->GetValue();};
+	bool IsBallPresent() {return m_ballChecker->GetValue() < Preferences::GetInstance()->GetInt("Ball Present Value",3750);};	//TODO: Tune Ball Present Value, possibly change comparison direction
 };
 
 #endif
