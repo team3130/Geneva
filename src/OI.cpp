@@ -42,6 +42,7 @@ OI::OI()
 	positionChooser->AddObject("Position 3", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position3",0)));
 	positionChooser->AddObject("Position 4", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position4",0)));
 	positionChooser->AddObject("position 5", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position5",25)));
+	SmartDashboard::PutData("Auton Position",positionChooser);
 }
 
 OI* OI::GetInstance()
