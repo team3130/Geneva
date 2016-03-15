@@ -25,6 +25,7 @@ public:
 	static CatapultFire* GetInstance();
 	void InitDefaultCommand();
 	void Actuate(bool extended);
+	bool GetState(){return m_intakeActuater->Get();}
 };
 
 #endif

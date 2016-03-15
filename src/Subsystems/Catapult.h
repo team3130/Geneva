@@ -22,8 +22,8 @@ private:
 	Catapult(Catapult const&);
 	Catapult& operator=(Catapult const&);
 public:
-	const int TOP_ZONE = 34;
-	const int SLOW_ZONE = 3;
+	static constexpr double TOP_ZONE = 26;
+	static constexpr double SLOW_ZONE = 3;
 
 	static Catapult* GetInstance();
 	void InitDefaultCommand();

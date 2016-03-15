@@ -78,7 +78,6 @@ void Catapult::moveCatapult(float speed) {
 	else {
 		m_shooterController->Set(0);
 	}
-	//SmartDashboard::PutNumber("Catapult Current", m_shooterController->GetOutputCurrent());
 }
 
 bool Catapult::CheckZero(){
