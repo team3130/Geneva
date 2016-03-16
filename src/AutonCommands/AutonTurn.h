@@ -6,7 +6,7 @@
 class AutonTurn: public Command
 {
 private:
-	float m_angle;
+	double m_angle;
 public:
 	AutonTurn();
 	~AutonTurn();
@@ -15,7 +15,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(float angle){m_angle = angle;}
+	void SetParam(double angle){m_angle = angle;}
 };
 
 #endif

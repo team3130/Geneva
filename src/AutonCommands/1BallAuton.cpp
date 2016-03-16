@@ -73,7 +73,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Turn_TurnToSeeTarget->SetParam(
-			*(float *)OI::GetInstance()->positionChooser->GetSelected()
+			*(double *)OI::GetInstance()->positionChooser->GetSelected()
 	);
 }
 
