@@ -39,6 +39,8 @@ double calculateStop(double dist, double speed=0)
 	// Top slider sets the bias from "New" (0) to "Old" (5) balls
 	double bias = SmartDashboard::GetNumber("DB/Slider 0", 0) / 5;
 
+	if (dist > 192) return 18.4;
+
 	// Interpolated by Google Spreadsheets
 	double a = -2.573e-4 -6e-7 * bias;
 	double b = 0.088 -2e-3 * bias;
