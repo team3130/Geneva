@@ -7,7 +7,6 @@ AutonDriveToPoint::AutonDriveToPoint()
 	,m_setPoint(0)
 	,m_angle(0)
 	,m_threshold(0)
-	,m_timeout(0)
 	,m_lowGear(false)
 {
 	timer = new Timer();
@@ -40,7 +39,6 @@ void AutonDriveToPoint::SetParam(double travelDistance, double angle, double spe
 	m_speed = speed;
 	m_angle = angle;
 	m_threshold = tolerance;
-	m_timeout = timeout;
 	m_lowGear = lowGear;
 	//Chassis::GetInstance()->ResetEncoders();
 	GetPIDController()->SetSetpoint(m_setPoint);
