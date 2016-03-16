@@ -33,7 +33,7 @@ void AutonDriveToPoint::UsePIDOutput(double output)
 	Chassis::GetInstance()->DriveStraight(output);
 }
 
-void AutonDriveToPoint::SetParam(double travelDistance, double angle, double speed, double tolerance, double timeout, bool lowGear)
+void AutonDriveToPoint::SetParam(double travelDistance, double angle, double speed, double tolerance, bool lowGear)
 {
 	m_setPoint = travelDistance;
 	m_speed = speed;
