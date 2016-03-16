@@ -28,7 +28,7 @@ void RobotSensors::Execute()
 
 	std::ostringstream oss0; // Replace this one with something more important
 	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
-	oss0 << " Ang:" << Chassis::GetInstance()->GetAngle();
+	oss0 << "Speed:" << Chassis::GetInstance()->GetSpeed();
 	SmartDashboard::PutString("DB/String 0", oss0.str());
 
 	std::ostringstream oss1;
@@ -39,6 +39,10 @@ void RobotSensors::Execute()
 	std::ostringstream oss2;
 	oss2 << "Cat: " << Catapult::GetInstance()->GetPosition();
 	SmartDashboard::PutString("DB/String 2", oss2.str());
+
+	std::ostringstream oss3; // Replace this one with something more important
+	oss3 << " Angle:" << Chassis::GetInstance()->GetAngle();
+	SmartDashboard::PutString("DB/String 3", oss3.str());
 
 	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
 	SmartDashboard::PutNumber("Accelerometor Y", accelerometer->GetY());

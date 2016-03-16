@@ -58,6 +58,21 @@ void Chassis::Shift(bool shiftDown)
 	m_bShiftedLow = shiftDown;
 }
 
+double Chassis::GetSpeedL()
+{
+	return m_leftMotorFront->GetSpeed() * InchesPerRev;
+}
+
+double Chassis::GetSpeedR()
+{
+	return m_rightMotorFront->GetSpeed() * InchesPerRev;
+}
+
+double Chassis::GetSpeed()
+{
+	return ( GetSpeedL() + GetSpeedR() ) / 2.0;
+}
+
 double Chassis::GetDistanceL()
 {
 	return m_leftMotorFront->GetPosition() * InchesPerRev;

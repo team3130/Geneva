@@ -43,6 +43,9 @@ public:
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double outputAngle);
+	double GetSpeedL();
+	double GetSpeedR();
+	double GetSpeed();
 	double GetDistanceL();
 	double GetDistanceR();
 	double GetDistance();
