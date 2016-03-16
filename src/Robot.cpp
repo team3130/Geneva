@@ -6,7 +6,7 @@
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
 #include "Subsystems/Climber.h"
-#include "AutonCommands/2BallAuton.h"
+#include "AutonCommands/1BallReturn.h"
 #include "AutonCommands/1BallAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
@@ -44,7 +44,7 @@ private:
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();
 		autonChooser->AddDefault("No Auton", nullptr);
-		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
+		autonChooser->AddObject("One Ball Return", new OneBallReturn());
 		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();

@@ -65,7 +65,7 @@ void OneBallAuton::Initialize()
 	Drive_ShiftDown->SetParam(50,0,0,0.5,true);				//Shift Down but don't move forward.
 
 	Drive_DriveToDefense->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",60),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",105),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",-1),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),
@@ -85,7 +85,7 @@ void OneBallAuton::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool OneBallAuton::IsFinished()
 {
-	return false;
+	return Catapult_ShootOne->IsFinished();
 }
 
 // Called once after isFinished returns true
