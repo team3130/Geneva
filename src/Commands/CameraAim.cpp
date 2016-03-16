@@ -4,10 +4,12 @@
 #include "OI.h"
 #include "Misc/Video.h"
 
-CameraAim::CameraAim(Target_side side)
+CameraAim::CameraAim(Target_side side, bool auton)
 	: m_side(side)
 	, m_prevAngle(0)
+	, m_target(0)
 	, m_gotVisual(false)
+	, m_auton(auton)
 {
 	Requires(Chassis::GetInstance());
 }
@@ -86,6 +88,7 @@ void CameraAim::Execute()
 			}
 			chassis->HoldAngle(turn);
 			frame_timer.Reset();
+			m_target = turn;
 			m_gotVisual = true;
 		}
 		else {
@@ -122,6 +125,7 @@ void CameraAim::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool CameraAim::IsFinished()
 {
+	if (m_auton) return m_gotVisual and (fabs(m_target) < Preferences::GetInstance()->GetDouble("CameraTolerance", 0.4));
 	return false;
 }
 

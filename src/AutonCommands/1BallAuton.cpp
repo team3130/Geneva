@@ -18,7 +18,7 @@ OneBallAuton::OneBallAuton()
 	Drive_ShiftDown = new AutonDriveToPoint();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
-	Vision_AimAtTarget = new CameraAim();
+	Vision_AimAtTarget = new CameraAim(CameraAim::kLeft, true);
 
 	AddParallel(Drive_ShiftDown, 1);
 	AddParallel(Intake_LowerIntake, 1);
