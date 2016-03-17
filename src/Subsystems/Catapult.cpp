@@ -48,7 +48,7 @@ double Catapult::GetPosition()
 	return m_shooterController->GetPosition() * M_PI * 0.965;
 }
 
-double Catapult::GetPIDError()
+int Catapult::GetPIDError()
 {
 	return m_shooterController->GetClosedLoopError();
 }

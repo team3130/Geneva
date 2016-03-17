@@ -34,7 +34,7 @@ public:
 	bool isBottomHit() { return m_shooterController->IsRevLimitSwitchClosed(); };
 	double GetPosition();
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
-	double GetPIDError();
+	int GetPIDError();
 	bool CheckZero();
 	bool WatchCurrent();
 	int BallPresentValue() {return m_ballChecker->GetValue();};

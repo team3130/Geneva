@@ -7,6 +7,7 @@ class ReloadCatapult: public Command
 {
 	static constexpr char STR_PRESET[] = "WinchPositionA";
 private:
+	double m_goal;
 	char m_presetLabel[sizeof(STR_PRESET)];
 	uint32_t m_button;
 	bool m_buttonHold;
