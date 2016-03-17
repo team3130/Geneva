@@ -404,9 +404,19 @@ void RobotVideo::Run()
 
 		if (display) {
 			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias",0));
-			cv::line(Im,cv::Point(x,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,250,0),1);
-			cv::line(Im,cv::Point(CAPTURE_COLS/2,40),cv::Point(CAPTURE_COLS/2,CAPTURE_ROWS-40),cv::Scalar(0,0,120),1);
-			cv::line(Im,cv::Point(40,CAPTURE_ROWS/2),cv::Point(CAPTURE_COLS-40,CAPTURE_ROWS/2),cv::Scalar(0,0,120),1);
+
+			cv::Scalar colorCross;
+			if ( (m_boxes.size() > 0 and m_boxes[0][1].y + m_boxes[0][0].y == CAPTURE_ROWS * 2.0)
+				or (m_boxes.size() > 1 and m_boxes[1][1].y + m_boxes[1][0].y == CAPTURE_ROWS * 2.0) )
+			{
+				colorCross = cv::Scalar(100,100,255);
+			}
+			else {
+				colorCross = cv::Scalar(0,0,160);
+			}
+
+			cv::line(Im,cv::Point(x,40),cv::Point(x,CAPTURE_ROWS-40),colorCross,1);
+			cv::line(Im,cv::Point(40,CAPTURE_ROWS/2),cv::Point(CAPTURE_COLS-40,CAPTURE_ROWS/2),colorCross,1);
 
 			if (HaveHeading() > 0) {
 				std::ostringstream oss;
@@ -414,7 +424,7 @@ void RobotVideo::Run()
 				if (HaveHeading() > 1) oss << GetTurn(0) << " : " << GetTurn(1);
 				else oss << GetTurn();
 				oss << " Buf:" << max_headings;
-				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(0, 200,255), 1);
+				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(260, 0, 255), 1);
 			}
 			else {
 				cv::putText(Im, "No target", cv::Point(20,CAPTURE_ROWS-32), 1, 1, cv::Scalar(0, 100,255), 1);
@@ -426,7 +436,7 @@ void RobotVideo::Run()
 				if (n_locs > 1) oss << GetDistance(0) << " : " << GetDistance(1);
 				else oss << GetDistance();
 				oss << " Buf:" << max_locations;
-				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-16), 1, 1, cv::Scalar(0, 200,255), 1);
+				cv::putText(Im, oss.str(), cv::Point(20,CAPTURE_ROWS-16), 1, 1, cv::Scalar(260, 0, 255), 1);
 			}
 			else {
 				cv::putText(Im, "No location", cv::Point(20,CAPTURE_ROWS-16), 1, 1, cv::Scalar(0, 100,255), 1);
