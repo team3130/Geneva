@@ -406,8 +406,8 @@ void RobotVideo::Run()
 			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias",0));
 
 			cv::Scalar colorCross;
-			if ( (m_boxes.size() > 0 and m_boxes[0][1].y + m_boxes[0][0].y == CAPTURE_ROWS * 2.0)
-				or (m_boxes.size() > 1 and m_boxes[1][1].y + m_boxes[1][0].y == CAPTURE_ROWS * 2.0) )
+			if ( (m_boxes.size() > 0 and m_boxes[0][1].y + m_boxes[0][0].y == CAPTURE_ROWS)
+				or (m_boxes.size() > 1 and m_boxes[1][1].y + m_boxes[1][0].y == CAPTURE_ROWS) )
 			{
 				colorCross = cv::Scalar(100,100,255);
 			}
