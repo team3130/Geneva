@@ -27,6 +27,7 @@ private:
 	Target_side m_side;
 	double m_prevAngle;
 	double m_target;
+	bool m_gotLock;
 	bool m_gotVisual;
 	bool m_auton;
 };

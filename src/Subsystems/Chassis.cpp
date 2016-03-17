@@ -90,7 +90,7 @@ double Chassis::GetDistance()
 
 double Chassis::GetAngle()
 {
-	return ( GetDistanceR() - GetDistanceL() ) * 180 / (26.75 * M_PI);
+	return 1.065 * ( GetDistanceR() - GetDistanceL() ) * 180 / (26.75 * M_PI);
 	/*
 	 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
 	 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.

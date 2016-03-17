@@ -8,6 +8,7 @@ CameraAim::CameraAim(Target_side side, bool auton)
 	: m_side(side)
 	, m_prevAngle(0)
 	, m_target(0)
+	, m_gotLock(false)
 	, m_gotVisual(false)
 	, m_auton(auton)
 {
@@ -26,6 +27,7 @@ void CameraAim::Initialize()
 	RobotVideo::GetInstance()->SetLocationQueueSize(10);
 	Chassis::GetInstance()->Shift(true);
 	m_gotVisual = false;
+	m_gotLock = false;
 }
 
 /**
@@ -84,7 +86,8 @@ void CameraAim::Execute()
 				Catapult::GetInstance()->toSetpoint(catStop);
 
 				// The camera offset over the distance is the adjustment angle's tangent
-				turn += atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
+				turn += (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
+				m_gotLock = fabs(turn) < (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 4.0), dist);
 			}
 			chassis->HoldAngle(turn);
 			frame_timer.Reset();
@@ -125,19 +128,25 @@ void CameraAim::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool CameraAim::IsFinished()
 {
-	if (m_auton) return m_gotVisual and (fabs(m_target) < Preferences::GetInstance()->GetDouble("CameraTolerance", 0.4));
+	if (m_gotVisual and m_gotLock) {
+		SmartDashboard::PutBoolean("Target locked", true);
+		if (m_auton) return true;
+	}
+	else {
+		SmartDashboard::PutBoolean("Target locked", false);
+	}
 	return false;
 }
 
 // Called once after isFinished returns true
 void CameraAim::End()
 {
-
+	SmartDashboard::PutBoolean("Target locked", false);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void CameraAim::Interrupted()
 {
-
+	End();
 }
