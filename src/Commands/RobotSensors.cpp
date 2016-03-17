@@ -17,32 +17,34 @@ RobotSensors::~RobotSensors()
 // Called just before this Command runs the first time
 void RobotSensors::Initialize()
 {
+	SmartDashboard::PutString("DB/String 9", "# Zero!! #");
+	SmartDashboard::PutString("DB/String 8", "# Check Encoders #");
+}
 
+void PutBasicNumber(int line, std::string name, double value)
+{
+	std::ostringstream ossKey, ossVal;
+	ossKey << "DB/String " << line;
+	ossVal << name << ": " << value;
+	SmartDashboard::PutString(ossKey.str(), ossVal.str());
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RobotSensors::Execute()
 {
-	SmartDashboard::PutBoolean("DB/LED 0", Catapult::GetInstance()->isBottomHit());
-	SmartDashboard::PutBoolean("DB/LED 1", Chassis::GetInstance()->GetDistanceL()==0 or Chassis::GetInstance()->GetDistanceR()==0);
+	//    Basic Dash. The main "DB/LED 0" is used for aiming and lit by CameraAim command.
+	SmartDashboard::PutBoolean("DB/LED 1", Catapult::GetInstance()->IsBallPresent());
+	SmartDashboard::PutBoolean("DB/LED 2", Catapult::GetInstance()->isBottomHit());
 
-	std::ostringstream oss0; // Replace this one with something more important
-	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
-	oss0 << " S:" << Chassis::GetInstance()->GetSpeed();
-	SmartDashboard::PutString("DB/String 0", oss0.str());
+	PutBasicNumber(0, "Cat", Catapult::GetInstance()->GetPosition());
 
 	std::ostringstream oss1;
 	oss1 << "L:" << ((int)(10*Chassis::GetInstance()->GetDistanceL())) / 10;
 	oss1 << ", R:" << ((int)(10*Chassis::GetInstance()->GetDistanceR())) / 10;
 	SmartDashboard::PutString("DB/String 1", oss1.str());
 
-	std::ostringstream oss2;
-	oss2 << "Cat: " << Catapult::GetInstance()->GetPosition();
-	SmartDashboard::PutString("DB/String 2", oss2.str());
-
-	std::ostringstream oss3; // Replace this one with something more important
-	oss3 << " Angle:" << Chassis::GetInstance()->GetAngle();
-	SmartDashboard::PutString("DB/String 3", oss3.str());
+	PutBasicNumber(3, "Angle", Chassis::GetInstance()->GetAngle());
+	PutBasicNumber(4, "Speed", Chassis::GetInstance()->GetSpeed());
 
 	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
 	SmartDashboard::PutNumber("Accelerometor Y", accelerometer->GetY());
@@ -51,9 +53,13 @@ void RobotSensors::Execute()
 	SmartDashboard::PutNumber("Line Follower Value", Catapult::GetInstance()->BallPresentValue());
 	SmartDashboard::PutBoolean("Ball Present", Catapult::GetInstance()->IsBallPresent());
 
-	// Take this measurement for tuning purposes. Remove after the tuning is done
-	SmartDashboard::PutNumber("Linear Velocity", Chassis::GetInstance()->GetSpeed());
+	if (Chassis::GetInstance()->GetDistanceL()!=0 and Chassis::GetInstance()->GetDistanceR()!=0) {
+		SmartDashboard::PutString("DB/String 8", "");
+	}
 
+	if (Catapult::GetInstance()->CheckZero()) {
+		SmartDashboard::PutString("DB/String 9", "");
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()

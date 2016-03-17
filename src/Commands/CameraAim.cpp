@@ -130,10 +130,12 @@ bool CameraAim::IsFinished()
 {
 	if (m_gotVisual and m_gotLock) {
 		SmartDashboard::PutBoolean("Target locked", true);
+		SmartDashboard::PutBoolean("DB/LED 0", true);
 		if (m_auton) return true;
 	}
 	else {
 		SmartDashboard::PutBoolean("Target locked", false);
+		SmartDashboard::PutBoolean("DB/LED 0", false);
 	}
 	return false;
 }
@@ -142,6 +144,7 @@ bool CameraAim::IsFinished()
 void CameraAim::End()
 {
 	SmartDashboard::PutBoolean("Target locked", false);
+	SmartDashboard::PutBoolean("DB/LED 0", false);
 }
 
 // Called when another command which requires one or more of the same
