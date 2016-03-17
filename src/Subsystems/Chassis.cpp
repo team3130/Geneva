@@ -60,12 +60,12 @@ void Chassis::Shift(bool shiftDown)
 
 double Chassis::GetSpeedL()
 {
-	return m_leftMotorFront->GetSpeed() * InchesPerRev;
+	return m_leftMotorFront->GetSpeed() * InchesPerRev / 50.0;
 }
 
 double Chassis::GetSpeedR()
 {
-	return m_rightMotorFront->GetSpeed() * InchesPerRev;
+	return m_rightMotorFront->GetSpeed() * InchesPerRev / 50.0;
 }
 
 double Chassis::GetSpeed()

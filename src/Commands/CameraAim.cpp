@@ -102,7 +102,6 @@ void CameraAim::Execute()
 
 		// Take this measurement for tuning purposes. Remove after the tuning is done
 		SmartDashboard::PutNumber("Angular Velocity", angular_v);
-		SmartDashboard::PutNumber("Linear Velocity", chassis->GetSpeed());
 	}
 
 	m_prevAngle = chassis->GetAngle();

@@ -28,7 +28,7 @@ void RobotSensors::Execute()
 
 	std::ostringstream oss0; // Replace this one with something more important
 	oss0 << "Dist:" << Chassis::GetInstance()->GetDistance();
-	oss0 << "Speed:" << Chassis::GetInstance()->GetSpeed();
+	oss0 << " S:" << Chassis::GetInstance()->GetSpeed();
 	SmartDashboard::PutString("DB/String 0", oss0.str());
 
 	std::ostringstream oss1;
@@ -50,6 +50,10 @@ void RobotSensors::Execute()
 
 	SmartDashboard::PutNumber("Line Follower Value", Catapult::GetInstance()->BallPresentValue());
 	SmartDashboard::PutBoolean("Ball Present", Catapult::GetInstance()->IsBallPresent());
+
+	// Take this measurement for tuning purposes. Remove after the tuning is done
+	SmartDashboard::PutNumber("Linear Velocity", Chassis::GetInstance()->GetSpeed());
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
