@@ -5,6 +5,7 @@
 #include "Commands/CameraAim.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/DriveShift.h"
+#include "Commands/DriveShiftDown.h"
 #include "Commands/DriveStreightTest.h"
 
 OI* OI::m_pInstance = NULL;
@@ -22,7 +23,8 @@ OI::OI()
 	aimLeft 	= new JoystickButton(stickR, BTN_AIMLEFT);
 	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
 	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
-	shift   	= new JoystickButton(stickL, BTN_SHIFT);
+	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
+	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
 
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
@@ -31,7 +33,8 @@ OI::OI()
 	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());
-	shift->ToggleWhenPressed(new DriveShift());
+	shiftDown->WhenPressed(new DriveShiftDown());
+	shiftUp->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
 
 	//SMD Input for Auton

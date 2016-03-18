@@ -22,7 +22,8 @@ public:
 	JoystickButton*	aimLeft;
 	JoystickButton*	aimRight;
 	JoystickButton* fire;
-	JoystickButton* shift;
+	JoystickButton* shiftDown;
+	JoystickButton* shiftUp;
 	JoystickButton* streight;
 
 	SendableChooser* positionChooser;
