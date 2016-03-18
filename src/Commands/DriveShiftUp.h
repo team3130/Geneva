@@ -1,12 +1,12 @@
-#ifndef DRIVE_SHIFT_H
-#define DRIVE_SHIFT_H
+#ifndef DRIVE_SHIFT_UP_H
+#define DRIVE_SHIFT_UP_H
 
 #include <WPILib.h>
 
-class DriveShift: public Command
+class DriveShiftUp: public Command
 {
 public:
-	DriveShift();
+	DriveShiftUp();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

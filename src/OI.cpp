@@ -4,7 +4,7 @@
 #include "Commands/Pintake.h"
 #include "Commands/CameraAim.h"
 #include "Commands/ControlCatapultFire.h"
-#include "Commands/DriveShift.h"
+#include "Commands/DriveShiftUp.h"
 #include "Commands/DriveShiftDown.h"
 #include "Commands/DriveStreightTest.h"
 
@@ -33,7 +33,7 @@ OI::OI()
 	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());
-	shiftDown->WhenPressed(new DriveShiftDown());
+	shiftDown->WhenPressed(new DriveShiftUp());
 	shiftUp->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
 
