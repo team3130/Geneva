@@ -26,6 +26,7 @@ void CameraAim::Initialize()
 	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
 	RobotVideo::GetInstance()->SetLocationQueueSize(10);
 	Chassis::GetInstance()->Shift(true);
+	Chassis::GetInstance()->HoldAngle(0);
 	m_gotVisual = false;
 	m_gotLock = false;
 }
@@ -40,9 +41,13 @@ void CameraAim::Initialize()
  */
 double calculateStop(double dist, double speed=0)
 {
+	double velo = -5.955e-3 * dist * dist +2.141 * dist +77.056;
+	double lag = dist / velo;
 	// Top slider sets the bias from "New" (0) to "Old" (5) balls
 	double bias = SmartDashboard::GetNumber("DB/Slider 0", 0) / 5;
 
+	dist -= speed * lag;
+	dist += speed * Preferences::GetInstance()->GetDouble("CameraLag", 0.25);
 	if (dist > 192) return 18.4;
 
 	// Interpolated by Google Spreadsheets
@@ -80,7 +85,7 @@ void CameraAim::Execute()
 		if (nTurns > 0) {
 			if (dist > 0) {
 				// Call the Magic function to determine the stop angle.
-				float catStop = calculateStop(dist);
+				float catStop = calculateStop(dist, chassis->GetSpeed());
 				if (catStop > Catapult::TOP_ZONE) catStop = Catapult::TOP_ZONE;
 				if (catStop < Catapult::SLOW_ZONE) catStop = Catapult::SLOW_ZONE;
 				Catapult::GetInstance()->toSetpoint(catStop);
@@ -115,14 +120,8 @@ void CameraAim::Execute()
 
 	// Drive forward or back while aiming
 	double moveSpeed = -oi->stickL->GetY();
-	if (m_gotVisual) {
-		moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
-		chassis->DriveStraight(moveSpeed);
-	}
-	else {
-		// If we still have no visual the chassis is not in PID mode yet, so drive Arcade
-		chassis->DriveArcade(moveSpeed, 0, true);
-	}
+	moveSpeed *= fabs(moveSpeed); // Square it here so the drivers will feel like it's squared
+	chassis->DriveStraight(moveSpeed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
