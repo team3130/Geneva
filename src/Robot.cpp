@@ -8,6 +8,7 @@
 #include "Subsystems/Climber.h"
 #include "AutonCommands/1BallReturn.h"
 #include "AutonCommands/1BallAuton.h"
+#include "AutonCommands/PickUpAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
 

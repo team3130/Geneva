@@ -14,6 +14,8 @@
 class OneBallAuton: public CommandGroup
 {
 private:
+	CameraAim::Target_side Target_TargetAim;
+
 	AutonCatapult* Catapult_ReadyShotOne;
 
 	ControlCatapultFire* Catapult_ShootOne;
