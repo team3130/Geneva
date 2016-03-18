@@ -20,8 +20,9 @@ PickUpAuton::PickUpAuton()
 	AddSequential(Catapult_ReadyShotOne, 2);
 	AddParallel(Intake_LowerIntake, 1);
 	AddParallel(Intake_ExtendIntake, 1);
-	AddSequential(Intake_Spin, 2); //Run intake wheels for two seconds
+	AddSequential(Intake_Spin, 1); //Run intake wheels for two seconds
 	AddParallel(Intake_UnExtendIntake, 1);
+	AddParallel(Intake_RaiseIntake, 1);
 	AddSequential(Auton_1Ball);
 }
 
@@ -50,7 +51,9 @@ void PickUpAuton::Initialize()
 			false
 	);
 
-	//Intake_Spin->setParam(); Not sure what needs to be done to get the spin for 2 seconds
+	Intake_RaiseIntake->SetParam(false);
+
+	Intake_Spin->SetParam(1);
 
 	Catapult_ReadyShotOne->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton StopAngle",3),
