@@ -46,6 +46,7 @@ private:
 		autonChooser->AddDefault("No Auton", nullptr);
 		autonChooser->AddObject("One Ball Return", new OneBallReturn());
 		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
+		autonChooser->AddObject("Pick Up Ball Auton", new PickUpAuton());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
 	}
