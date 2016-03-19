@@ -13,6 +13,7 @@ CameraAim::CameraAim(Target_side side, bool auton)
 	, m_auton(auton)
 {
 	Requires(Chassis::GetInstance());
+	Requires(Catapult::GetInstance());
 }
 
 // Called just before this Command runs the first time
