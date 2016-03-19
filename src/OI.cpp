@@ -33,8 +33,8 @@ OI::OI()
 	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());
-	shiftDown->WhenPressed(new DriveShiftUp());
-	shiftUp->WhenPressed(new DriveShiftDown());
+	shiftUp->WhenPressed(new DriveShiftUp());
+	shiftDown->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
 
 	//SMD Input for Auton
