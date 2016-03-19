@@ -101,8 +101,8 @@
 	const int AXS_DEFENSEACTUATER = LST_AXS_RTRIGGER;
 
 	//Vision
-	const int BTN_AIMLEFT = 4;
-	const int BTN_AIMRIGHT = 5;
+	const int BTN_AIMLEFT = 3;
+	const int BTN_AIMRIGHT = 4;
 
 	//Drive
 	const int BTN_SHIFT = 1;
