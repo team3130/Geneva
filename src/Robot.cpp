@@ -9,6 +9,7 @@
 #include "AutonCommands/1BallReturn.h"
 #include "AutonCommands/1BallAuton.h"
 #include "AutonCommands/PickUpAuton.h"
+#include "AutonCommands/NoAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
 
@@ -44,7 +45,7 @@ private:
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();
-		autonChooser->AddDefault("No Auton", nullptr);
+		autonChooser->AddDefault("No Auton", new NoAuton());
 		autonChooser->AddObject("One Ball Return", new OneBallReturn());
 		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
 		autonChooser->AddObject("Pick Up Ball Auton", new PickUpAuton());
