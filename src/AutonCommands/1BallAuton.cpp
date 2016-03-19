@@ -23,7 +23,7 @@ OneBallAuton::OneBallAuton()
 	Turn_TurnToSeeTarget = new AutonTurn();
 	Vision_AimAtTarget = new CameraAim(Target_TargetAim, true);
 
-	AddParallel(Drive_ShiftDown, 1);
+//	AddParallel(Drive_ShiftDown, 1);
 	AddParallel(Intake_AdjustForDefense, 1);
 	AddParallel(Catapult_ReadyShotOne, 2);
 	AddSequential(Drive_DriveToDefense, 5);
@@ -74,7 +74,7 @@ void OneBallAuton::Initialize()
 	Drive_DriveToDefense->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",105),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",-1),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",1),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),
 			true
 	);

@@ -2,7 +2,7 @@
 #include "Subsystems/Chassis.h"
 
 AutonDriveToPoint::AutonDriveToPoint()
-	:PIDCommand(1,0,0) //TODO: Tune PID Values
+	:PIDCommand(0.1,0,0) //TODO: Tune PID Values
 	,m_speed(0)
 	,m_setPoint(0)
 	,m_angle(0)
@@ -41,8 +41,8 @@ void AutonDriveToPoint::SetParam(double travelDistance, double angle, double spe
 	m_threshold = tolerance;
 	m_lowGear = lowGear;
 	//Chassis::GetInstance()->ResetEncoders();
-	GetPIDController()->SetSetpoint(m_setPoint);
-	GetPIDController()->SetAbsoluteTolerance(m_threshold);
+//	GetPIDController()->SetSetpoint(m_setPoint);
+//	GetPIDController()->SetAbsoluteTolerance(m_threshold);
 }
 
 
@@ -50,14 +50,13 @@ void AutonDriveToPoint::SetParam(double travelDistance, double angle, double spe
 void AutonDriveToPoint::Initialize()
 {
 	//Chassis::GetInstance()->ResetEncoders();
-	GetPIDController()->Disable();
+	GetPIDController()->Reset();
 	GetPIDController()->SetSetpoint(Chassis::GetInstance()->GetDistance() + m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
 	Chassis::GetInstance()->Shift(m_lowGear);
 
 	//Chassis::GetInstance()->ReleaseAngle();
 	Chassis::GetInstance()->HoldAngle(m_angle);
-	GetPIDController()->Reset();
 	GetPIDController()->Enable();
 	timer->Reset();
 	timer->Start();
@@ -66,7 +65,7 @@ void AutonDriveToPoint::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void AutonDriveToPoint::Execute()
 {
-
+	SmartDashboard::PutNumber("Auton error",GetPIDController()->GetAvgError());
 }
 
 // Make this return true when this Command no longer needs to run execute()
