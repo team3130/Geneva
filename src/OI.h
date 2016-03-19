@@ -27,6 +27,7 @@ public:
 	JoystickButton* streight;
 
 	SendableChooser* positionChooser;
+	double ReturnAutonAngle();
 };
 
 #endif

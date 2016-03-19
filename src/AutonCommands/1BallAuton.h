@@ -20,7 +20,7 @@ private:
 
 	ControlCatapultFire* Catapult_ShootOne;
 
-	AutonControlIntakeVertical* Intake_LowerIntake;
+	AutonControlIntakeVertical* Intake_AdjustForDefense;
 	AutonControlIntakeVertical* Intake_RaiseIntake;
 
 	AutonControlIntakeHorizontal* Intake_ExtendIntake;

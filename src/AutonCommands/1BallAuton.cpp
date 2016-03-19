@@ -10,12 +10,12 @@
 
 OneBallAuton::OneBallAuton()
 {
-	if(*(double *)OI::GetInstance()->positionChooser->GetSelected() > -20.0) Target_TargetAim = CameraAim::kRight;
-	else Target_TargetAim = CameraAim::kLeft;
+	if(*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1 || *(int *)OI::GetInstance()->positionChooser->GetSelected() == 2) Target_TargetAim = CameraAim::kLeft;
+	else Target_TargetAim = CameraAim::kRight;
 
 	Catapult_ReadyShotOne = new AutonCatapult();
 	Catapult_ShootOne = new ControlCatapultFire(true);
-	Intake_LowerIntake = new AutonControlIntakeVertical();
+	Intake_AdjustForDefense = new AutonControlIntakeVertical();
 	Intake_RaiseIntake = new AutonControlIntakeVertical();
 	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
 	Drive_ShiftDown = new AutonDriveToPoint();
@@ -24,7 +24,7 @@ OneBallAuton::OneBallAuton()
 	Vision_AimAtTarget = new CameraAim(Target_TargetAim, true);
 
 	AddParallel(Drive_ShiftDown, 1);
-	AddParallel(Intake_LowerIntake, 1);
+	AddParallel(Intake_AdjustForDefense, 1);
 	AddParallel(Catapult_ReadyShotOne, 2);
 	AddSequential(Drive_DriveToDefense, 5);
 	AddParallel(Intake_RaiseIntake, 1);
@@ -38,7 +38,7 @@ OneBallAuton::~OneBallAuton()
 {
 	delete Catapult_ReadyShotOne;
 	delete Catapult_ShootOne;
-	delete Intake_LowerIntake;
+	delete Intake_AdjustForDefense;
 	delete Intake_RaiseIntake;
 	delete Intake_ExtendIntake;
 	delete Drive_ShiftDown;
@@ -55,7 +55,11 @@ void OneBallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Threshold",0.5)
 	);
 
-	Intake_LowerIntake->SetParam(true
+	bool intakePosition;
+	if(*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1)intakePosition = true;
+	else intakePosition = false;
+	Intake_AdjustForDefense->SetParam(
+			intakePosition
 	);
 
 	Intake_RaiseIntake->SetParam(false
@@ -76,7 +80,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Turn_TurnToSeeTarget->SetParam(
-			*(double *)OI::GetInstance()->positionChooser->GetSelected()
+			OI::GetInstance()->ReturnAutonAngle()
 	);
 }
 

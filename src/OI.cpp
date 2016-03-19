@@ -38,14 +38,38 @@ OI::OI()
 	streight->WhileHeld(new DriveStreightTest());
 
 	//SMD Input for Auton
-	//Creates Radio Buttons for selection of Auton positions	//TODO:Determine the correct angles for this
+	//Creates Radio Buttons for selection of Auton positions
 	positionChooser = new SendableChooser();
-	positionChooser->AddDefault("Low Bar",new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle LowBar", -45)));
-	positionChooser->AddObject("Position 2", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position2",-25)));
-	positionChooser->AddObject("Position 3", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position3",0)));
-	positionChooser->AddObject("Position 4", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position4",0)));
-	positionChooser->AddObject("position 5", new double(Preferences::GetInstance()->GetDouble("Auton Turn Angle Position5",25)));
+	positionChooser->AddDefault("Low Bar",new int(1));
+	positionChooser->AddObject("Position 2", new int(2));
+	positionChooser->AddObject("Position 3", new int(3));
+	positionChooser->AddObject("Position 4", new int(4));
+	positionChooser->AddObject("position 5", new int(5));
 	SmartDashboard::PutData("Auton Position",positionChooser);
+}
+
+double OI::ReturnAutonAngle()
+{
+
+	double angle;
+	switch(*(int *)positionChooser->GetSelected()){
+		case 1:
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle LowBar", -45);
+			break;
+		case 2:
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position2",-25);
+			break;
+		case 3:
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position3",0);
+			break;
+		case 4:
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position4",0);
+			break;
+		case 5:
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position5",25);
+			break;
+	}
+	return angle;
 }
 
 OI* OI::GetInstance()

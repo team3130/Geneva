@@ -42,7 +42,7 @@ void OneBallReturn::Initialize()
 	Intake_PinsRelease->SetParam(true);			//Won't require Tuning
 
 	Drive_TurnBackToDefense->SetParam(
-			-*(double *)OI::GetInstance()->positionChooser->GetSelected()
+			-OI::GetInstance()->ReturnAutonAngle()
 	);
 	Drive_BackAcrossDefense->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Distance" -105),
