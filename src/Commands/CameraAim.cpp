@@ -18,17 +18,20 @@ CameraAim::CameraAim(Target_side side, bool auton)
 // Called just before this Command runs the first time
 void CameraAim::Initialize()
 {
-	frame_timer.Reset();
-	frame_timer.Start();
+	m_locationQueue = std::queue<LocationRecord>();
 	m_prevAngle = Chassis::GetInstance()->GetAngle();
-	cycle_timer.Reset();
-	cycle_timer.Start();
 	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
-	RobotVideo::GetInstance()->SetLocationQueueSize(10);
+	RobotVideo::GetInstance()->SetLocationQueueSize(0);
 	Chassis::GetInstance()->Shift(true);
 	Chassis::GetInstance()->HoldAngle(0);
 	m_gotVisual = false;
 	m_gotLock = false;
+	location_timer.Reset();
+	location_timer.Start();
+	frame_timer.Reset();
+	frame_timer.Start();
+	cycle_timer.Reset();
+	cycle_timer.Start();
 }
 
 /**
@@ -41,14 +44,16 @@ void CameraAim::Initialize()
  */
 double calculateStop(double dist, double speed=0)
 {
-	double velo = -5.955e-3 * dist * dist +2.141 * dist +77.056;
-	double lag = dist / velo;
+	// Interpolated by Google Spreadsheets: boulder's horizontal velocity at certain distance
+	double velocity = -5.955e-3 * dist * dist +2.141 * dist +77.056;
+	double phase = dist / velocity;
+
+	// Phase is the time a boulder takes to get to the target. Adjust distance accordingly
+	dist -= speed * phase;
+	if (dist > 192) return 18.4;
+
 	// Top slider sets the bias from "New" (0) to "Old" (5) balls
 	double bias = SmartDashboard::GetNumber("DB/Slider 0", 0) / 5;
-
-	dist -= speed * lag;
-	dist += speed * Preferences::GetInstance()->GetDouble("CameraLag", 0.25);
-	if (dist > 192) return 18.4;
 
 	// Interpolated by Google Spreadsheets
 	double a = -2.573e-4 -6e-7 * bias;
@@ -65,7 +70,7 @@ void CameraAim::Execute()
 	OI* oi = OI::GetInstance();
 	if (chassis == nullptr or oi == nullptr) return;
 
-	if (!m_gotVisual or frame_timer.Get() > Preferences::GetInstance()->GetDouble("CameraLag", AIM_COOLDOWN)) {
+	if (!m_gotVisual or frame_timer.Get() > Preferences::GetInstance()->GetDouble("CameraCooldown", AIM_COOLDOWN)) {
 		float turn = 0;
 		float dist = 0;
 		size_t nTurns = 0;
@@ -84,8 +89,24 @@ void CameraAim::Execute()
 
 		if (nTurns > 0) {
 			if (dist > 0) {
+				// Clear the queue of expired records if any
+				double expirationTime = location_timer.Get() - Preferences::GetInstance()->GetDouble("CameraLag", 0.25);
+				while (!m_locationQueue.empty() and m_locationQueue.front().time < expirationTime)
+					m_locationQueue.pop();
+
+				// Calculate chassis's speed as location change over passed time...
+				// if enabled and correct data is available
+				double speed = 0;
+				if (SmartDashboard::GetBoolean("DB/Button 0",false) and !m_locationQueue.empty()) {
+					double dX = chassis->GetDistance() - m_locationQueue.front().dist;
+					double dT = location_timer.Get() - m_locationQueue.front().time;
+					if (dT > 0) speed = dX / dT;
+					// Also adjust distance to target since all this is Camera Lag based
+					dist -= dX;
+				}
+
 				// Call the Magic function to determine the stop angle.
-				float catStop = calculateStop(dist, chassis->GetSpeed());
+				float catStop = calculateStop(dist, speed);
 				if (catStop > Catapult::TOP_ZONE) catStop = Catapult::TOP_ZONE;
 				if (catStop < Catapult::SLOW_ZONE) catStop = Catapult::SLOW_ZONE;
 				Catapult::GetInstance()->toSetpoint(catStop);
@@ -114,6 +135,11 @@ void CameraAim::Execute()
 
 	m_prevAngle = chassis->GetAngle();
 	cycle_timer.Reset();
+
+	LocationRecord record;
+	record.dist = chassis->GetDistance();
+	record.time = location_timer.Get();
+	m_locationQueue.push(record);
 
 	// Check the catapult output current for safety
 	if (Catapult::GetInstance()->WatchCurrent()) Catapult::GetInstance()->moveCatapult(0);

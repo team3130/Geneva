@@ -3,6 +3,13 @@
 
 #include "WPILib.h"
 
+class LocationRecord
+{
+public:
+	double time;
+	double dist;
+};
+
 class CameraAim: public Command
 {
 public:
@@ -22,9 +29,11 @@ public:
 	void Interrupted();
 
 private:
+	Timer location_timer;
 	Timer frame_timer;
 	Timer cycle_timer;
 	Target_side m_side;
+	std::queue<LocationRecord> m_locationQueue;
 	double m_prevAngle;
 	double m_target;
 	bool m_gotLock;
