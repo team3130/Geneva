@@ -55,13 +55,12 @@ bool ControlCatapultFire::IsFinished()
 void ControlCatapultFire::End()
 {
 	CatapultFire::GetInstance()->Actuate(false);
-	if(!m_waiting and timer->Get() < 3.0) m_nextCommand->Start();
+	if(!m_waiting and timer->Get() < 3.0 && !m_bypass) m_nextCommand->Start();
 }
 
 /// Called when another command which requires one or more of the same
 /// subsystems is scheduled to run
 void ControlCatapultFire::Interrupted()
 {
-	// Do not call the normal End(); We don't want to start the next command if we're interrupted.
-	CatapultFire::GetInstance()->Actuate(false);
+	End();
 }
