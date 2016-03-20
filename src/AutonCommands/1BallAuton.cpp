@@ -18,12 +18,11 @@ OneBallAuton::OneBallAuton()
 	Intake_AdjustForDefense = new AutonControlIntakeVertical();
 	Intake_RaiseIntake = new AutonControlIntakeVertical();
 	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
-	Drive_ShiftDown = new AutonDriveToPoint();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
 	Vision_AimAtTarget = new CameraAim(Target_TargetAim, true);
+	Delay_FinishAuton = new AutonDelay();
 
-//	AddParallel(Drive_ShiftDown, 1);
 	AddParallel(Intake_AdjustForDefense, 1);
 	AddParallel(Catapult_ReadyShotOne, 2);
 	AddSequential(Drive_DriveToDefense, 5);
@@ -31,7 +30,8 @@ OneBallAuton::OneBallAuton()
 	AddParallel(Intake_ExtendIntake, 1);
 	AddSequential(Turn_TurnToSeeTarget, 2);
 	AddSequential(Vision_AimAtTarget, 5);
-	AddSequential(Catapult_ShootOne, 2);
+	AddSequential(Catapult_ShootOne, 1);
+	AddSequential(Delay_FinishAuton);
 }
 
 OneBallAuton::~OneBallAuton()
@@ -41,10 +41,10 @@ OneBallAuton::~OneBallAuton()
 	delete Intake_AdjustForDefense;
 	delete Intake_RaiseIntake;
 	delete Intake_ExtendIntake;
-	delete Drive_ShiftDown;
 	delete Drive_DriveToDefense;
 	delete Turn_TurnToSeeTarget;
 	delete Vision_AimAtTarget;
+	delete Delay_FinishAuton;
 }
 
 // Called just before this Command runs the first time
@@ -69,8 +69,6 @@ void OneBallAuton::Initialize()
 			true
 	);
 
-	Drive_ShiftDown->SetParam(50,0,0,0.5,true);				//Shift Down but don't move forward.
-
 	Drive_DriveToDefense->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",105),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
@@ -82,6 +80,8 @@ void OneBallAuton::Initialize()
 	Turn_TurnToSeeTarget->SetParam(
 			OI::GetInstance()->ReturnAutonAngle()
 	);
+
+	Delay_FinishAuton->setParam(0);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -92,7 +92,7 @@ void OneBallAuton::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool OneBallAuton::IsFinished()
 {
-	return Catapult_ShootOne->IsFinished();
+	return Delay_FinishAuton->IsFinished();
 }
 
 // Called once after isFinished returns true

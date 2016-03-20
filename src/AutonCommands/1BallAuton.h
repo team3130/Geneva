@@ -10,6 +10,7 @@
 #include "Commands/ControlCatapultFire.h"
 #include "AutonTurn.h"
 #include "Commands/CameraAim.h"
+#include "AutonDelay.h"
 
 class OneBallAuton: public CommandGroup
 {
@@ -25,11 +26,12 @@ private:
 
 	AutonControlIntakeHorizontal* Intake_ExtendIntake;
 
-	AutonDriveToPoint* Drive_ShiftDown;
 	AutonDriveToPoint* Drive_DriveToDefense;
 	AutonTurn* Turn_TurnToSeeTarget;
 
 	CameraAim* Vision_AimAtTarget;
+
+	AutonDelay* Delay_FinishAuton;
 
 public:
 	OneBallAuton();
