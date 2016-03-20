@@ -36,6 +36,7 @@ bool AutonControlIntakeWheels::IsFinished()
 /// Called once after isFinished returns true
 void AutonControlIntakeWheels::End()
 {
+	IntakeWheel::GetInstance()->SpinIntake(0);
 }
 
 /// Called when another command which requires one or more of the same

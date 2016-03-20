@@ -21,8 +21,8 @@ PickUpAuton::PickUpAuton()
 	AddParallel(Intake_LowerIntake, 1);
 	AddParallel(Intake_ExtendIntake, 1);
 	AddSequential(Intake_Spin, 1); //Run intake wheels for one second
-	AddParallel(Intake_UnExtendIntake, 1);
-	AddParallel(Intake_RaiseIntake, 1);
+	AddSequential(Intake_RaiseIntake, 1);
+	AddSequential(Intake_UnExtendIntake, .5);
 	AddSequential(Auton_1Ball);
 }
 
