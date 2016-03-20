@@ -9,6 +9,7 @@
 #include "AutonCommands/1BallReturn.h"
 #include "AutonCommands/1BallAuton.h"
 #include "AutonCommands/PickUpAuton.h"
+#include "AutonCommands/PickUpReturn.h"
 #include "AutonCommands/NoAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
@@ -49,6 +50,7 @@ private:
 		autonChooser->AddObject("One Ball Return", new OneBallReturn());
 		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
 		autonChooser->AddObject("Pick Up Ball Auton", new PickUpAuton());
+		autonChooser->AddObject("Pick Up Ball Return Auton", new PickUpReturn());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
 	}
