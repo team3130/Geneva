@@ -40,6 +40,7 @@ bool AutonDelay::IsFinished()
 void AutonDelay::End()
 {
 	timer->Stop();
+	timer->Reset();
 }
 
 // Called when another command which requires one or more of the same
