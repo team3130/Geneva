@@ -10,9 +10,6 @@
 
 OneBallAuton::OneBallAuton()
 {
-	if(*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1 || *(int *)OI::GetInstance()->positionChooser->GetSelected() == 2) Target_TargetAim = CameraAim::kLeft;
-	else Target_TargetAim = CameraAim::kRight;
-
 	Catapult_ReadyShotOne = new AutonCatapult();
 	Catapult_ShootOne = new ControlCatapultFire(true);
 	Intake_AdjustForDefense = new AutonControlIntakeVertical();
@@ -20,7 +17,7 @@ OneBallAuton::OneBallAuton()
 	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
-	Vision_AimAtTarget = new CameraAim(Target_TargetAim, true);
+	Vision_AimAtTarget = new CameraAim(CameraAim::kLeft, true);
 	Delay_FinishAuton = new AutonDelay();
 
 	AddParallel(Intake_AdjustForDefense, 1);
@@ -80,6 +77,11 @@ void OneBallAuton::Initialize()
 	Turn_TurnToSeeTarget->SetParam(
 			OI::GetInstance()->ReturnAutonAngle()
 	);
+
+	CameraAim::Target_side Target_TargetAim;
+	if(*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1 || *(int *)OI::GetInstance()->positionChooser->GetSelected() == 2) Target_TargetAim = CameraAim::kLeft;
+	else Target_TargetAim = CameraAim::kRight;
+	Vision_AimAtTarget->SetParam(Target_TargetAim);
 
 	Delay_FinishAuton->setParam(0);
 }

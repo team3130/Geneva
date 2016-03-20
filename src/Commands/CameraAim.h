@@ -27,6 +27,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+	void SetParam(Target_side kSide);
 
 private:
 	Timer location_timer;

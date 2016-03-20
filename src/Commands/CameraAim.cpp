@@ -35,6 +35,11 @@ void CameraAim::Initialize()
 	cycle_timer.Start();
 }
 
+void CameraAim::SetParam(Target_side kSide)
+{
+	m_side = kSide;
+}
+
 /**
  * \brief Magic function that returns desired stop angle in rope inches
  *
@@ -127,7 +132,8 @@ void CameraAim::Execute()
 	}
 	else if (cycle_timer.Get() > 0) {
 		double angular_v = (chassis->GetAngle() - m_prevAngle) / cycle_timer.Get();
-		if (fabs(angular_v) > Preferences::GetInstance()->GetDouble("AngularVelocity", MAX_ANGULAR_V))
+		if (fabs(angular_v) > Preferences::GetInstance()->GetDouble("AngularVelocity", MAX_ANGULAR_V)
+			or fabs(chassis->GetPIDError()) > Preferences::GetInstance()->GetDouble("AimResetAngle", 0.5));
 			frame_timer.Reset();
 
 		// Take this measurement for tuning purposes. Remove after the tuning is done
