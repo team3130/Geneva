@@ -46,6 +46,15 @@ OI::OI()
 	positionChooser->AddObject("Position 4", new int(4));
 	positionChooser->AddObject("position 5", new int(5));
 	SmartDashboard::PutData("Auton Position",positionChooser);
+
+	//Creates Radio Buttons for selection of Auton defenses
+	defenseChooser = new SendableChooser();
+	defenseChooser->AddDefault("Low Bar", new int(1));
+	defenseChooser->AddObject("Moat", new int(2));
+	defenseChooser->AddObject("Ramparts", new int(3));
+	defenseChooser->AddObject("Rough Terrain", new int(4));
+	defenseChooser->AddObject("Rock Wall", new int(5));
+	SmartDashboard::PutData("Auton Defense",defenseChooser);
 }
 
 double OI::ReturnAutonAngle()
@@ -70,6 +79,29 @@ double OI::ReturnAutonAngle()
 			break;
 	}
 	return angle;
+}
+
+double OI::ReturnAutonDistance()
+{
+	double dist;
+	switch(*(int *)defenseChooser->GetSelected()){
+		case 1:
+			dist = Preferences::GetInstance()->GetDouble("Low Bar Drive Distance", 115);
+			break;
+		case 2:
+			dist = Preferences::GetInstance()->GetDouble("Moat Drive Distance", 115);
+			break;
+		case 3:
+			dist = Preferences::GetInstance()->GetDouble("Ramparts Drive Distance", 115);
+			break;
+		case 4:
+			dist = Preferences::GetInstance()->GetDouble("Rough Terrain Drive Distance", 115);
+			break;
+		case 5:
+			dist = Preferences::GetInstance()->GetDouble("Rock Wall Drive Distance", 115);
+			break;
+	}
+	return dist;
 }
 
 OI* OI::GetInstance()

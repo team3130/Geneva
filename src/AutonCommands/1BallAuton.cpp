@@ -70,7 +70,7 @@ void OneBallAuton::Initialize()
 	);
 
 	Drive_DriveToDefense->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Distance",105),
+			OI::GetInstance()->ReturnAutonDistance(),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Angle",0),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",1),
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),

@@ -48,7 +48,7 @@ void OneBallReturn::Initialize()
 	);
 
 	Drive_BackAcrossDefense->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Distance" -105),
+			-OI::GetInstance()->ReturnAutonDistance() + 10,
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Angle", 0),
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Speed", 1),
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Tolerance", 0.5)
