@@ -4,6 +4,7 @@
 AutonTurn::AutonTurn()
 {
 	m_angle = 0;
+	modeTwo = false;
 }
 
 AutonTurn::~AutonTurn()
@@ -13,7 +14,9 @@ AutonTurn::~AutonTurn()
 // Called just before this Command runs the first time
 void AutonTurn::Initialize()
 {
-	Chassis::GetInstance()->HoldAngle(m_angle);
+	if(modeTwo)  Chassis::GetInstance()->HoldAngle(m_angle - Chassis::GetInstance()->GetAngle());
+	else  Chassis::GetInstance()->HoldAngle(m_angle);
+
 	Chassis::GetInstance()->DriveStraight(0);
 }
 

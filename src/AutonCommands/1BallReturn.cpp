@@ -1,5 +1,6 @@
 #include "AutonCommands/1BallReturn.h"
 
+#include "Subsystems/Chassis.h"
 #include "OI.h"
 
 OneBallReturn::OneBallReturn()
@@ -44,7 +45,8 @@ void OneBallReturn::Initialize()
 	Intake_PinsRelease->SetParam(intakePosition);			//Won't require Tuning
 
 	Drive_TurnBackToDefense->SetParam(
-			-OI::GetInstance()->ReturnAutonAngle()
+			Chassis::GetInstance()->GetAngle(),
+			true
 	);
 
 	Drive_BackAcrossDefense->SetParam(

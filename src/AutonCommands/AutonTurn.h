@@ -7,6 +7,7 @@ class AutonTurn: public Command
 {
 private:
 	double m_angle;
+	bool modeTwo;
 public:
 	AutonTurn();
 	~AutonTurn();
@@ -15,7 +16,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(double angle){m_angle = angle;}
+	void SetParam(double angle, bool turnToAngle = false){m_angle = angle; modeTwo = turnToAngle;}
 };
 
 #endif
