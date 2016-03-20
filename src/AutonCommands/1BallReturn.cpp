@@ -13,10 +13,10 @@ OneBallReturn::OneBallReturn()
 	Drive_TurnBackToDefense = new AutonTurn();
 
 	AddSequential(Auton_1Ball);
-	AddParallel(Catapult_DriveCatDown, 2);
 	AddParallel(Intake_IntakeDown, 1);
 	AddParallel(Intake_IntakeOut, 1);
 	AddParallel(Intake_PinsRelease, 1);
+	AddSequential(Catapult_DriveCatDown, 2);
 	AddSequential(Drive_TurnBackToDefense);
 	AddSequential(Drive_BackAcrossDefense);
 }
@@ -35,19 +35,22 @@ OneBallReturn::~OneBallReturn()
 // Called just before this Command runs the first time
 void OneBallReturn::Initialize()
 {
-	Catapult_DriveCatDown->SetParam(5,0.2);		//Doesn't Need preferences, just resets catapult.
+	Catapult_DriveCatDown->SetParam(3,0.2);		//Doesn't Need preferences, just resets catapult.
 
-	Intake_IntakeDown->SetParam(true);			//Won't require Tuning
-	Intake_IntakeOut->setParam(true);			//Won't require Tuning
-	Intake_PinsRelease->SetParam(true);			//Won't require Tuning
+	bool intakePosition = false;
+	if (*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1) intakePosition = true;
+	Intake_IntakeDown->SetParam(intakePosition);			//Won't require Tuning
+	Intake_IntakeOut->setParam(intakePosition);			//Won't require Tuning
+	Intake_PinsRelease->SetParam(intakePosition);			//Won't require Tuning
 
 	Drive_TurnBackToDefense->SetParam(
 			-OI::GetInstance()->ReturnAutonAngle()
 	);
+
 	Drive_BackAcrossDefense->SetParam(
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Distance" -105),
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Angle", 0),
-			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Speed", -1),
+			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Speed", 1),
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Tolerance", 0.5)
 	);
 }
@@ -60,7 +63,7 @@ void OneBallReturn::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool OneBallReturn::IsFinished()
 {
-	return false;
+	return Drive_BackAcrossDefense->IsFinished();
 }
 
 // Called once after isFinished returns true
