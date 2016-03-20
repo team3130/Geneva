@@ -1,6 +1,7 @@
 #include "1BallAuton.h"
 
-#include "AutonCatapult.h"
+#include "RobotMap.h"
+#include "Commands/ReloadCatapult.h"
 #include "AutonControlIntakeVertical.h"
 #include "AutonDriveToPoint.h"
 #include "Commands/ControlCatapultFire.h"
@@ -13,7 +14,7 @@ OneBallAuton::OneBallAuton()
 	if(*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1 || *(int *)OI::GetInstance()->positionChooser->GetSelected() == 2) Target_TargetAim = CameraAim::kLeft;
 	else Target_TargetAim = CameraAim::kRight;
 
-	Catapult_ReadyShotOne = new AutonCatapult();
+	Catapult_ReadyShotOne = new ReloadCatapult(BTN_PRESET_1);
 	Catapult_ShootOne = new ControlCatapultFire(true);
 	Intake_AdjustForDefense = new AutonControlIntakeVertical();
 	Intake_RaiseIntake = new AutonControlIntakeVertical();
@@ -50,11 +51,6 @@ OneBallAuton::~OneBallAuton()
 // Called just before this Command runs the first time
 void OneBallAuton::Initialize()
 {
-	Catapult_ReadyShotOne->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAuton StopAngle",3),
-			Preferences::GetInstance()->GetDouble("1BallAuton Catapult Threshold",0.5)
-	);
-
 	bool intakePosition;
 	if(*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1)intakePosition = true;
 	else intakePosition = false;
