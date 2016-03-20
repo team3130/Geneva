@@ -15,9 +15,9 @@ OneBallReturn::OneBallReturn()
 
 	AddSequential(Auton_1Ball);
 	AddParallel(Intake_IntakeDown, 1);
-	AddParallel(Intake_IntakeOut, 1);
 	AddParallel(Intake_PinsRelease, 1);
 	AddSequential(Catapult_DriveCatDown, 2);
+	AddParallel(Intake_IntakeOut, 1);
 	AddSequential(Drive_TurnBackToDefense, 1);
 	AddSequential(Drive_BackAcrossDefense, 5);
 }
@@ -53,7 +53,8 @@ void OneBallReturn::Initialize()
 			-OI::GetInstance()->ReturnAutonDistance() + 10,
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Angle", 0),
 			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Speed", 1),
-			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Tolerance", 0.5)
+			Preferences::GetInstance()->GetDouble("1BallReturn DriveBack Tolerance", 0.5),
+			true
 	);
 }
 
