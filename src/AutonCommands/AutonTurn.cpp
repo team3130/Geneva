@@ -16,7 +16,7 @@ void AutonTurn::Initialize()
 {
 	if(modeTwo)  Chassis::GetInstance()->HoldAngle(m_angle - Chassis::GetInstance()->GetAngle());
 	else  Chassis::GetInstance()->HoldAngle(m_angle);
-
+	Chassis::GetInstance()->SetAbsoluteTolerance(0.5);		//Unit Tolerance
 	Chassis::GetInstance()->DriveStraight(0);
 }
 

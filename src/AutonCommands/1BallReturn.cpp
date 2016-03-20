@@ -18,8 +18,8 @@ OneBallReturn::OneBallReturn()
 	AddParallel(Intake_IntakeOut, 1);
 	AddParallel(Intake_PinsRelease, 1);
 	AddSequential(Catapult_DriveCatDown, 2);
-	AddSequential(Drive_TurnBackToDefense);
-	AddSequential(Drive_BackAcrossDefense);
+	AddSequential(Drive_TurnBackToDefense, 1);
+	AddSequential(Drive_BackAcrossDefense, 5);
 }
 
 OneBallReturn::~OneBallReturn()
