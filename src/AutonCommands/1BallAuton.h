@@ -36,7 +36,6 @@ public:
 	~OneBallAuton();
 	void Initialize();
 	void Execute();
-	bool IsFinished();
 	void End();
 	void Interrupted();
 };

@@ -62,12 +62,6 @@ void OneBallReturn::Execute()
 {
 }
 
-// Make this return true when this Command no longer needs to run execute()
-bool OneBallReturn::IsFinished()
-{
-	return Drive_BackAcrossDefense->IsFinished();
-}
-
 // Called once after isFinished returns true
 void OneBallReturn::End()
 {
