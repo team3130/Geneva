@@ -3,7 +3,7 @@
 
 #include <WPILib.h>
 
-#include "AutonCatapult.h"
+#include "Commands/ReloadCatapult.h"
 #include "AutonControlIntakeVertical.h"
 #include "AutonControlIntakeHorizontal.h"
 #include "AutonDriveToPoint.h"
@@ -15,7 +15,7 @@
 class OneBallAuton: public CommandGroup
 {
 private:
-	AutonCatapult* Catapult_ReadyShotOne;
+	ReloadCatapult* Catapult_ReadyShotOne;
 
 	ControlCatapultFire* Catapult_ShootOne;
 
