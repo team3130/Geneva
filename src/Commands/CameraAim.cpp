@@ -120,7 +120,9 @@ void CameraAim::Execute()
 
 				// The camera offset over the distance is the adjustment angle's tangent
 				turn += (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
-				double camTolerance = (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 2.0), dist);
+				double camTolerance = (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 3.5), dist);
+				camTolerance -= Preferences::GetInstance()->GetDouble("CameraDeviation", 0.8);
+				if (camTolerance < 0.1) camTolerance = 0.1;
 				m_gotLock = fabs(turn) < camTolerance;
 				int proxima = 0;
 				if (!m_gotLock && camTolerance > 0) proxima = abs(turn / camTolerance);
