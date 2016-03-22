@@ -101,7 +101,7 @@ bool Catapult::CheckZero(){
 bool Catapult::WatchCurrent() {
 	if (fabs(m_shooterController->GetOutputVoltage()) < 3.0) m_voltageTimer.Reset();
 	if (m_shooterController->GetOutputCurrent() > Preferences::GetInstance()->GetFloat("CatapultMaxCurrent", SHOOTER_MAXCURRENT)) {
-		if (m_currentTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultCurrentTime", 0.2)) {
+		if (m_currentTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultCurrentTime", 0.5)) {
 			if (m_voltageTimer.Get() > Preferences::GetInstance()->GetFloat("CatapultStartTime", 0.3)) {
 				return true;
 			}

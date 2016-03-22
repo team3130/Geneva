@@ -262,7 +262,7 @@ float RobotVideo::GetDistance(size_t i)
 	// Distance by the height. The real height of the target is 97 inches.
 	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
 	float tower = 97 - Preferences::GetInstance()->GetFloat("CameraHeight", 12);
-	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 166));
+	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 130));
 	return tower / tanf(alpha - atan2f(dy, CAPTURE_FOCAL));
 }
 
@@ -397,13 +397,13 @@ void RobotVideo::Run()
 				mutex_lock();
 				m_locations[i] = loc;
 				double real_angle = atan2(CAPTURE_COLS/2.0 - turn, Preferences::GetInstance()->GetFloat("CameraFocal",CAPTURE_FOCAL));
-				m_turns[i] = real_angle * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0);
+				m_turns[i] = real_angle * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",-2);
 				mutex_unlock();
 			}
 		}
 
 		if (display) {
-			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias",0));
+			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias",-2));
 
 			cv::Scalar colorCross;
 			if ( (m_boxes.size() > 0 and m_boxes[0][1].y + m_boxes[0][0].y == CAPTURE_ROWS)

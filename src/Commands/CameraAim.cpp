@@ -119,7 +119,7 @@ void CameraAim::Execute()
 
 				// The camera offset over the distance is the adjustment angle's tangent
 				turn += (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
-				m_gotLock = fabs(turn) < (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 4.0), dist);
+				m_gotLock = fabs(turn) < (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 2.0), dist);
 			}
 			chassis->HoldAngle(turn);
 			frame_timer.Reset();

@@ -121,9 +121,9 @@ void Chassis::ResetEncoders()
 void Chassis::HoldAngle(double angle)
 {
 	GetPIDController()->SetPID(
-			Preferences::GetInstance()->GetDouble("ChassisP", 0.05),
-			Preferences::GetInstance()->GetDouble("ChassisI", 0.01),
-			Preferences::GetInstance()->GetDouble("ChassisD", 0.15));
+			Preferences::GetInstance()->GetDouble("ChassisP", 0.085),
+			Preferences::GetInstance()->GetDouble("ChassisI", 0.02),
+			Preferences::GetInstance()->GetDouble("ChassisD", 0.125));
 	GetPIDController()->SetSetpoint(GetAngle() + angle);
 	GetPIDController()->Enable();
 	m_onPID = true;

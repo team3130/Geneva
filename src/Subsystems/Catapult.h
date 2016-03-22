@@ -9,7 +9,7 @@
 
 class Catapult: public Subsystem
 {
-	static constexpr double SHOOTER_MAXCURRENT = 15.0;
+	static constexpr double SHOOTER_MAXCURRENT = 40.0;
 private:
 	static Catapult* m_pInstance;
 	bool m_bOnPID;

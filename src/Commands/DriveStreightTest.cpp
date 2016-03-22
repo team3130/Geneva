@@ -10,7 +10,7 @@ DriveStreightTest::DriveStreightTest()
 // Called just before this Command runs the first time
 void DriveStreightTest::Initialize()
 {
-	Chassis::GetInstance()->HoldAngle(Preferences::GetInstance()->GetDouble("TestAngle",0));
+	Chassis::GetInstance()->HoldAngle(Preferences::GetInstance()->GetDouble("TestAngle",-90));
 }
 
 // Called repeatedly when this Command is scheduled to run

@@ -66,16 +66,16 @@ double OI::ReturnAutonAngle()
 			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle LowBar", -45);
 			break;
 		case 2:
-			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position2",-25);
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position2",-28);
 			break;
 		case 3:
-			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position3",0);
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position3",-15);
 			break;
 		case 4:
 			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position4",0);
 			break;
 		case 5:
-			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position5",25);
+			angle = Preferences::GetInstance()->GetDouble("Auton Turn Angle Position5",15);
 			break;
 	}
 	return angle;
@@ -86,19 +86,19 @@ double OI::ReturnAutonDistance()
 	double dist;
 	switch(*(int *)defenseChooser->GetSelected()){
 		case 1:
-			dist = Preferences::GetInstance()->GetDouble("Low Bar Drive Distance", 115);
+			dist = Preferences::GetInstance()->GetDouble("Low Bar Drive Distance", 140);
 			break;
 		case 2:
-			dist = Preferences::GetInstance()->GetDouble("Moat Drive Distance", 115);
+			dist = Preferences::GetInstance()->GetDouble("Moat Drive Distance", 150);
 			break;
 		case 3:
-			dist = Preferences::GetInstance()->GetDouble("Ramparts Drive Distance", 115);
+			dist = Preferences::GetInstance()->GetDouble("Ramparts Drive Distance", 140);
 			break;
 		case 4:
-			dist = Preferences::GetInstance()->GetDouble("Rough Terrain Drive Distance", 115);
+			dist = Preferences::GetInstance()->GetDouble("Rough Terrain Drive Distance", 140);
 			break;
 		case 5:
-			dist = Preferences::GetInstance()->GetDouble("Rock Wall Drive Distance", 115);
+			dist = Preferences::GetInstance()->GetDouble("Rock Wall Drive Distance", 140);
 			break;
 	}
 	return dist;
