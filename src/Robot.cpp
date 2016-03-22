@@ -13,6 +13,7 @@
 #include "AutonCommands/NoAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
+#include "Subsystems/Blinkies.h"
 
 
 class Robot: public IterativeRobot
@@ -58,6 +59,7 @@ private:
 	void DisabledInit()
 	{
 		// printf("Default %s() method... Overload me!\n", __FUNCTION__);
+		Blinkies::PutCommand("roundEnd");
 	}
 
 	void DisabledPeriodic()

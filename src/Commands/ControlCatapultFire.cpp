@@ -4,6 +4,7 @@
 #include "Subsystems/Catapult.h"
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/ReloadCatapult.h"
+#include "Subsystems/Blinkies.h"
 
 /// Default constructor of the class.
 ControlCatapultFire::ControlCatapultFire(bool bypass)
@@ -56,6 +57,7 @@ void ControlCatapultFire::End()
 {
 	CatapultFire::GetInstance()->Actuate(false);
 	if(!m_waiting and timer->Get() < 3.0 && !m_bypass) m_nextCommand->Start();
+	Blinkies::PutCommand("ballFired");
 }
 
 /// Called when another command which requires one or more of the same

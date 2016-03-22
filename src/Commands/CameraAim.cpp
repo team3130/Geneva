@@ -3,6 +3,7 @@
 #include "Subsystems/Catapult.h"
 #include "OI.h"
 #include "Misc/Video.h"
+#include "Subsystems/Blinkies.h"
 
 CameraAim::CameraAim(Target_side side, bool auton)
 	: m_side(side)
@@ -119,7 +120,12 @@ void CameraAim::Execute()
 
 				// The camera offset over the distance is the adjustment angle's tangent
 				turn += (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
-				m_gotLock = fabs(turn) < (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 2.0), dist);
+				double camTolerance = (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 2.0), dist);
+				m_gotLock = fabs(turn) < camTolerance;
+				int proxima = 0;
+				if (!m_gotLock && camTolerance > 0) proxima = abs(turn / camTolerance);
+				if (proxima > 9) proxima = 9;
+				Blinkies::PutCommand("Aim_", proxima);
 			}
 			chassis->HoldAngle(turn);
 			frame_timer.Reset();
