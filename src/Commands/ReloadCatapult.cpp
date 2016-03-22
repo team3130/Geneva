@@ -59,7 +59,7 @@ void ReloadCatapult::Execute()
 		if (m_goingDown){
 			if (Catapult::GetInstance()->CheckZero()) {
 				m_goingDown = false;
-				Catapult::GetInstance()->toSetpoint(Preferences::GetInstance()->GetDouble(m_presetLabel, 10));
+				Catapult::GetInstance()->toSetpoint(Preferences::GetInstance()->GetDouble(m_presetLabel, 8.8));
 				m_timer.Reset();
 			}
 		}
