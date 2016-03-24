@@ -67,7 +67,7 @@ double calculateStop(double dist, double speed=0)
 	double b = 0.088 -2e-3 * bias;
 	double c = 10.696 +0.042 * bias;
 
-	return a * dist * dist + b * dist + c;
+	return (a * dist * dist + b * dist + c) - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 1.6);
 }
 
 // Called repeatedly when this Command is scheduled to run
