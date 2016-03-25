@@ -17,7 +17,7 @@ const char* RobotVideo::IMG_FILE_NAME = "/var/volatile/tmp/alpha.png";
  * We care about anything that falls between 65 and 90 by the hue but the saturation and
  * brightness can be in a quite wide range.
  */
-static const	cv::Vec3i BlobLower(65, 192,  10);
+static const	cv::Vec3i BlobLower(65, 130,  65);
 static const	cv::Vec3i BlobUpper(90, 255, 255);
 
 /**
@@ -286,7 +286,7 @@ void RobotVideo::Run()
 	//After Opening Camera we need to configure the returned image setting
 	//all opencv v4l2 camera controls scale from 0.0 to 1.0
 	capture.set(CV_CAP_PROP_EXPOSURE_ABSOLUTE, 0);
-	capture.set(CV_CAP_PROP_BRIGHTNESS, 0.12);
+	capture.set(CV_CAP_PROP_BRIGHTNESS, 0);
 	capture.set(CV_CAP_PROP_CONTRAST, 0);
 
 
