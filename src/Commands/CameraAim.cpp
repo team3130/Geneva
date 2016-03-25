@@ -173,7 +173,7 @@ bool CameraAim::IsFinished()
 	if (m_gotVisual and m_gotLock) {
 		SmartDashboard::PutBoolean("Target locked", true);
 		SmartDashboard::PutBoolean("DB/LED 0", true);
-		if (m_auton) return true;
+		if (m_auton and frame_timer.Get() > Preferences::GetInstance()->GetDouble("CameraCooldown", AIM_COOLDOWN)) return true;
 	}
 	else {
 		SmartDashboard::PutBoolean("Target locked", false);
