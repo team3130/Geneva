@@ -66,7 +66,7 @@ void OneBallAuton::Initialize()
 			OI::GetInstance()->ReturnAutonDistance(),
 			0,		//Don't Turn
 			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",1),
-			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",0.5),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Tolerence",2),
 			true
 	);
 
