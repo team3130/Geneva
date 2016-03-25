@@ -57,17 +57,19 @@ double calculateStop(double dist, double speed=0)
 
 	// Phase is the time a boulder takes to get to the target. Adjust distance accordingly
 	dist -= speed * phase;
-	if (dist > 192) return 18.4;
+	if (dist > 192) return 17;
 
-	// Top slider sets the bias from "New" (0) to "Old" (5) balls
-	double bias = SmartDashboard::GetNumber("DB/Slider 0", 0) / 5;
+	double stop = 0;
+	//64	14.15
+	//94	16.3
+	//148	16.9
+	//192	17
 
-	// Interpolated by Google Spreadsheets
-	double a = -1.893e-4;
-	double b = 0.07;
-	double c = 10.782;
+	if (dist < 94) stop = 14.5 + (16.3-14.15)*(dist-64);
+	else if (dist < 148) stop = 16.3 + (16.9-16.3)*(dist-94);
+	else stop = 16.9 + 0.1*(dist-148);
 
-	return (a * dist * dist + b * dist + c) - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 0);
+	return stop - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 0);
 }
 
 // Called repeatedly when this Command is scheduled to run
