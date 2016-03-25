@@ -63,11 +63,11 @@ double calculateStop(double dist, double speed=0)
 	double bias = SmartDashboard::GetNumber("DB/Slider 0", 0) / 5;
 
 	// Interpolated by Google Spreadsheets
-	double a = -2.573e-4 -6e-7 * bias;
-	double b = 0.088 -2e-3 * bias;
-	double c = 10.696 +0.042 * bias;
+	double a = -1.893e-4;
+	double b = 0.07;
+	double c = 10.782;
 
-	return (a * dist * dist + b * dist + c) - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 1.6);
+	return (a * dist * dist + b * dist + c) - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 0);
 }
 
 // Called repeatedly when this Command is scheduled to run
