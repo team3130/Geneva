@@ -65,9 +65,9 @@ double calculateStop(double dist, double speed=0)
 	//148	16.9
 	//192	17
 
-	if (dist < 94) stop = 14.5 + (16.3-14.15)*(dist-64);
-	else if (dist < 148) stop = 16.3 + (16.9-16.3)*(dist-94);
-	else stop = 16.9 + 0.1*(dist-148);
+	if (dist < 94) stop = 14.5 + (16.3-14.15)*(dist-64)/(94-64);
+	else if (dist < 148) stop = 16.3 + (16.9-16.3)*(dist-94)/(148-94);
+	else stop = 16.9 + 0.1*(dist-148)/(192-148);
 
 	return stop - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 0);
 }
