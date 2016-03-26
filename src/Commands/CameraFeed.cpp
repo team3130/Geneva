@@ -30,6 +30,46 @@ void CameraFeed::Execute()
 			//frcDispose(image);
 			video->m_display = true;
 		}
+
+		float turnL = 0;
+		float distL = 0;
+		float turnR = 0;
+		float distR = 0;
+		size_t nTurns = 0;
+
+		RobotVideo::GetInstance()->mutex_lock();
+		nTurns = RobotVideo::GetInstance()->HaveHeading();
+		if(nTurns > 0) {
+			turnL = RobotVideo::GetInstance()->GetTurn(0);
+			distL = RobotVideo::GetInstance()->GetDistance(0);
+		}
+		if(nTurns > 1) {
+			turnR = RobotVideo::GetInstance()->GetTurn(1);
+			distR = RobotVideo::GetInstance()->GetDistance(1);
+		}
+		RobotVideo::GetInstance()->mutex_unlock();
+
+		if (nTurns > 0) {
+			SmartDashboard::PutBoolean("FeedLeft", true);
+			SmartDashboard::PutNumber("FeedDistL", distL);
+			SmartDashboard::PutNumber("FeedTurnL", turnL);
+			if (nTurns > 1) {
+				SmartDashboard::PutBoolean("FeedRight", true);
+				SmartDashboard::PutNumber("FeedDistR", distR);
+				SmartDashboard::PutNumber("FeedTurnL", turnR);
+			}
+			else {
+				SmartDashboard::PutBoolean("FeedRight", false);
+				SmartDashboard::PutNumber("FeedDistR", 0);
+				SmartDashboard::PutNumber("FeedTurnL", 0);
+			}
+		}
+		else {
+			SmartDashboard::PutBoolean("FeedLeft", false);
+			SmartDashboard::PutNumber("FeedDistL", 0);
+			SmartDashboard::PutNumber("FeedTurnL", 0);
+		}
+
 	}
 }
 
