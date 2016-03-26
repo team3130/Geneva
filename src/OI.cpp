@@ -30,8 +30,8 @@ OI::OI()
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
 	intakePin->ToggleWhenPressed(new Pintake());
-	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
-	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
+	//aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
+	//aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
