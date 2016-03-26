@@ -27,7 +27,7 @@ private:
 	AutonDriveToPoint* Drive_DriveToDefense;
 	AutonTurn* Turn_TurnToSeeTarget;
 
-	CameraAim* Vision_AimAtTarget;
+//	CameraAim* Vision_AimAtTarget;
 
 	AutonDelay* Delay_FinishAuton;
 
