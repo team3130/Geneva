@@ -56,12 +56,12 @@ void CameraFeed::Execute()
 			if (nTurns > 1) {
 				SmartDashboard::PutBoolean("FeedRight", true);
 				SmartDashboard::PutNumber("FeedDistR", distR);
-				SmartDashboard::PutNumber("FeedTurnL", turnR);
+				SmartDashboard::PutNumber("FeedTurnR", turnR);
 			}
 			else {
 				SmartDashboard::PutBoolean("FeedRight", false);
 				SmartDashboard::PutNumber("FeedDistR", 0);
-				SmartDashboard::PutNumber("FeedTurnL", 0);
+				SmartDashboard::PutNumber("FeedTurnR", 0);
 			}
 		}
 		else {
