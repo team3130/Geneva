@@ -48,7 +48,10 @@ void Chassis::Drive(double moveL, double moveR, bool quad)
 
 void Chassis::DriveArcade(double move, double turn, bool squaredInputs)
 {
-
+	SmartDashboard::PutNumber("LFront", m_leftMotorFront->GetOutputCurrent());
+	SmartDashboard::PutNumber("LBack", m_leftMotorRear->GetOutputCurrent());
+	SmartDashboard::PutNumber("RFront", m_rightMotorFront->GetOutputCurrent());
+	SmartDashboard::PutNumber("RBack", m_rightMotorRear->GetOutputCurrent());
 	m_drive->ArcadeDrive(move, turn, squaredInputs);
 }
 
