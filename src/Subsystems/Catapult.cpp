@@ -53,6 +53,11 @@ int Catapult::GetPIDError()
 	return m_shooterController->GetClosedLoopError();
 }
 
+bool Catapult::OnTarget()
+{
+	return abs(GetPIDError()) < Preferences::GetInstance()->GetInt("WinchTolerance", 45);
+}
+
 void Catapult::toSetpoint(float goal)
 {
 	if(!m_bOnPID){

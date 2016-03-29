@@ -35,6 +35,7 @@ public:
 	double GetPosition();
 	double GetSpeed() { return m_shooterController->GetSpeed(); };
 	int GetPIDError();
+	bool OnTarget();
 	bool CheckZero();
 	bool WatchCurrent();
 	int BallPresentValue() {return m_ballChecker->GetValue();};

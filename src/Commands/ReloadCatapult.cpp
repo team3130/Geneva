@@ -64,7 +64,7 @@ void ReloadCatapult::Execute()
 			}
 		}
 		else {
-			m_done = abs(Catapult::GetInstance()->GetPIDError()) < Preferences::GetInstance()->GetInt("WinchTolerance", 45);
+			m_done = Catapult::GetInstance()->OnTarget();
 		}
 	}
 }
