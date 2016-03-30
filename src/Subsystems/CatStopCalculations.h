@@ -2,6 +2,7 @@
 #define CAT_STOP_CALCULATIONS_H
 
 #include "Commands/Subsystem.h"
+#include "Misc/cSpline.h"
 #include <WPILib.h>
 
 #include <vector>
@@ -18,6 +19,8 @@ private:
 	vector<pair<double,double>>* vector_mainStorage;
 	vector<double>* vector_distPass;
 	vector<double>* vector_stopPass;
+
+	raven::cSpline* stopCurve;
 
 	CatStopCalculations();
 	CatStopCalculations& operator=(CatStopCalculations const&);
