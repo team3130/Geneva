@@ -7,6 +7,7 @@
 #include "Commands/DriveShiftUp.h"
 #include "Commands/DriveShiftDown.h"
 #include "Commands/DriveStreightTest.h"
+#include "Commands/HandleStopPoints.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -26,6 +27,7 @@ OI::OI()
 	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
+	savePoint	= new HandleStopPoints();
 
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
@@ -36,6 +38,8 @@ OI::OI()
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
+
+	SmartDashboard::PutData("Save Point", savePoint);
 
 	//SMD Input for Auton
 	//Creates Radio Buttons for selection of Auton positions

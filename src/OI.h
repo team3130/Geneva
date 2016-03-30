@@ -26,6 +26,8 @@ public:
 	JoystickButton* shiftUp;
 	JoystickButton* streight;
 
+	Command* savePoint;
+
 	SendableChooser* positionChooser;
 	SendableChooser* defenseChooser;
 	double ReturnAutonAngle();
