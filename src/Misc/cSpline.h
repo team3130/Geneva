@@ -18,6 +18,9 @@
 		* WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 */
 
+#ifndef CSPLINE_H
+#define CSPLINE_H
+
 #include <functional>
 #include <vector>
 
@@ -119,3 +122,5 @@ private:
 
 };
 };
+
+#endif
