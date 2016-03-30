@@ -1,5 +1,7 @@
 #include "HandleStopPoints.h"
 #include "Subsystems/CatStopCalculations.h"
+#include "Subsystems/Catapult.h"
+#include "Misc/Video.h"
 
 HandleStopPoints::HandleStopPoints()
 {
@@ -10,7 +12,9 @@ HandleStopPoints::HandleStopPoints()
 // Called just before this Command runs the first time
 void HandleStopPoints::Initialize()
 {
-
+	double dist = RobotVideo::GetInstance()->GetDistance(0);
+	double stop = Catapult::GetInstance()->GetPosition();
+	CatStopCalculations::GetInstance()->AddPoint(dist, stop);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -22,7 +26,7 @@ void HandleStopPoints::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool HandleStopPoints::IsFinished()
 {
-	return false;
+	return true;
 }
 
 // Called once after isFinished returns true

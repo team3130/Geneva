@@ -13,7 +13,9 @@ CatStopCalculations* CatStopCalculations::GetInstance()
 CatStopCalculations::CatStopCalculations() :
 		Subsystem("CatStopCalculations")
 {
-
+	vector_mainStorage = new vector<pair<double,double>>;
+	vector_distPass = new vector<double>;
+	vector_stopPass = new vector<double>;
 }
 
 void CatStopCalculations::InitDefaultCommand()
@@ -22,5 +24,25 @@ void CatStopCalculations::InitDefaultCommand()
 	//SetDefaultCommand(new MySpecialCommand());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+void CatStopCalculations::AddPoint(double dist, double stop)
+{
+	vector_mainStorage->push_back(make_pair(dist, stop));
+	sort(vector_mainStorage->begin()->first, vector_mainStorage->end()->second);
+	pair<double,double> place;
+	for(int iii = 0; iii<vector_mainStorage->size(); iii++)
+	{
+		place = vector_mainStorage[iii];
+		vector_distPass->push_back(place.first);
+		vector_stopPass->push_back(place.second);
+	}
+}
+
+void CatStopCalculations::SaveToFile()
+{
+
+}
+
+void CatStopCalculations::GetStop()
+{
+
+}

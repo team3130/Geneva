@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <utility>
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
@@ -14,9 +15,9 @@ class CatStopCalculations: public Subsystem
 {
 private:
 	static CatStopCalculations* m_pInstance;
-	vector<pair<double,double>> vector_mainStorage;
-	vector<double> vector_xPass;
-	vector<double> vector_yPass;
+	vector<pair<double,double>>* vector_mainStorage;
+	vector<double>* vector_distPass;
+	vector<double>* vector_stopPass;
 
 	CatStopCalculations();
 	CatStopCalculations& operator=(CatStopCalculations const&);
@@ -24,7 +25,7 @@ public:
 	static CatStopCalculations* GetInstance();
 	void InitDefaultCommand();
 
-	void AddPoint();
+	void AddPoint(double dist, double stop);
 	void SaveToFile();
 	void GetStop();
 };
