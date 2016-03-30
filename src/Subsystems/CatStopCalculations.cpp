@@ -1,6 +1,8 @@
 #include "CatStopCalculations.h"
 #include "../RobotMap.h"
 #include "Misc/cSpline.h"
+#include <fstream>
+
 
 CatStopCalculations* CatStopCalculations::m_pInstance = NULL;
 
@@ -29,7 +31,7 @@ void CatStopCalculations::InitDefaultCommand()
 void CatStopCalculations::AddPoint(double dist, double stop)
 {
 	vector_mainStorage->push_back(make_pair(dist, stop));
-	sort(vector_mainStorage->begin()->first, vector_mainStorage->end()->second);
+	sort(vector_mainStorage->begin(), vector_mainStorage->end());
 
 	//Split the vector into two seperate vectors
 	pair<double,double> place;
@@ -47,10 +49,26 @@ void CatStopCalculations::AddPoint(double dist, double stop)
 
 void CatStopCalculations::SaveToFile()
 {
+	ofstream distFILE(distFilePath, ios::out | ios::binary);
+	copy(vector_distPass->begin(), vector_distPass->end(), ostreambuf_iterator<char>(distFILE));
 
+	ofstream stopFILE(stopFilePath, ios::out | ios::binary);
+	copy(vector_stopPass->begin(), vector_stopPass->end(), ostreambuf_iterator<char>(stopFILE));
 }
 
-void CatStopCalculations::GetStop()
+vector<pair<double,double>> CatStopCalculations::ReadFile()
+{
+	vector<pair<double,double>> outputVect;
+
+	return outputVect;
+}
+
+double CatStopCalculations::GetStop(double dist)
+{
+	return stopCurve->getY(dist);
+}
+
+void CatStopCalculations::WipeSave()
 {
 
 }

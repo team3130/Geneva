@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <utility>
+#include <string>
 #include <algorithm>
 #include <iostream>
 
@@ -20,6 +21,9 @@ private:
 	vector<double>* vector_distPass;
 	vector<double>* vector_stopPass;
 
+	const string distFilePath = "/home/lvuser/targetdist-storage.ini";
+	const string stopFilePath = "/home/lvuser/stopangle-storage.ini";
+
 	raven::cSpline* stopCurve;
 
 	CatStopCalculations();
@@ -30,7 +34,9 @@ public:
 
 	void AddPoint(double dist, double stop);
 	void SaveToFile();
-	void GetStop();
+	vector<pair<double,double>> ReadFile();
+	void WipeSave();
+	double GetStop(double dist);
 };
 
 #endif
