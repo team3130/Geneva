@@ -30,6 +30,7 @@ void CatStopCalculations::InitDefaultCommand()
 
 void CatStopCalculations::AddPoint(double dist, double stop)
 {
+	//Add the point to memory
 	vector_mainStorage->push_back(make_pair(dist, stop));
 	sort(vector_mainStorage->begin(), vector_mainStorage->end());
 
@@ -49,9 +50,11 @@ void CatStopCalculations::AddPoint(double dist, double stop)
 
 void CatStopCalculations::SaveToFile()
 {
+	//Copy distance to distFilePath
 	ofstream distFILE(distFilePath, ios::out | ios::binary);
 	copy(vector_distPass->begin(), vector_distPass->end(), ostreambuf_iterator<char>(distFILE));
 
+	//Copy stop angle to stopFilePath
 	ofstream stopFILE(stopFilePath, ios::out | ios::binary);
 	copy(vector_stopPass->begin(), vector_stopPass->end(), ostreambuf_iterator<char>(stopFILE));
 }
@@ -90,6 +93,8 @@ vector<pair<double,double>> CatStopCalculations::ReadFile()
 
 double CatStopCalculations::GetStop(double dist)
 {
+	//sanity check
+	if(!stopCurve) return -1;
 	return stopCurve->getY(dist);
 }
 
