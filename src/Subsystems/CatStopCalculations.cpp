@@ -51,12 +51,12 @@ void CatStopCalculations::AddPoint(double dist, double stop)
 void CatStopCalculations::SaveToFile()
 {
 	//Copy distance to distFilePath
-	ofstream distFILE(distFilePath, ios::out | ios::binary);
-	copy(vector_distPass->begin(), vector_distPass->end(), ostreambuf_iterator<char>(distFILE));
+	ofstream distFILE(distFilePath, ios::out | ios::binary | ios::trunc);
+	if(vector_distPass != NULL)copy(vector_distPass->begin(), vector_distPass->end(), ostreambuf_iterator<char>(distFILE));
 
 	//Copy stop angle to stopFilePath
-	ofstream stopFILE(stopFilePath, ios::out | ios::binary);
-	copy(vector_stopPass->begin(), vector_stopPass->end(), ostreambuf_iterator<char>(stopFILE));
+	ofstream stopFILE(stopFilePath, ios::out | ios::binary | ios::trunc);
+	if(vector_stopPass != NULL)copy(vector_stopPass->begin(), vector_stopPass->end(), ostreambuf_iterator<char>(stopFILE));
 }
 
 vector<pair<double,double>> CatStopCalculations::ReadFile()
@@ -77,6 +77,7 @@ vector<pair<double,double>> CatStopCalculations::ReadFile()
 
 	double stop;
 	while(stopINFILE.read(reinterpret_cast<char *>(&stop), sizeof(stop)))		stopVect.push_back(stop);
+
 
 	//Check for input sanity: if not equal, would error on next step
 	if(stopVect.size() == distVect.size())
@@ -100,5 +101,12 @@ double CatStopCalculations::GetStop(double dist)
 
 void CatStopCalculations::WipeSave()
 {
+	//Erase the values of the vectors
+	vector_mainStorage->clear();
+	vector_distPass->clear();
+	vector_stopPass->clear();
 
+	//Empty the files
+	ofstream distFile(distFilePath, ios::out | ios::binary | ios::trunc);
+	ofstream stopFile(distFilePath, ios::out | ios::binary | ios::trunc);
 }
