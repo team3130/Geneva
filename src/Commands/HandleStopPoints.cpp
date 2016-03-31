@@ -12,8 +12,13 @@ HandleStopPoints::HandleStopPoints()
 // Called just before this Command runs the first time
 void HandleStopPoints::Initialize()
 {
-	double dist = RobotVideo::GetInstance()->GetDistance(0);
-	double stop = Catapult::GetInstance()->GetPosition();
+	double dist = Preferences::GetInstance()->GetDouble("CatStop Distance",0);
+	double stop = Preferences::GetInstance()->GetDouble("CatStop Stop Angle", 0);
+	if(dist == 0 || stop == 0)
+	{
+		dist = RobotVideo::GetInstance()->GetDistance(0);
+		stop = Preferences::GetInstance()->GetDouble("LAST USED SETPOINT", Catapult::GetInstance()->GetPosition());	//Todo: determine the setpoint to make use of
+	}
 	CatStopCalculations::GetInstance()->AddPoint(dist, stop);
 }
 
