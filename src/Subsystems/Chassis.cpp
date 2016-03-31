@@ -32,6 +32,7 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 
 	m_onPID = false;
 	moveSpeed = 0;
+	prevAbsBias = 0;
 }
 
 void Chassis::InitDefaultCommand()
@@ -104,12 +105,21 @@ double Chassis::ReturnPIDInput()
 
 void Chassis::UsePIDOutput(double bias)
 {
-	const double speedLimit = 1.0;
+	// Chassis ramp rate is the limit on the voltage change per cycle to prevent skidding.
+	const double speedLimit = prevAbsBias + Preferences::GetInstance()->GetDouble("ChassisRampRate", 0.25);
 	if(bias >  speedLimit) bias = speedLimit;
 	if(bias < -speedLimit) bias = -speedLimit;
 	double speed_L = moveSpeed-bias;
 	double speed_R = moveSpeed+bias;
 	m_drive->TankDrive(speed_L, speed_R, false);
+	prevAbsBias = fabs(bias);
+}
+
+void Chassis::ReleaseAngle()
+{
+	GetPIDController()->Disable();
+	m_onPID=false;
+	prevAbsBias=0;
 }
 
 void Chassis::ResetEncoders()
