@@ -58,7 +58,32 @@ void CatStopCalculations::SaveToFile()
 
 vector<pair<double,double>> CatStopCalculations::ReadFile()
 {
+	//define required intermediary variables
 	vector<pair<double,double>> outputVect;
+		outputVect.push_back(make_pair(-1,-1));	//Define error output
+	vector<double> distVect;
+	vector<double> stopVect;
+
+	//Define input files
+	ifstream distINFILE(distFilePath, ios::in | ios::binary);
+	ifstream stopINFILE(stopFilePath, ios::in | ios::binary);
+
+	//Read file contents into intermediary vectors
+	double dist;
+	while(distINFILE.read(reinterpret_cast<char *>(&dist), sizeof(dist)))		distVect.push_back(dist);
+
+	double stop;
+	while(stopINFILE.read(reinterpret_cast<char *>(&stop), sizeof(stop)))		stopVect.push_back(stop);
+
+	//Check for input sanity: if not equal, would error on next step
+	if(stopVect.size() == distVect.size())
+	{
+		//Recombine Distance and Stop Angle into one vector of pairs
+		for(unsigned int iii = 0; iii < distVect.size(); iii++)
+		{
+			outputVect.push_back(make_pair(distVect[iii],stopVect[iii]));
+		}
+	}
 
 	return outputVect;
 }
