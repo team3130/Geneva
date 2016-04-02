@@ -29,6 +29,7 @@ private:
 	CANTalon* m_rightMotorRear;
 	bool m_bShiftedLow;
 	double moveSpeed;
+	double prevAbsBias;
 	bool m_onPID;
 
 	Chassis();
@@ -54,7 +55,7 @@ public:
 	void ResetEncoders();
 	double GetAngle();
 	void HoldAngle(double angle = 0);
-	void ReleaseAngle() { GetPIDController()->Disable(); m_onPID=false; };
+	void ReleaseAngle();
 	void DriveStraight(double move) { moveSpeed = move; };
 };
 
