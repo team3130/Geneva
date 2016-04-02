@@ -26,7 +26,8 @@ public:
 	JoystickButton* shiftUp;
 	JoystickButton* streight;
 
-	Command* savePoint;
+	Command* savePoints;
+	Command* addPoint;
 	Command* wipePoints;
 
 	SendableChooser* positionChooser;
