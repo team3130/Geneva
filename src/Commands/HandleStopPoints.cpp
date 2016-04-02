@@ -17,7 +17,7 @@ void HandleStopPoints::Initialize()
 	if(dist == 0 || stop == 0)
 	{
 		dist = RobotVideo::GetInstance()->GetDistance(0);
-		stop = Preferences::GetInstance()->GetDouble("LAST USED SETPOINT", Catapult::GetInstance()->GetPosition());	//Todo: determine the setpoint to make use of
+		stop = Preferences::GetInstance()->GetDouble("WinchPositionE", Catapult::GetInstance()->GetPosition());
 	}
 	CatStopCalculations::GetInstance()->AddPoint(dist, stop);
 }
