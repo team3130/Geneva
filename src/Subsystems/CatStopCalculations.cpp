@@ -16,6 +16,9 @@ CatStopCalculations::CatStopCalculations() :
 		Subsystem("CatStopCalculations")
 {
 	vector_mainStorage = new vector<pair<double,double>>;
+	vector<pair<double,double>>storedData = ReadFile();
+	if(storedData[1].first != -1)
+		*vector_mainStorage = storedData;
 	vector_distPass = new vector<double>;
 	vector_stopPass = new vector<double>;
 
