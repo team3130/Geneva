@@ -60,17 +60,19 @@ bool Catapult::OnTarget()
 
 void Catapult::toSetpoint(float goal)
 {
-	if(!m_bOnPID){
-		m_bOnPID = true;
-		double termP = Preferences::GetInstance()->GetDouble("Catapult P Value", 1);
-		double termI = Preferences::GetInstance()->GetDouble("Catapult I Value", 0);
-		double termD = Preferences::GetInstance()->GetDouble("Capapult D Value", 0);
-		//Add ramp rate later if necessary
-		m_shooterController->SetControlMode(CANSpeedController::kPosition);
-		m_shooterController->SetPID(termP,termI,termD);
-		m_shooterController->EnableControl();
+	if(goal > 3 && goal < 21.0){
+		if(!m_bOnPID){
+			m_bOnPID = true;
+			double termP = Preferences::GetInstance()->GetDouble("Catapult P Value", 1);
+			double termI = Preferences::GetInstance()->GetDouble("Catapult I Value", 0);
+			double termD = Preferences::GetInstance()->GetDouble("Capapult D Value", 0);
+			//Add ramp rate later if necessary
+			m_shooterController->SetControlMode(CANSpeedController::kPosition);
+			m_shooterController->SetPID(termP,termI,termD);
+			m_shooterController->EnableControl();
+		}
+		m_shooterController->Set(goal / (M_PI * 0.965));
 	}
-	m_shooterController->Set(goal / (M_PI * 0.965));
 }
 
 void Catapult::moveCatapult(float speed) {
