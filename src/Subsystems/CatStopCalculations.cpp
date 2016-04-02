@@ -52,11 +52,12 @@ void CatStopCalculations::SaveToFile()
 {
 	//Copy distance to distFilePath
 	ofstream distFILE(distFilePath, ios::out | ios::binary | ios::trunc);
-	if(vector_distPass != NULL)copy(vector_distPass->begin(), vector_distPass->end(), ostreambuf_iterator<char>(distFILE));
+	distFILE.write(reinterpret_cast<const char *>(&vector_distPass[0]), vector_distPass->size()*sizeof(double));
 
 	//Copy stop angle to stopFilePath
 	ofstream stopFILE(stopFilePath, ios::out | ios::binary | ios::trunc);
-	if(vector_stopPass != NULL)copy(vector_stopPass->begin(), vector_stopPass->end(), ostreambuf_iterator<char>(stopFILE));
+	stopFILE.write(reinterpret_cast<const char *>(&vector_stopPass[0]), vector_stopPass->size()*sizeof(double));
+
 }
 
 vector<pair<double,double>> CatStopCalculations::ReadFile()
