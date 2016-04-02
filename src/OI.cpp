@@ -10,6 +10,7 @@
 #include "Commands/HandleStopPoints.h"
 #include "Commands/WipeStopPoints.h"
 #include "Commands/SaveStopPoints.h"
+#include "Commands/TestStopPoints.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -32,6 +33,7 @@ OI::OI()
 	savePoints	= new SaveStopPoints();
 	addPoint	= new HandleStopPoints();
 	wipePoints 	= new WipeStopPoints();
+	testPoints	= new TestStopPoints();
 
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
@@ -46,6 +48,7 @@ OI::OI()
 	SmartDashboard::PutData("Save Data", savePoints);
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);
+	SmartDashboard::PutData("Test Points", testPoints);
 
 	//SMD Input for Auton
 	//Creates Radio Buttons for selection of Auton positions

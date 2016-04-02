@@ -29,6 +29,7 @@ public:
 	Command* savePoints;
 	Command* addPoint;
 	Command* wipePoints;
+	Command* testPoints;
 
 	SendableChooser* positionChooser;
 	SendableChooser* defenseChooser;

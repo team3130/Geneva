@@ -14,6 +14,7 @@
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
 #include "Subsystems/Blinkies.h"
+#include "Subsystems/CatStopCalculations.h"
 
 
 class Robot: public IterativeRobot
@@ -44,6 +45,7 @@ private:
 		Climber::GetInstance();
 		Catapult::GetInstance();
 		CatapultFire::GetInstance();
+		CatStopCalculations::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();
