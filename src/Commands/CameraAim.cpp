@@ -4,6 +4,7 @@
 #include "OI.h"
 #include "Misc/Video.h"
 #include "Subsystems/Blinkies.h"
+#include "Subsystems/CatStopCalculations.h"
 
 CameraAim::CameraAim(Target_side side, bool auton)
 	: m_side(side)
@@ -57,17 +58,8 @@ double calculateStop(double dist, double speed=0)
 
 	// Phase is the time a boulder takes to get to the target. Adjust distance accordingly
 	dist -= speed * phase;
-	if (dist > 192) return 17;
 
-	double stop = 0;
-	//70	14.8
-	//124	16.45
-	//156.5	16.8
-	//>190	17
-	if (dist < 70) stop = 14.8 + (16.45-14.8)*(dist-70)/(124-70);
-	if (dist < 156.5) stop = 16.45 + (16.8-16.45)*(dist-124)/(156.5-124);
-	else if (dist < 190) stop = 16.8 + 0.2*(dist-156.5)/(190-156.5);
-	else stop = 17;
+	double stop = CatStopCalculations::GetInstance()->GetStop(dist);
 
 	return stop - Preferences::GetInstance()->GetDouble("Vision Hight Offset", 0);
 }

@@ -149,7 +149,7 @@ void CatStopCalculations::WipeSave()
 {
 	//Erase the values of the vectors
 	vector_mainStorage.clear();
-
-	//Empty the files
-	ofstream distFile(FilePath, ios::trunc);
+	vector_mainStorage.push_back(DataPoint(0,6.66));
+	vector_mainStorage.push_back(DataPoint(1000,20));
+	SaveToFile();
 }
