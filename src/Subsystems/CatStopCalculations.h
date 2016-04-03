@@ -48,7 +48,7 @@ public:
 	void AddPoint(double dist, double stop);
 	void ReloadCurve();
 	void SaveToFile();
-	vector<DataPoint> ReadFile();
+	void ReadFile();
 	void WipeSave();
 	double GetStop(double dist);
 };

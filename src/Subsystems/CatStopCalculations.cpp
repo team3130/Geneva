@@ -15,7 +15,7 @@ CatStopCalculations* CatStopCalculations::GetInstance()
 CatStopCalculations::CatStopCalculations() :
 		Subsystem("CatStopCalculations")
 {
-	vector_mainStorage = ReadFile();
+	ReadFile();
 	stopCurve = NULL;
 	ReloadCurve();
 }
@@ -99,25 +99,32 @@ void CatStopCalculations::SaveToFile()
 {
 	//Copy distance to distFilePath
 	std::ofstream distFILE(FilePath, std::ofstream::trunc);
-    std::copy(vector_mainStorage.begin(),
+	if (distFILE.good()) {
+		std::copy(
+    		vector_mainStorage.begin(),
     		vector_mainStorage.end(),
-			std::ostream_iterator<DataPoint>(distFILE, "\n"));
+			std::ostream_iterator<DataPoint>(distFILE, "\n") );
+	}
 }
 
-vector<DataPoint> CatStopCalculations::ReadFile()
+void CatStopCalculations::ReadFile()
 {
-	//define required intermediary variables
-	vector<DataPoint> outputVect;
-
 	//Define input files
 	std::ifstream distINFILE(FilePath);
 
 	//Read file contents into intermediary vector
-    std::copy(std::istream_iterator<DataPoint>(distINFILE),
-    		std::istream_iterator<DataPoint>(),
-			outputVect.begin() );
+	if (distINFILE.good()) {
+/*		std::copy(
+				std::istream_iterator<DataPoint>(distINFILE),
+	    		std::istream_iterator<DataPoint>(),
+				vector_mainStorage.begin() ); */
+		char c; double d;
+		distINFILE >> c >> d;
+		std::cerr << "from the file:" << c << d << std::endl;
+		SmartDashboard::PutBoolean("InFile read", true);
+	}
+	else 		SmartDashboard::PutBoolean("InFile read", false);
 
-	return outputVect;
 }
 
 double CatStopCalculations::GetStop(double dist)
