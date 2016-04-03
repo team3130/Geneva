@@ -46,6 +46,7 @@ void CatStopCalculations::AddPoint(double dist, double stop)
 		vector_stopPass->push_back(place.second);
 	}
 
+	if(vector_distPass->size() != vector_stopPass->size()) SmartDashboard::PutNumber("Test stop curve",-10);
 	//Create the curve
 	if(stopCurve) delete stopCurve;
 	stopCurve = new raven::cSpline(*vector_distPass, *vector_stopPass);
@@ -86,6 +87,7 @@ vector<pair<double,double>> CatStopCalculations::ReadFile()
 	//Check for input sanity: if not equal, would error on next step
 	if(stopVect.size() == distVect.size())
 	{
+		outputVect.clear();
 		//Recombine Distance and Stop Angle into one vector of pairs
 		for(unsigned int iii = 0; iii < distVect.size(); iii++)
 		{
