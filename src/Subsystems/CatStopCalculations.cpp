@@ -15,14 +15,9 @@ CatStopCalculations* CatStopCalculations::GetInstance()
 CatStopCalculations::CatStopCalculations() :
 		Subsystem("CatStopCalculations")
 {
-	vector_mainStorage = new vector<pair<double,double>>;
-	vector<pair<double,double>>storedData = ReadFile();
-	if(storedData[1].first != -1)
-		*vector_mainStorage = storedData;
-	vector_distPass = new vector<double>;
-	vector_stopPass = new vector<double>;
-
+	vector_mainStorage = ReadFile();
 	stopCurve = NULL;
+	ReloadCurve();
 }
 
 void CatStopCalculations::InitDefaultCommand()
@@ -31,69 +26,96 @@ void CatStopCalculations::InitDefaultCommand()
 	//SetDefaultCommand(new MySpecialCommand());
 }
 
+//
+// Inserter
+//
+std::ostream& operator<<(std::ostream& s, const DataPoint& p)
+{
+    return s << '(' << p.dist << ',' << p.stop << ')';
+}
+
+//
+// Extractor -- assume the format produced by the inserter.
+//
+std::istream& operator>>(std::istream& s, DataPoint& p)
+{
+    // A Point must be expressed as "(x,y)" (whitespace is ignored).
+    double x = 0.0f, y = 0.0f;
+    char c = '\0';
+
+    bool got_a_point = false;
+
+    s >> c;
+    if (c == '(') {
+        s >> x >> c;
+        if (c == ',') {
+            s >> y >> c;
+            if (c == ')') {
+                got_a_point = true;
+            }
+        }
+    } else {
+        s.putback(c);
+    }
+
+    if (got_a_point) {
+        p.dist = x;
+        p.stop = y;
+    } else {
+        s.clear(std::ios_base::badbit);
+    }
+
+    return s;
+}
+
 void CatStopCalculations::AddPoint(double dist, double stop)
 {
 	//Add the point to memory
-	vector_mainStorage->push_back(make_pair(dist, stop));
-	sort(vector_mainStorage->begin(), vector_mainStorage->end());
+	vector_mainStorage.push_back(DataPoint(dist, stop));
+	sort(vector_mainStorage.begin(), vector_mainStorage.end());
+	ReloadCurve();
+}
 
+void CatStopCalculations::ReloadCurve()
+{
 	//Split the vector into two seperate vectors
-	pair<double,double> place;
-	for(unsigned int iii = 0; iii<vector_mainStorage->size(); iii++)
+	vector<double> vector_distPass;
+	vector<double> vector_stopPass;
+	for(unsigned int iii = 0; iii<vector_mainStorage.size(); iii++)
 	{
-		place = vector_mainStorage->at(iii);
-		vector_distPass->push_back(place.first);
-		vector_stopPass->push_back(place.second);
+		vector_distPass.push_back(vector_mainStorage.at(iii).dist);
+		vector_stopPass.push_back(vector_mainStorage.at(iii).stop);
 	}
 
-	if(vector_distPass->size() != vector_stopPass->size()) SmartDashboard::PutNumber("Test stop curve",-10);
+	if(vector_distPass.size() != vector_stopPass.size()) SmartDashboard::PutNumber("Test stop curve",-10);
 	//Create the curve
 	if(stopCurve) delete stopCurve;
-	stopCurve = new raven::cSpline(*vector_distPass, *vector_stopPass);
+	if (vector_mainStorage.size() >= 3) {
+		stopCurve = new raven::cSpline(vector_distPass, vector_stopPass);
+	}
 }
 
 void CatStopCalculations::SaveToFile()
 {
 	//Copy distance to distFilePath
-	ofstream distFILE(distFilePath, ios::out | ios::binary | ios::trunc);
-	distFILE.write(reinterpret_cast<const char *>(&vector_distPass[0]), vector_distPass->size()*sizeof(double));
-
-	//Copy stop angle to stopFilePath
-	ofstream stopFILE(stopFilePath, ios::out | ios::binary | ios::trunc);
-	stopFILE.write(reinterpret_cast<const char *>(&vector_stopPass[0]), vector_stopPass->size()*sizeof(double));
-
+	std::ofstream distFILE(FilePath, std::ofstream::trunc);
+    std::copy(vector_mainStorage.begin(),
+    		vector_mainStorage.end(),
+			std::ostream_iterator<DataPoint>(distFILE, "\n"));
 }
 
-vector<pair<double,double>> CatStopCalculations::ReadFile()
+vector<DataPoint> CatStopCalculations::ReadFile()
 {
 	//define required intermediary variables
-	vector<pair<double,double>> outputVect;
-		outputVect.push_back(make_pair(-1,-1));	//Define error output
-	vector<double> distVect;
-	vector<double> stopVect;
+	vector<DataPoint> outputVect;
 
 	//Define input files
-	ifstream distINFILE(distFilePath, ios::in | ios::binary);
-	ifstream stopINFILE(stopFilePath, ios::in | ios::binary);
+	std::ifstream distINFILE(FilePath);
 
-	//Read file contents into intermediary vectors
-	double dist;
-	while(distINFILE.read(reinterpret_cast<char *>(&dist), sizeof(dist)))		distVect.push_back(dist);
-
-	double stop;
-	while(stopINFILE.read(reinterpret_cast<char *>(&stop), sizeof(stop)))		stopVect.push_back(stop);
-
-
-	//Check for input sanity: if not equal, would error on next step
-	if(stopVect.size() == distVect.size())
-	{
-		outputVect.clear();
-		//Recombine Distance and Stop Angle into one vector of pairs
-		for(unsigned int iii = 0; iii < distVect.size(); iii++)
-		{
-			outputVect.push_back(make_pair(distVect[iii],stopVect[iii]));
-		}
-	}
+	//Read file contents into intermediary vector
+    std::copy(std::istream_iterator<DataPoint>(distINFILE),
+    		std::istream_iterator<DataPoint>(),
+			outputVect.begin() );
 
 	return outputVect;
 }
@@ -101,18 +123,17 @@ vector<pair<double,double>> CatStopCalculations::ReadFile()
 double CatStopCalculations::GetStop(double dist)
 {
 	//sanity check
-	if(!stopCurve) return -1;
-	return stopCurve->getY(dist);
+	if(stopCurve and stopCurve->IsSane()) {
+		return stopCurve->getY(dist);
+	}
+	return -1;
 }
 
 void CatStopCalculations::WipeSave()
 {
 	//Erase the values of the vectors
-	vector_mainStorage->clear();
-	vector_distPass->clear();
-	vector_stopPass->clear();
+	vector_mainStorage.clear();
 
 	//Empty the files
-	ofstream distFile(distFilePath, ios::out | ios::binary | ios::trunc);
-	ofstream stopFile(distFilePath, ios::out | ios::binary | ios::trunc);
+	ofstream distFile(FilePath, ios::trunc);
 }

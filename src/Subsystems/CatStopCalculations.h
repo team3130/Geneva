@@ -13,16 +13,29 @@
 
 using namespace std;
 
+struct DataPoint
+{
+    double dist;
+    double stop;
+
+    DataPoint() : dist(0.0f), stop(0.0f) { }
+    DataPoint(double x, double y) : dist(x), stop(y) { }
+
+    // Compiler supplies copy-constructor and assignment operator.
+
+    // So we can sort Data Points in a std::vector.
+    bool operator<(const DataPoint& other) const {
+        return ((dist < other.dist) || (!(other.dist < dist) && stop < other.stop));
+    }
+};
+
 class CatStopCalculations: public Subsystem
 {
 private:
 	static CatStopCalculations* m_pInstance;
-	vector<pair<double,double>>* vector_mainStorage;
-	vector<double>* vector_distPass;
-	vector<double>* vector_stopPass;
+	vector<DataPoint> vector_mainStorage;
 
-	const string distFilePath = "/home/lvuser/targetdist-storage.ini";
-	const string stopFilePath = "/home/lvuser/stopangle-storage.ini";
+	const string FilePath = "/home/lvuser/catapult-storage.ini";
 
 	raven::cSpline* stopCurve;
 
@@ -33,8 +46,9 @@ public:
 	void InitDefaultCommand();
 
 	void AddPoint(double dist, double stop);
+	void ReloadCurve();
 	void SaveToFile();
-	vector<pair<double,double>> ReadFile();
+	vector<DataPoint> ReadFile();
 	void WipeSave();
 	double GetStop(double dist);
 };
