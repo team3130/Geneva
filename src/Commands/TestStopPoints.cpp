@@ -18,14 +18,14 @@ void TestStopPoints::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void TestStopPoints::Execute()
 {
-	double dist = 36.0 + 10*m_timer.Get();
+	double dist = 36.0 + 50*m_timer.Get();
 	SmartDashboard::PutNumber("Test stop curve", CatStopCalculations::GetInstance()->GetStop(dist));
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool TestStopPoints::IsFinished()
 {
-	return m_timer.Get() > 25.0;
+	return m_timer.Get() > 5.0;
 }
 
 // Called once after isFinished returns true

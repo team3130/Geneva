@@ -109,22 +109,31 @@ void CatStopCalculations::SaveToFile()
 
 void CatStopCalculations::ReadFile()
 {
+	vector_mainStorage.clear();
+
 	//Define input files
 	std::ifstream distINFILE(FilePath);
 
 	//Read file contents into intermediary vector
-	if (distINFILE.good()) {
-/*		std::copy(
-				std::istream_iterator<DataPoint>(distINFILE),
-	    		std::istream_iterator<DataPoint>(),
-				vector_mainStorage.begin() ); */
-		char c; double d;
-		distINFILE >> c >> d;
-		std::cerr << "from the file:" << c << d << std::endl;
-		SmartDashboard::PutBoolean("InFile read", true);
+	/*		std::copy(
+					std::istream_iterator<DataPoint>(distINFILE),
+		    		std::istream_iterator<DataPoint>(),
+					vector_mainStorage.begin() ); */
+	while (distINFILE.good()) {
+		DataPoint d;
+		distINFILE >> d;
+		vector_mainStorage.push_back(d);
+		while (distINFILE.good()) {
+			char c;
+			distINFILE >> c;
+			if (c == '(') {
+				distINFILE.putback(c);
+				break;
+			}
+		}
 	}
-	else 		SmartDashboard::PutBoolean("InFile read", false);
-
+	sort(vector_mainStorage.begin(), vector_mainStorage.end());
+	ReloadCurve();
 }
 
 double CatStopCalculations::GetStop(double dist)
