@@ -73,6 +73,7 @@ void CatStopCalculations::AddPoint(double dist, double stop)
 	//Add the point to memory
 	vector_mainStorage.push_back(DataPoint(dist, stop));
 	sort(vector_mainStorage.begin(), vector_mainStorage.end());
+	SaveToFile();
 	ReloadCurve();
 }
 
