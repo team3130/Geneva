@@ -29,6 +29,7 @@ Catapult::Catapult()
 	m_shooterController->ConfigEncoderCodesPerRev(RATIO_WINCHCODESPERREV);
 
 	LiveWindow::GetInstance()->AddActuator("Catapult","Winch Talon",m_shooterController);
+	SmartDashboard::PutNumber("Catapult Current", m_shooterController->GetOutputCurrent());
 
 	m_currentTimer.Reset();
 	m_currentTimer.Start();
