@@ -17,7 +17,7 @@ const char* RobotVideo::IMG_FILE_NAME = "/var/volatile/tmp/alpha.png";
  * We care about anything that falls between 65 and 90 by the hue but the saturation and
  * brightness can be in a quite wide range.
  */
-static const	cv::Vec3i BlobLower(65, 130,  65);
+static const	cv::Vec3i BlobLower(65, 100,  65);
 static const	cv::Vec3i BlobUpper(90, 255, 255);
 
 /**
