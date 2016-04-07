@@ -22,8 +22,7 @@ OneBallAuton::OneBallAuton()
 	Delay_FinishAuton = new AutonDelay();
 
 	AddParallel(Intake_AdjustForDefense, 1);
-	if(*(int *)OI::GetInstance()->defenseChooser->GetSelected() == 2) AddSequential(Catapult_ReadyShotOne, 2);
-	else AddParallel(Catapult_ReadyShotOne, 2);
+	AddParallel(Catapult_ReadyShotOne, 2);
 	AddSequential(Drive_DriveToDefense, 9);
 	AddParallel(Intake_RaiseIntake, 1);
 	AddParallel(Intake_ExtendIntake, 1);
