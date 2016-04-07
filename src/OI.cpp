@@ -114,6 +114,7 @@ double OI::ReturnAutonDistance()
 			dist = Preferences::GetInstance()->GetDouble("Rock Wall Drive Distance", 140);
 			break;
 	}
+	if(*(int *)positionChooser->GetSelected() == 2 || *(int *)positionChooser->GetSelected() == 5) dist += 49;
 	return dist;
 }
 
