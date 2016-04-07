@@ -26,7 +26,6 @@ public:
 	JoystickButton* shiftUp;
 	JoystickButton* streight;
 
-	Command* savePoints;
 	Command* addPoint;
 	Command* wipePoints;
 	Command* testPoints;

@@ -74,6 +74,7 @@ void CatStopCalculations::AddPoint(double dist, double stop)
 	vector_mainStorage.push_back(DataPoint(dist, stop));
 	sort(vector_mainStorage.begin(), vector_mainStorage.end());
 	SmartDashboard::PutNumber("Number of Points",vector_mainStorage.size());
+	SaveToFile();
 	ReloadCurve();
 }
 
