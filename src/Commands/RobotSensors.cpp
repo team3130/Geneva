@@ -1,6 +1,7 @@
 #include "RobotSensors.h"
 #include "Subsystems/Catapult.h"
 #include "Subsystems/Chassis.h"
+#include "Subsystems/IntakeHorizontal.h"
 #include "OI.h"
 
 RobotSensors::RobotSensors()
@@ -60,6 +61,8 @@ void RobotSensors::Execute()
 	if (Catapult::GetInstance()->CheckZero()) {
 		SmartDashboard::PutString("DB/String 9", "");
 	}
+
+	SmartDashboard::PutBoolean("Intake Position",IntakeHorizontal::GetInstance()->GetState());
 }
 
 // Make this return true when this Command no longer needs to run execute()

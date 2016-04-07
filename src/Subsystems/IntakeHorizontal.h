@@ -20,6 +20,7 @@ public:
 	void Actuate(bool extended);
 	bool IsExtended() {return m_intakeActuater->Get();}
 	void FlipOnChange(bool input);
+	bool GetState() {return IntakeArmPositionOut->getStatus();}
 };
 
 #endif

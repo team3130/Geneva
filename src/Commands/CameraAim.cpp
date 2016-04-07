@@ -117,7 +117,7 @@ void CameraAim::Execute()
 				double camTolerance = (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 3.5), dist);
 				camTolerance -= Preferences::GetInstance()->GetDouble("CameraDeviation", 0.8);
 				if (camTolerance < 0.1) camTolerance = 0.1;
-				m_gotLock = fabs(turn) < camTolerance;
+				m_gotLock = ((fabs(turn) < camTolerance) && Catapult::GetInstance()->OnTarget());
 				int proxima = 0;
 				if (!m_gotLock && camTolerance > 0) proxima = abs(turn / camTolerance);
 				if (proxima > 9) proxima = 9;
@@ -166,7 +166,7 @@ bool CameraAim::IsFinished()
 		SmartDashboard::PutBoolean("Target locked", true);
 		SmartDashboard::PutBoolean("DB/LED 0", true);
 		if (m_auton and frame_timer.Get() > Preferences::GetInstance()->GetDouble("CameraCooldown", AIM_COOLDOWN)) {
-			if (Catapult::GetInstance()->OnTarget()) return true;
+			return true;
 		}
 	}
 	else {
