@@ -68,6 +68,9 @@ void CameraFeed::Execute()
 			SmartDashboard::PutBoolean("FeedLeft", false);
 			SmartDashboard::PutNumber("FeedDistL", 0);
 			SmartDashboard::PutNumber("FeedTurnL", 0);
+			SmartDashboard::PutBoolean("FeedRight", false);
+			SmartDashboard::PutNumber("FeedDistR", 0);
+			SmartDashboard::PutNumber("FeedTurnR", 0);
 		}
 
 	}
