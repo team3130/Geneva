@@ -15,7 +15,7 @@ IntakeWheel::IntakeWheel() :
 	m_intakeController = new CANTalon(CAN_INTAKEMOTOR);
 	LiveWindow::GetInstance()->AddActuator("Intake","Wheel Talon",m_intakeController);
 
-	SmartDashboard::PutNumber("Intake Current",m_intakeController->GetOutputCurrent());
+
 }
 
 void IntakeWheel::InitDefaultCommand()

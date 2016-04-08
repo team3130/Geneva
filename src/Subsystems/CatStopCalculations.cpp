@@ -89,7 +89,6 @@ void CatStopCalculations::ReloadCurve()
 		vector_stopPass.push_back(vector_mainStorage.at(iii).stop);
 	}
 
-	if(vector_distPass.size() != vector_stopPass.size()) SmartDashboard::PutNumber("Test stop curve",-10);
 	//Create the curve
 	if(stopCurve) delete stopCurve;
 	if (vector_mainStorage.size() >= 3) {

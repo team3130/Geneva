@@ -29,10 +29,6 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Rear TalonSRX", m_leftMotorRear);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
-	SmartDashboard::PutNumber("LeftFrontDrive Current", m_leftMotorFront->GetOutputCurrent());
-	SmartDashboard::PutNumber("LeftRearDrive Current", m_leftMotorRear->GetOutputCurrent());
-	SmartDashboard::PutNumber("RightFrontDrive Current", m_rightMotorFront->GetOutputCurrent());
-	SmartDashboard::PutNumber("RightRearDrive Current", m_rightMotorRear->GetOutputCurrent());
 
 	m_onPID = false;
 	moveSpeed = 0;

@@ -22,10 +22,6 @@ Climber::Climber() :
 	LiveWindow::GetInstance()->AddActuator("Climber","Winch Talon 2",m_climberWinchController2);
 	LiveWindow::GetInstance()->AddActuator("Climber","Tape Talon",m_climberTapeController);
 
-	SmartDashboard::PutNumber("Tapes Current",m_climberTapeController->GetOutputCurrent());
-	SmartDashboard::PutNumber("Climb Winch1 Current",m_climberWinchController->GetOutputCurrent());
-	SmartDashboard::PutNumber("Climb Winch2 Current",m_climberWinchController2->GetOutputCurrent());
-
 	m_PWMclimberTapeController = new Talon(PORT_CLIMBERTAPE);
 	m_PWMclimberWinchController = new Talon(PORT_CLIMBERWINCH);
 	m_PWMclimberWinchController2 = new Talon(PORT_CLIMBERWINCH2);
