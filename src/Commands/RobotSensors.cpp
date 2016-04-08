@@ -34,7 +34,6 @@ void PutBasicNumber(int line, std::string name, double value)
 void RobotSensors::Execute()
 {
 	//    Basic Dash. The main "DB/LED 0" is used for aiming and lit by CameraAim command.
-	SmartDashboard::PutBoolean("DB/LED 1", Catapult::GetInstance()->IsBallPresent());
 	SmartDashboard::PutBoolean("DB/LED 2", Catapult::GetInstance()->isBottomHit());
 
 	PutBasicNumber(0, "Cat", Catapult::GetInstance()->GetPosition());
@@ -47,12 +46,6 @@ void RobotSensors::Execute()
 	PutBasicNumber(3, "Angle", Chassis::GetInstance()->GetAngle());
 	PutBasicNumber(4, "Speed", Chassis::GetInstance()->GetSpeed());
 
-	SmartDashboard::PutNumber("Accelerometor X", accelerometer->GetX());
-	SmartDashboard::PutNumber("Accelerometor Y", accelerometer->GetY());
-	SmartDashboard::PutNumber("Accelerometor Z", accelerometer->GetZ());
-
-	SmartDashboard::PutNumber("Line Follower Value", Catapult::GetInstance()->BallPresentValue());
-	SmartDashboard::PutBoolean("Ball Present", Catapult::GetInstance()->IsBallPresent());
 
 	if (Chassis::GetInstance()->GetDistanceL()!=0 and Chassis::GetInstance()->GetDistanceR()!=0) {
 		SmartDashboard::PutString("DB/String 8", "");
