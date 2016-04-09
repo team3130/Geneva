@@ -49,9 +49,9 @@ private:
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
 		autonChooser = new SendableChooser();
-		autonChooser->AddDefault("No Auton", new NoAuton());
+		autonChooser->AddDefault("One Ball Auton", new OneBallAuton());
+		autonChooser->AddObject("No Auton", new NoAuton());
 		autonChooser->AddObject("One Ball Return", new OneBallReturn());
-		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
 		autonChooser->AddObject("Pick Up Ball Auton", new PickUpAuton());
 		autonChooser->AddObject("Pick Up Ball Return Auton", new PickUpReturn());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
