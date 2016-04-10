@@ -3,6 +3,24 @@
 
 #include "WPILib.h"
 
+class AXSTrigger: public Trigger
+{
+private:
+	int m_axs;
+	float m_threshold;
+	Joystick* m_stick;
+public:
+	AXSTrigger(Joystick* stick, int axs, float threshold)
+	:m_axs(axs)
+	,m_threshold(threshold)
+	,m_stick(stick)
+	{}
+
+	~AXSTrigger(){delete m_stick;}
+
+	virtual bool Get(){return m_stick->GetRawAxis(m_axs) > m_threshold;}
+};
+
 class OI
 {
 private:
@@ -25,6 +43,8 @@ public:
 	JoystickButton* shiftDown;
 	JoystickButton* shiftUp;
 	JoystickButton* streight;
+	JoystickButton* portcullis;
+	AXSTrigger* 	CDFIntake;
 
 	Command* addPoint;
 	Command* wipePoints;
