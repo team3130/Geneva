@@ -40,7 +40,7 @@ OI::OI()
 
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
-	intakePin->ToggleWhenPressed(new Pintake());
+	intakePin->WhileHeld(new Pintake());
 	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
 	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
 	fire->WhileHeld(new ControlCatapultFire());

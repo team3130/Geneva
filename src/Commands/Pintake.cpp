@@ -11,7 +11,7 @@ Pintake::Pintake()
 // Called just before this Command runs the first time
 void Pintake::Initialize()
 {
-	IntakePin::GetInstance()->Actuate(true);
+	IntakePin::GetInstance()->ActuateToggle(true);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -29,7 +29,7 @@ bool Pintake::IsFinished()
 // Called once after isFinished returns true
 void Pintake::End()
 {
-	IntakePin::GetInstance()->Actuate(false);
+	IntakePin::GetInstance()->ActuateToggle(false);
 }
 
 // Called when another command which requires one or more of the same
