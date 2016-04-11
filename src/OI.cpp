@@ -12,6 +12,7 @@
 #include "Commands/TestStopPoints.h"
 #include "Commands/CDFActuate.h"
 #include "Commands/PortcullisActuate.h"
+#include "Commands/IntakeIn.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -31,8 +32,9 @@ OI::OI()
 	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
-	portcullis	= new JoystickButton(gamepad, BTN_PORTCULLISMODE);
-	CDFIntake	= new AXSTrigger(gamepad, AXS_CDFMODE, 0.1);
+	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
+	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
+	portcullisIntake	= new POVTrigger(gamepad, POV_PORTCULLISMODE);
 
 	addPoint	= new HandleStopPoints();
 	wipePoints 	= new WipeStopPoints();
@@ -47,8 +49,9 @@ OI::OI()
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
-	portcullis->WhileHeld(new PortcullisActuate());
+	portcullisIntake->WhileActive(new PortcullisActuate());
 	CDFIntake->WhileActive(new CDFActuate());
+	inIntake->WhileActive(new IntakeIn());
 
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);

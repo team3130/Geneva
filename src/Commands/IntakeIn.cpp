@@ -1,9 +1,9 @@
-#include "CDFActuate.h"
+#include "IntakeIn.h"
 #include "Subsystems/IntakeHorizontal.h"
 #include "Subsystems/IntakeVertical.h"
 #include "Subsystems/IntakePin.h"
 
-CDFActuate::CDFActuate()
+IntakeIn::IntakeIn()
 {
 	Requires(IntakeHorizontal::GetInstance());
 	Requires(IntakePin::GetInstance());
@@ -11,33 +11,33 @@ CDFActuate::CDFActuate()
 }
 
 // Called just before this Command runs the first time
-void CDFActuate::Initialize()
+void IntakeIn::Initialize()
 {
-	IntakeHorizontal::GetInstance()->Actuate(true);
-	IntakeVertical::GetInstance()->Actuate(true);
-	IntakePin::GetInstance()->Actuate(true);
+	IntakeHorizontal::GetInstance()->Actuate(false);
+	IntakeHorizontal::GetInstance()->Actuate(false);
+	IntakePin::GetInstance()->Actuate(false);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void CDFActuate::Execute()
+void IntakeIn::Execute()
 {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool CDFActuate::IsFinished()
+bool IntakeIn::IsFinished()
 {
 	return false;
 }
 
 // Called once after isFinished returns true
-void CDFActuate::End()
+void IntakeIn::End()
 {
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void CDFActuate::Interrupted()
+void IntakeIn::Interrupted()
 {
 
 }
