@@ -2,6 +2,7 @@
 #include "Subsystems/IntakeWheel.h"
 #include "Subsystems/IntakeHorizontal.h"
 #include "Subsystems/IntakeVertical.h"
+#include "Subsystems/IntakePin.h"
 #include "Subsystems/Catapult.h"
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
@@ -42,6 +43,7 @@ private:
 		IntakeWheel::GetInstance();
 		IntakeHorizontal::GetInstance();
 		IntakeVertical::GetInstance();
+		IntakePin::GetInstance();
 		Climber::GetInstance();
 		Catapult::GetInstance();
 		CatapultFire::GetInstance();
@@ -93,7 +95,10 @@ private:
 		if (autonomousCommand !=nullptr)
 			autonomousCommand->Cancel();
 
+		//Set Default positions for the intake axis upon telop enable.
 		IntakeHorizontal::GetInstance()->Actuate(true);
+		IntakeVertical::GetInstance()->Actuate(false);
+		IntakePin::GetInstance()->Actuate(false);
 	}
 
 	void TeleopPeriodic()
