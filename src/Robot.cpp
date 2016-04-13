@@ -92,6 +92,8 @@ private:
 		// this line or comment it out.
 		if (autonomousCommand !=nullptr)
 			autonomousCommand->Cancel();
+
+		IntakeHorizontal::GetInstance()->Actuate(true);
 	}
 
 	void TeleopPeriodic()
