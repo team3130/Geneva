@@ -12,6 +12,7 @@
 OneBallAuton::OneBallAuton()
 {
 	Catapult_ReadyShotOne = new ReloadCatapult(BTN_PRESET_1);
+	Catapult_ResetCat = new ReloadCatapult(BTN_PRESET_1);
 	Catapult_ShootOne = new ControlCatapultFire(true);
 	Intake_AdjustForDefense = new AutonControlIntakeVertical();
 	Intake_RaiseIntake = new AutonControlIntakeVertical();
@@ -29,6 +30,7 @@ OneBallAuton::OneBallAuton()
 	AddSequential(Turn_TurnToSeeTarget, 2);
 	AddSequential(Vision_AimAtTarget, 5);
 	AddSequential(Catapult_ShootOne, 1);
+	AddSequential(Catapult_ResetCat, 2);
 	AddSequential(Delay_FinishAuton);
 }
 
@@ -36,6 +38,7 @@ OneBallAuton::~OneBallAuton()
 {
 	delete Catapult_ReadyShotOne;
 	delete Catapult_ShootOne;
+	delete Catapult_ResetCat;
 	delete Intake_AdjustForDefense;
 	delete Intake_RaiseIntake;
 	delete Intake_ExtendIntake;

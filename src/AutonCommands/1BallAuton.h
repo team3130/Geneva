@@ -16,6 +16,7 @@ class OneBallAuton: public CommandGroup
 {
 private:
 	ReloadCatapult* Catapult_ReadyShotOne;
+	ReloadCatapult* Catapult_ResetCat;
 
 	ControlCatapultFire* Catapult_ShootOne;
 
