@@ -56,7 +56,7 @@ void AutonDriveToPoint::Initialize()
 	Chassis::GetInstance()->Shift(m_lowGear);
 
 	//Chassis::GetInstance()->ReleaseAngle();
-	Chassis::GetInstance()->HoldAngle(m_angle);
+	Chassis::GetInstance()->HoldAngle(m_angle, false);
 	GetPIDController()->Enable();
 	timer->Reset();
 	timer->Start();
@@ -77,6 +77,7 @@ bool AutonDriveToPoint::IsFinished()
 // Called once after isFinished returns true
 void AutonDriveToPoint::End()
 {
+	Chassis::GetInstance()->ReleaseAngle();
 	Chassis::GetInstance()->Drive(0,0);
 }
 

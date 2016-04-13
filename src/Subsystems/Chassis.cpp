@@ -132,6 +132,7 @@ void Chassis::ReleaseAngle()
 {
 	GetPIDController()->Disable();
 	m_onPID=false;
+	m_onGyro=false;		//Gyro needs to be explicitly enabled for each PID turn
 	prevAbsBias=0;
 }
 
@@ -141,8 +142,9 @@ void Chassis::ResetEncoders()
 	m_rightMotorFront->SetPosition(0);
 }
 
-void Chassis::HoldAngle(double angle)
+void Chassis::HoldAngle(double angle, bool gyro)
 {
+	if(!m_onPID) m_onGyro = gyro;		//Prevent changing angle mode when already in a turn
 	GetPIDController()->SetPID(
 			Preferences::GetInstance()->GetDouble("ChassisP", 0.085),
 			Preferences::GetInstance()->GetDouble("ChassisI", 0.02),

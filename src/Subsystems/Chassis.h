@@ -59,6 +59,7 @@ public:
 	void HoldAngle(double angle = 0, bool gyro = false);
 	void ReleaseAngle();
 	void DriveStraight(double move) { moveSpeed = move; };
+	void SetGyroMode(bool enabled)	{if(!m_onPID) m_onGyro = enabled;};	//Prevent changing angle type mid turn or angle hold.
 };
 
 #endif
