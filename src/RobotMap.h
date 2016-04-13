@@ -43,7 +43,7 @@
 	const int PNM_INTAKEACTUATEUP = 4;
 
 //Analog Input
-	const int ANG_CATAPULTBALLCHECK = 0;
+	//Prefix ANG_
 
 //Buttons and Axes
 
