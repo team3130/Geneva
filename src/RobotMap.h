@@ -43,7 +43,7 @@
 	const int PNM_INTAKEACTUATEUP = 4;
 
 //Analog Input
-	//Prefix ANG_
+	const int ANG_GYRO = 0;
 
 //Buttons and Axes
 

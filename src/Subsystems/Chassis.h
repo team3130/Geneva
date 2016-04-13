@@ -27,10 +27,12 @@ private:
 	CANTalon* m_leftMotorRear;
 	CANTalon* m_rightMotorFront;
 	CANTalon* m_rightMotorRear;
+	AnalogGyro* m_gyro;
 	bool m_bShiftedLow;
 	double moveSpeed;
 	double prevAbsBias;
 	bool m_onPID;
+	bool m_onGyro;
 
 	Chassis();
 	Chassis(Chassis const&);
@@ -57,6 +59,7 @@ public:
 	void HoldAngle(double angle = 0);
 	void ReleaseAngle();
 	void DriveStraight(double move) { moveSpeed = move; };
+	void SetGyroMode(bool enabled)	{m_onGyro = enabled;};
 };
 
 #endif
