@@ -44,6 +44,7 @@ public:
 	POVTrigger*		portcullisIntake;
 	POVTrigger* 	CDFIntake;
 	POVTrigger*		inIntake;
+	POVTrigger*		intakeOut;
 
 	Command* addPoint;
 	Command* wipePoints;

@@ -100,6 +100,7 @@
 	const int POV_CDFMODE = LST_POV_S;
 	const int POV_PORTCULLISMODE = LST_POV_W;
 	const int POV_INTAKEIN = LST_POV_N;
+	const int POV_INTAKEOUT = LST_POV_E;
 
 	//Defenses
 	const int AXS_DEFENSEACTUATER = LST_AXS_RTRIGGER;
