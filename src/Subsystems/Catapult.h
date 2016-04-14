@@ -17,7 +17,6 @@ private:
 	bool m_bResetStepOneDone;
 	Timer m_currentTimer;
 	Timer m_voltageTimer;
-	AnalogInput* m_ballChecker;
 
 	Catapult();
 	Catapult(Catapult const&);
@@ -38,8 +37,6 @@ public:
 	bool OnTarget();
 	bool CheckZero();
 	bool WatchCurrent();
-	int BallPresentValue() {return m_ballChecker->GetValue();};
-	bool IsBallPresent() {return m_ballChecker->GetValue() < Preferences::GetInstance()->GetInt("Ball Present Value",3750);};	//TODO: Tune Ball Present Value, possibly change comparison direction
 };
 
 #endif
