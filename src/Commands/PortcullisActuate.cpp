@@ -33,6 +33,9 @@ bool PortcullisActuate::IsFinished()
 // Called once after isFinished returns true
 void PortcullisActuate::End()
 {
+	IntakeHorizontal::GetInstance()->Actuate(false);
+	IntakeVertical::GetInstance()->Actuate(false);
+	IntakePin::GetInstance()->Actuate(false);
 }
 
 // Called when another command which requires one or more of the same

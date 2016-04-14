@@ -13,6 +13,7 @@
 #include "Commands/CDFActuate.h"
 #include "Commands/PortcullisActuate.h"
 #include "Commands/IntakeIn.h"
+#include "Commands/IntakeOut.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -34,6 +35,7 @@ OI::OI()
 	streight	= new JoystickButton(stickR, 10);
 	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
 	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
+	intakeOut	= new POVTrigger(gamepad, POV_INTAKEOUT);
 	portcullisIntake	= new POVTrigger(gamepad, POV_PORTCULLISMODE);
 
 	addPoint	= new HandleStopPoints();
@@ -52,6 +54,7 @@ OI::OI()
 	portcullisIntake->WhileActive(new PortcullisActuate());
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());
+	intakeOut->WhileActive(new IntakeOut());
 
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);
