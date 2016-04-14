@@ -183,6 +183,9 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 	if(MAX_TARGETS==2 && boxes.size()==2) {
 		if(boxes.front().front().x > boxes.back().front().x) {
 			boxes.front().swap(boxes.back());
+			double tmp = turns.front();
+			turns.front() = turns.back();
+			turns.back() = tmp;
 		}
 	}
 
