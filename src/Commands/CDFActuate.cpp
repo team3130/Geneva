@@ -42,5 +42,5 @@ void CDFActuate::End()
 // subsystems is scheduled to run
 void CDFActuate::Interrupted()
 {
-
+	End();
 }
