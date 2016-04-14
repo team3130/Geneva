@@ -13,18 +13,14 @@ CameraFeed::CameraFeed()
 // Called just before this Command runs the first time
 void CameraFeed::Initialize()
 {
-	if (RobotVideo* video = RobotVideo::GetInstance()) {
-		video->SetHeadingQueueSize(0);
-		video->SetLocationQueueSize(0);
-		video->Enable();
-	}
+	RobotVideo::GetInstance()->Enable();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void CameraFeed::Execute()
 {
 	if (RobotVideo* video = RobotVideo::GetInstance()) {
-		if(!video->m_display) {
+		if(not video->m_display) {
 			frcReadImage(image,RobotVideo::IMG_FILE_NAME);
 			CameraServer::GetInstance()->SetImage(image);
 			//frcDispose(image);
@@ -85,9 +81,7 @@ bool CameraFeed::IsFinished()
 // Called once after isFinished returns true
 void CameraFeed::End()
 {
-	if (RobotVideo* video = RobotVideo::GetInstance()) {
-		video->Disable();
-	}
+	RobotVideo::GetInstance()->Disable();
 }
 
 // Called when another command which requires one or more of the same

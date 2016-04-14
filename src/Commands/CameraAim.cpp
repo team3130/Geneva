@@ -23,8 +23,6 @@ void CameraAim::Initialize()
 {
 	m_locationQueue = std::queue<LocationRecord>();
 	m_prevAngle = Chassis::GetInstance()->GetAngle();
-	RobotVideo::GetInstance()->SetHeadingQueueSize(0);
-	RobotVideo::GetInstance()->SetLocationQueueSize(0);
 	Chassis::GetInstance()->Shift(true);
 	Chassis::GetInstance()->HoldAngle(0);
 	m_gotVisual = false;
