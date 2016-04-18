@@ -42,5 +42,5 @@ void PortcullisActuate::End()
 // subsystems is scheduled to run
 void PortcullisActuate::Interrupted()
 {
-
+	End();
 }

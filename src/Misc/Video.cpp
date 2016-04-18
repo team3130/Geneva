@@ -82,10 +82,13 @@ RobotVideo* RobotVideo::GetInstance()
 {
 	if(!m_pInstance) {
 		m_pInstance = new RobotVideo;
-
 		// Recursion hazard!!! VideoThread() also uses this GetInstance()
-		// But the second reentry should not come to this point because m_pInstance will be defined.
+		// But the second reentry should not come to this point because m_pInstance will be already defined.
+
 		int th = pthread_create(&m_thread, NULL, VideoThread, NULL);
+		// After this call above the process forks to two threads:
+		// One continues here and the other goes into VideoThread()
+
 		std::cerr << "RobotVideo thread created " << th << " Thread: " << m_thread << std::endl;
 	}
 	return m_pInstance;
@@ -118,7 +121,18 @@ void PurgeBuffer(cv::VideoCapture& vcap, double fps=7.5)
 	}
 }
 
+/** \brief Process the list of found contours for FIRSTSTRONGHOLD
+ *
+ * This is the main logic for target processing in regards to FRC Stronghold game of 2016
+ * The idea is to go through the list and rate each contour by the similarity with U-shaped vision target.
+ * Then chose the top two by the rating since only two targets can be seen at a time.
+ * This function updates the object's member data that can be queried later from outside.
+ * \param contours Vector of contours. Where a contour is a Vector of Points
+ */
 void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
+
+	// To rearrange the set of random contours into a rated list of targets
+	// we're going to need a new vector that we can sort
 	struct Target {
 		double rating;
 		std::vector<cv::Point> contour;
@@ -157,6 +171,8 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 		}
 	}
 
+	// Now as we have the top MAX_TARGETS contours qualified as targets
+	// Extract four point from each contour that describe the rectangle and store the results
 	std::vector<std::vector<cv::Point>> boxes;
 	std::vector<double> turns;
 	for (struct Target target : targets) {
@@ -186,6 +202,8 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 		}
 	}
 
+	// To avoid misreading of our data from other threads we lock our mutex
+	// before updating the shared data and then unlock it when done.
 	mutex_lock();
 	m_boxes = boxes;
 	m_turns = turns;
@@ -194,9 +212,11 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 
 float RobotVideo::GetDistance(size_t i)
 {
-	// Distance by the height. The real height of the target is 97 inches.
+	// Distance by the height. Farther an object with known height lower it appears on the image.
+	// The real height of the target is 97 inches.
+	// Camera is 12 inches above the floor.
 	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
-	float tower = 97 - Preferences::GetInstance()->GetFloat("CameraHeight", 12);
+	float tower = Preferences::GetInstance()->GetFloat("CameraHeight", 97-12);
 	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 130));
 	return tower / tanf(alpha - atan2f(dy, CAPTURE_FOCAL));
 }
@@ -231,8 +251,8 @@ void RobotVideo::Run()
 
 	//set true to indicate we're connected and the thread is working.
 	m_connected = true;
-
 	PurgeBuffer(capture, CAPTURE_FPS);
+
 	while(true) {
 		cv::Mat Im;
 		cv::Mat hsvIm;
@@ -271,15 +291,16 @@ void RobotVideo::Run()
 			continue;
 		}
 
+		// Convert and filter the image to extract only green pixels
 		cv::cvtColor(Im, hsvIm, CV_BGR2HSV);
 		cv::inRange(hsvIm, BlobLower, BlobUpper, BlobIm);
-
-		//Extract Contours
 		BlobIm.convertTo(bw, CV_8UC1);
 
+		// Extract Contours. Thanks OpenCV for all the math
 		std::vector<std::vector<cv::Point>> contours;
 		cv::findContours(bw, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 
+		// We have a separate function specifically designed to process contours for FIRSTSTRONGHOLD
 		ProcessContours(contours);
 
 		if (display) {
@@ -343,6 +364,13 @@ void RobotVideo::Run()
 	}
 }
 
+/** \brief The video thread entry point
+ *
+ * POSIX Threads create function requires a standalone (not a class method) function
+ * as the new thread's starting point. This is an implementation of such.
+ * We also made the class's Run() method protected and declared this VideoThread()
+ * function a friend so nothing else can accidentally call the Run() method.
+ */
 void *VideoThread(void *param)
 {
 	RobotVideo *p = RobotVideo::GetInstance();
