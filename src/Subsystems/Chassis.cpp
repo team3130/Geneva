@@ -30,8 +30,10 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
 
-	m_gyro = new AnalogGyro(ANG_GYRO);
-	m_gyro->Calibrate();
+	m_gyro = new AnalogGyro(ANG_GYRO, 229430, 0.438);
+	//m_gyro->Calibrate();
+	//SmartDashboard::PutNumber("Gyro Center", m_gyro->GetCenter());
+	//SmartDashboard::PutNumber("Gyro Offset", m_gyro->GetOffset());
 
 	LiveWindow::GetInstance()->AddSensor("Chassis", "Gyro", m_gyro);
 
@@ -107,7 +109,7 @@ double Chassis::GetAngle()
 	 */
 	}else{
 		//Angle use wants a faster, more accurate, but drifting angle, for quick use.
-		return m_gyro->GetAngle();
+		return 1.0773480662983425414364640883978 * m_gyro->GetAngle();
 	}
 }
 
