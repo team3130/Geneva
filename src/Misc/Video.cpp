@@ -130,6 +130,16 @@ void PurgeBuffer(cv::VideoCapture& vcap, double fps=7.5)
  * \param contours Vector of contours. Where a contour is a Vector of Points
  */
 void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
+	// First do some preliminary calculations.
+	// These could be constants if the "CameraZeroDist" was a constant.
+	double focal_length = Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL);
+
+	// Distance from the frame center to the zenith in focal length units (pixels)
+	double zenith = focal_length * Preferences::GetInstance()->GetFloat("CameraZeroDist", 130) / Preferences::GetInstance()->GetFloat("CameraHeight", 97-12);
+	// Distance from the frame center to the horizon in focal length units (pixels)
+	double horizon = focal_length * Preferences::GetInstance()->GetFloat("CameraHeight", 97-12) / Preferences::GetInstance()->GetFloat("CameraZeroDist", 130);
+	// Distance from the lens to the horizon in focal length units
+	double flat = sqrt(focal_length*focal_length + horizon*horizon);
 
 	// To rearrange the set of random contours into a rated list of targets
 	// we're going to need a new vector that we can sort
@@ -189,20 +199,24 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 			if (hull[3].x - hull[3].y > point.x - point.y) hull[3] = point;
 		}
 
-		float turn = 0.5*(hull[0].x + hull[1].x);
-		double real_angle = atan2(CAPTURE_COLS/2.0 - turn, Preferences::GetInstance()->GetFloat("CameraFocal",CAPTURE_FOCAL));
+		// dX is the offset of the target from the frame's center to the left
+		float dX = 0.5*(CAPTURE_COLS - hull[0].x - hull[1].x);
+		// dY is the distance from the zenith to the target on the image
+		float dY = zenith + 0.5*(hull[0].y + hull[1].y - CAPTURE_ROWS);
+		// The real azimuth to the target is on the horizon, so scale it accordingly
+		float azimuth = dX * ((zenith+horizon) / dY);
+		double real_angle = atan2(azimuth, flat);
 
 		turns.push_back(real_angle * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0));
 		boxes.push_back(hull);
 	}
 
-	if(MAX_TARGETS==2 && boxes.size()==2) {
-		if(boxes.front().front().x > boxes.back().front().x) {
+	if (MAX_TARGETS == 2 && boxes.size() == 2) {
+		if (boxes.front().front().x > boxes.back().front().x) {
 			boxes.front().swap(boxes.back());
 			double tmp = turns.front();
 			turns.front() = turns.back();
 			turns.back() = tmp;
-
 		}
 	}
 
@@ -222,7 +236,7 @@ float RobotVideo::GetDistance(size_t i)
 	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
 	float tower = Preferences::GetInstance()->GetFloat("CameraHeight", 97-12);
 	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 130));
-	return tower / tanf(alpha - atan2f(dy, CAPTURE_FOCAL));
+	return tower / tanf(alpha - atan2f(dy, Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL)));
 }
 
 float RobotVideo::GetTurn(size_t i)
@@ -321,7 +335,9 @@ void RobotVideo::Run()
 				cv::polylines(Im, crosshair, true, cv::Scalar(260, 0, 255),2);
 			}
 
-			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias", 0));
+			int x =  CAPTURE_COLS/2.0 +
+					Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL) * tan((M_PI/180) *
+					Preferences::GetInstance()->GetFloat("CameraBias", 0));
 
 			cv::Scalar colorCross;
 			if ( (m_boxes.size() > 0 and m_boxes[0][1].y + m_boxes[0][0].y == CAPTURE_ROWS)
