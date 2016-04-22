@@ -249,6 +249,7 @@ float RobotVideo::GetDistance(size_t i, Target_side side)
 
 	float dx = CAPTURE_COLS/2 - m_boxes[i][tip].x;
 	float dy = m_zenith - CAPTURE_ROWS/2 + m_boxes[i][tip].y;
+	float dh = sqrt(dx*dx + dy*dy) - m_zenith;
 	return Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT)
 			/ tanf(m_tilt - atan2f(dh, Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL)));
 }
