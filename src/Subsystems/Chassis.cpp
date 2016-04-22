@@ -30,7 +30,8 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
 
-	m_gyro = new AnalogGyro(ANG_GYRO, 229430, 0.438);
+	//m_gyro = new AnalogGyro(ANG_GYRO, 229430, 0.438);
+	m_gyro = new AnalogGyro(ANG_GYRO);
 	//m_gyro->Calibrate();
 	//SmartDashboard::PutNumber("Gyro Center", m_gyro->GetCenter());
 	//SmartDashboard::PutNumber("Gyro Offset", m_gyro->GetOffset());
@@ -97,19 +98,20 @@ double Chassis::GetDistance()
 	return ( GetDistanceL() + GetDistanceR() ) / 2.0;
 }
 
-double Chassis::GetAngle()
+double Chassis::GetAngle(bool forceGyro)
 {
-	if(!m_onGyro)
-		//Means that angle use wants a driftless angle measure that lasts.
+	if(m_onGyro || forceGyro)
 	{
-		return 1.065 * ( GetDistanceR() - GetDistanceL() ) * 180 / (26.75 * M_PI);
-	/*
-	 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
-	 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
-	 */
-	}else{
 		//Angle use wants a faster, more accurate, but drifting angle, for quick use.
-		return 1.0773480662983425414364640883978 * m_gyro->GetAngle();
+		return m_gyro->GetAngle();
+	}
+	else {
+		//Means that angle use wants a driftless angle measure that lasts.
+		return 1.065 * ( GetDistanceR() - GetDistanceL() ) * 180 / (26.75 * M_PI);
+		/*
+		 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
+		 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
+		 */
 	}
 }
 

@@ -55,7 +55,7 @@ public:
 	double GetDistance();
 	double GetPIDError() {return GetSetpoint() - GetPosition();};
 	void ResetEncoders();
-	double GetAngle();
+	double GetAngle(bool forceGyro=false);
 	void HoldAngle(double angle = 0, bool gyro = false);
 	void ReleaseAngle();
 	void DriveStraight(double move) { moveSpeed = move; };
