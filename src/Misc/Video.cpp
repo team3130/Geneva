@@ -71,6 +71,17 @@ RobotVideo::RobotVideo()
 
 }
 
+void RobotVideo::InitVariables()
+{
+	// First do some preliminary calculations.
+
+	m_focal_length = Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL);
+	m_zenith = m_focal_length * Preferences::GetInstance()->GetFloat("CameraZeroDist", CAMERA_ZERO_DIST) / Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT);
+	m_horizon = m_focal_length * Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT) / Preferences::GetInstance()->GetFloat("CameraZeroDist", CAMERA_ZERO_DIST);
+	m_flat = sqrt(m_focal_length*m_focal_length + m_horizon*m_horizon);
+	m_tilt = atan2f(Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT), Preferences::GetInstance()->GetFloat("CameraZeroDist", CAMERA_ZERO_DIST));
+}
+
 /** \brief Get a pointer to the video processor
  *
  * The Video needs to be a parallel process so its cycles won't interfere with the iterations
@@ -130,17 +141,6 @@ void PurgeBuffer(cv::VideoCapture& vcap, double fps=7.5)
  * \param contours Vector of contours. Where a contour is a Vector of Points
  */
 void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
-	// First do some preliminary calculations.
-	// These could be constants if the "CameraZeroDist" was a constant.
-	double focal_length = Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL);
-
-	// Distance from the frame center to the zenith in focal length units (pixels)
-	double zenith = focal_length * Preferences::GetInstance()->GetFloat("CameraZeroDist", 130) / Preferences::GetInstance()->GetFloat("CameraHeight", 97-12);
-	// Distance from the frame center to the horizon in focal length units (pixels)
-	double horizon = focal_length * Preferences::GetInstance()->GetFloat("CameraHeight", 97-12) / Preferences::GetInstance()->GetFloat("CameraZeroDist", 130);
-	// Distance from the lens to the horizon in focal length units
-	double flat = sqrt(focal_length*focal_length + horizon*horizon);
-
 	// To rearrange the set of random contours into a rated list of targets
 	// we're going to need a new vector that we can sort
 	struct Target {
@@ -202,10 +202,10 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 		// dX is the offset of the target from the frame's center to the left
 		float dX = 0.5*(CAPTURE_COLS - hull[0].x - hull[1].x);
 		// dY is the distance from the zenith to the target on the image
-		float dY = zenith + 0.5*(hull[0].y + hull[1].y - CAPTURE_ROWS);
+		float dY = m_zenith + 0.5*(hull[0].y + hull[1].y - CAPTURE_ROWS);
 		// The real azimuth to the target is on the horizon, so scale it accordingly
-		float azimuth = dX * ((zenith+horizon) / dY);
-		double real_angle = atan2(azimuth, flat);
+		float azimuth = dX * ((m_zenith + m_horizon) / dY);
+		double real_angle = atan2(azimuth, m_flat);
 
 		turns.push_back(real_angle * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0));
 		boxes.push_back(hull);
@@ -228,15 +228,30 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 	mutex_unlock();
 }
 
-float RobotVideo::GetDistance(size_t i)
+float RobotVideo::GetDistance(size_t i, Target_side side)
 {
 	// Distance by the height. Farther an object with known height lower it appears on the image.
 	// The real height of the target is 97 inches.
 	// Camera is 12 inches above the floor.
-	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
-	float tower = Preferences::GetInstance()->GetFloat("CameraHeight", 97-12);
-	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 130));
-	return tower / tanf(alpha - atan2f(dy, Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL)));
+
+	size_t tip;
+	switch (side) {
+	case kLeft:
+		tip = 0;
+		break;
+	case kRight:
+		tip = 1;
+		break;
+	default:
+		// This function can call itself recursively to get the distance to the middle as the average of two sides
+		return (GetDistance(i, kLeft) + GetDistance(i, kRight)) / 2;
+	}
+
+	float dx = CAPTURE_COLS/2 - m_boxes[i][tip].x;
+	float dy = m_zenith - CAPTURE_ROWS/2 + m_boxes[i][tip].y;
+	float dh = sqrt(dx*dx + dy*dy) - m_zenith;
+	return Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT)
+			/ tanf(m_tilt - atan2f(dh, Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL)));
 }
 
 float RobotVideo::GetTurn(size_t i)
@@ -291,6 +306,7 @@ void RobotVideo::Run()
 		double t_start = timer.Get();
 		mutex_lock();
 		bool display = m_display;
+		InitVariables();
 		mutex_unlock();
 
 		if(m_idle) {

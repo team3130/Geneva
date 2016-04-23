@@ -7,14 +7,13 @@
 #include "AutonControlIntakeHorizontal.h"
 #include "AutonControlIntakeWheels.h"
 #include "1BallAuton.h"
-#include "AutonCatapult.h"
+#include "Commands/ReloadCatapult.h"
 
 class PickUpAuton: public CommandGroup
 {
 private:
-	AutonCatapult* Catapult_ReadyShotOne;
+	ReloadCatapult* Catapult_ReadyShotOne;
 	AutonControlIntakeVertical* Intake_LowerIntake;
-	AutonControlIntakeVertical* Intake_RaiseIntake;
 
 	AutonControlIntakeHorizontal* Intake_ExtendIntake;
 	AutonControlIntakeHorizontal* Intake_UnExtendIntake;

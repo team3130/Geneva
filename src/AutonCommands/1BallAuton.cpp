@@ -1,12 +1,6 @@
 #include "1BallAuton.h"
 
 #include "RobotMap.h"
-#include "Commands/ReloadCatapult.h"
-#include "AutonControlIntakeVertical.h"
-#include "AutonDriveToPoint.h"
-#include "Commands/ControlCatapultFire.h"
-#include "AutonTurn.h"
-#include "Commands/CameraAim.h"
 #include "OI.h"
 
 OneBallAuton::OneBallAuton()

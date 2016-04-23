@@ -128,6 +128,24 @@ double OI::ReturnAutonDistance()
 	return dist;
 }
 
+double OI::ReturnAutonDistHorizontal()
+{
+	switch(*(int *)positionChooser->GetSelected()){
+		case 1:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball LowBar",500);
+		case 2:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 2",400);
+		case 3:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 3",300);
+		case 4:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 4",200);
+		case 5:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 5",100);
+		default:
+			return 0;
+	}
+}
+
 OI* OI::GetInstance()
 {
 	if(!m_pInstance) m_pInstance = new OI;

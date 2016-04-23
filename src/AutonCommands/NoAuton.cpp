@@ -1,10 +1,10 @@
 #include "NoAuton.h"
 
-#include "AutonCatapult.h"
+#include "RobotMap.h"
 
 NoAuton::NoAuton()
 {
-	Catapult_ReadyShotOne = new AutonCatapult();
+	Catapult_ReadyShotOne = new ReloadCatapult(BTN_PRESET_1);
 
 	AddSequential(Catapult_ReadyShotOne, 2);
 }
@@ -17,11 +17,6 @@ NoAuton::~NoAuton()
 // Called just before this Command runs the first time
 void NoAuton::Initialize()
 {
-
-	Catapult_ReadyShotOne->SetParam(
-			Preferences::GetInstance()->GetDouble("ZeroAuton StopAngle",3),
-			Preferences::GetInstance()->GetDouble("ZeroAuton Catapult Threshold",0.5)
-	);
 }
 
 // Called repeatedly when this Command is scheduled to run

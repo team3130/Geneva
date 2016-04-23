@@ -1,15 +1,17 @@
-#ifndef PICK_UP_RETURN_H
-#define PICK_UP_RETURN_H
+#ifndef STOP_TWO_BALL_AUTON_H
+#define STOP_TWO_BALL_AUTON_H
 
 #include <WPILib.h>
 
 #include "AutonControlIntakeVertical.h"
 #include "AutonControlIntakeHorizontal.h"
 #include "AutonControlIntakeWheels.h"
-#include "1BallReturn.h"
+#include "AutonTurn.h"
+#include "AutonDriveToPoint.h"
+#include "1BallAuton.h"
 #include "Commands/ReloadCatapult.h"
 
-class PickUpReturn: public CommandGroup
+class Stop2BallAuton: public CommandGroup
 {
 private:
 	ReloadCatapult* Catapult_ReadyShotOne;
@@ -19,12 +21,16 @@ private:
 	AutonControlIntakeHorizontal* Intake_UnExtendIntake;
 	AutonControlIntakeWheels* Intake_Spin;
 
-	OneBallReturn* Auton_1BallReturn;
+	AutonTurn* Drive_TurnToHorizontal;
+	AutonTurn* Drive_TurnToDefense;
+	AutonDriveToPoint* Drive_DriveToDefense;
+
+	OneBallAuton* Auton_1Ball;
 
 
 public:
-	PickUpReturn();
-	~PickUpReturn();
+	Stop2BallAuton();
+	~Stop2BallAuton();
 	void Initialize();
 	void Execute();
 	void End();

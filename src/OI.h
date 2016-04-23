@@ -54,6 +54,7 @@ public:
 	SendableChooser* defenseChooser;
 	double ReturnAutonAngle();
 	double ReturnAutonDistance();
+	double ReturnAutonDistHorizontal();		//For Stop2BallAuton
 };
 
 #endif
