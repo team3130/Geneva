@@ -22,7 +22,7 @@ Stop2BallAuton::Stop2BallAuton()
 	AddParallel(Intake_UnExtendIntake, .5);
 	AddSequential(Drive_TurnToHorizontal,1);
 	AddSequential(Drive_DriveToDefense,3);
-	AddSequential(Drive_DriveToDefense,1);
+	AddSequential(Drive_TurnToDefense,1);
 	AddSequential(Auton_1Ball);
 }
 
