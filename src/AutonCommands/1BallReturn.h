@@ -8,14 +8,11 @@
 #include "AutonControlIntakeVertical.h"
 #include "AutonControlIntakeHorizontal.h"
 #include "AutonPintake.h"
-#include "AutonCatapult.h"
 
 class OneBallReturn: public CommandGroup
 {
 private:
 	OneBallAuton* Auton_1Ball;
-
-	AutonCatapult* Catapult_DriveCatDown;
 
 	AutonControlIntakeVertical* Intake_IntakeDown;
 	AutonControlIntakeHorizontal* Intake_IntakeOut;

@@ -6,7 +6,6 @@
 OneBallReturn::OneBallReturn()
 {
 	Auton_1Ball = new OneBallAuton();
-	Catapult_DriveCatDown = new AutonCatapult();
 	Intake_IntakeDown = new AutonControlIntakeVertical();
 	Intake_IntakeOut = new AutonControlIntakeHorizontal();
 	Intake_PinsRelease = new AutonPintake();
@@ -24,7 +23,6 @@ OneBallReturn::OneBallReturn()
 OneBallReturn::~OneBallReturn()
 {
 	delete Auton_1Ball;
-	delete Catapult_DriveCatDown;
 	delete Intake_IntakeDown;
 	delete Intake_IntakeOut;
 	delete Intake_PinsRelease;
@@ -35,8 +33,6 @@ OneBallReturn::~OneBallReturn()
 // Called just before this Command runs the first time
 void OneBallReturn::Initialize()
 {
-	Catapult_DriveCatDown->SetParam(3,0.2);		//Doesn't Need preferences, just resets catapult.
-
 	bool intakePosition = false;
 	if (*(int *)OI::GetInstance()->positionChooser->GetSelected() == 1) intakePosition = true;
 	Intake_IntakeDown->SetParam(intakePosition);			//Won't require Tuning
