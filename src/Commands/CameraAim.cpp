@@ -6,8 +6,9 @@
 #include "Subsystems/Blinkies.h"
 #include "Subsystems/CatStopCalculations.h"
 
-CameraAim::CameraAim(Target_side side, bool auton)
+CameraAim::CameraAim(Target_side side, JoystickButton *button, bool auton)
 	: m_side(side)
+	, m_button(button)
 	, m_prevAngle(0)
 	, m_target(0)
 	, m_gotLock(false)
@@ -149,7 +150,7 @@ void CameraAim::Execute()
 
 				// The camera offset over the distance is the adjustment angle's tangent
 				turn += (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetFloat("CameraOffset",RobotVideo::CAMERA_OFFSET), dist);
-				turn += (180.0/M_PI) * adjustAngle(distL, distR);
+//				turn += (180.0/M_PI) * adjustAngle(distL, distR);
 				double camTolerance = (180.0/M_PI) * atan2f(Preferences::GetInstance()->GetDouble("CameraTolerance", 3.5), dist);
 				camTolerance -= Preferences::GetInstance()->GetDouble("CameraDeviation", 0.8);
 				if (camTolerance < 0.1) camTolerance = 0.1;
@@ -198,6 +199,8 @@ void CameraAim::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool CameraAim::IsFinished()
 {
+	if (OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT)) return true;
+	if (!m_auton && m_button && !m_button->Get()) return true;
 	if (m_gotVisual and m_gotLock) {
 		SmartDashboard::PutBoolean("Target locked", true);
 		SmartDashboard::PutBoolean("DB/LED 0", true);
