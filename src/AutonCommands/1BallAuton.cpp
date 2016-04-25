@@ -13,7 +13,7 @@ OneBallAuton::OneBallAuton()
 	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
-	Vision_AimAtTarget = new CameraAim(CameraAim::kLeft, true);
+	Vision_AimAtTarget = new CameraAim(CameraAim::kLeft, nullptr, true);
 	Delay_FinishAuton = new AutonDelay();
 
 	AddParallel(Intake_AdjustForDefense, 1);

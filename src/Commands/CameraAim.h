@@ -21,7 +21,7 @@ public:
 	static constexpr double MAX_ANGULAR_V = 2; //!<- degrees per second
 	static constexpr double AIM_COOLDOWN = 0.25; //!<- seconds to sit still before acquiring a new visual
 
-	CameraAim(Target_side side=kLeft, bool auton=false);
+	CameraAim(Target_side side, JoystickButton *button, bool auton=false);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -34,6 +34,7 @@ private:
 	Timer frame_timer;
 	Timer cycle_timer;
 	Target_side m_side;
+	JoystickButton *m_button;
 	std::queue<LocationRecord> m_locationQueue;
 	double m_prevAngle;
 	double m_target;

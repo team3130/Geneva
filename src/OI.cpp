@@ -45,9 +45,9 @@ OI::OI()
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
 	intakePin->WhileHeld(new Pintake());
-	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
-	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
-	fire->WhileHeld(new ControlCatapultFire());
+	aimLeft->WhenPressed(new CameraAim(CameraAim::kLeft, aimLeft));
+	aimRight->WhenPressed(new CameraAim(CameraAim::kRight, aimRight));
+	fire->WhenPressed(new ControlCatapultFire());
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
@@ -131,16 +131,14 @@ double OI::ReturnAutonDistance()
 double OI::ReturnAutonDistHorizontal()
 {
 	switch(*(int *)positionChooser->GetSelected()){
-		case 1:
-			return Preferences::GetInstance()->GetDouble("Stop2Ball LowBar",500);
 		case 2:
-			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 2",400);
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 2",218);
 		case 3:
-			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 3",300);
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 3",112);
 		case 4:
-			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 4",200);
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 4",160);
 		case 5:
-			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 5",100);
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 5",70);
 		default:
 			return 0;
 	}

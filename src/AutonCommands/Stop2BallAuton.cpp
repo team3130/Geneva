@@ -12,16 +12,19 @@ Stop2BallAuton::Stop2BallAuton()
 	Catapult_ReadyShotOne = new ReloadCatapult(BTN_PRESET_1);
 	Intake_Spin = new AutonControlIntakeWheels();
 	Drive_DriveToDefense = new AutonDriveToPoint();
+	Drive_ShiftDown = new DriveShiftDown();
 	Drive_TurnToDefense = new AutonTurn();
 	Drive_TurnToHorizontal = new AutonTurn();
+	Delay_IntakeBall = new AutonDelay();
 
-	AddSequential(Catapult_ReadyShotOne, 2);
-	AddParallel(Intake_LowerIntake, 1);
+	AddParallel(Intake_Spin, 2); //Run intake wheels for two second
 	AddParallel(Intake_ExtendIntake, 1);
-	AddSequential(Intake_Spin, 1); //Run intake wheels for one second
-	AddParallel(Intake_UnExtendIntake, .5);
+	AddParallel(Intake_LowerIntake, 1);
+	AddSequential(Delay_IntakeBall, .5);
 	AddSequential(Drive_TurnToHorizontal,1);
 	AddSequential(Drive_DriveToDefense,3);
+	AddParallel(Intake_UnExtendIntake, .5);
+	AddSequential(Drive_ShiftDown,0.5);
 	AddSequential(Drive_TurnToDefense,1);
 	AddSequential(Auton_1Ball);
 }
@@ -57,12 +60,12 @@ void Stop2BallAuton::Initialize()
 	Intake_Spin->SetParam(1);
 
 	Drive_TurnToHorizontal->SetParam(
-			Preferences::GetInstance()->GetDouble("Stop2Ball Angle",-89),
+			Preferences::GetInstance()->GetDouble("Stop2Ball Angle",94),
 			false
 	);
 
 	Drive_TurnToDefense->SetParam(
-			-Preferences::GetInstance()->GetDouble("Stop2Ball Angle",-89),
+			-Preferences::GetInstance()->GetDouble("Stop2Ball Angle",94),
 			false
 	);
 
@@ -73,6 +76,8 @@ void Stop2BallAuton::Initialize()
 			Preferences::GetInstance()->GetDouble("Stop2Ball Tolerance",1),
 			false
 	);
+
+	Delay_IntakeBall->setParam(0.5);
 }
 
 // Called repeatedly when this Command is scheduled to run

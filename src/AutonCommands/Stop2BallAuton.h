@@ -9,7 +9,9 @@
 #include "AutonTurn.h"
 #include "AutonDriveToPoint.h"
 #include "1BallAuton.h"
+#include "AutonDelay.h"
 #include "Commands/ReloadCatapult.h"
+#include "Commands/DriveShiftDown.h"
 
 class Stop2BallAuton: public CommandGroup
 {
@@ -24,6 +26,9 @@ private:
 	AutonTurn* Drive_TurnToHorizontal;
 	AutonTurn* Drive_TurnToDefense;
 	AutonDriveToPoint* Drive_DriveToDefense;
+	DriveShiftDown* Drive_ShiftDown;
+
+	AutonDelay* Delay_IntakeBall;
 
 	OneBallAuton* Auton_1Ball;
 
