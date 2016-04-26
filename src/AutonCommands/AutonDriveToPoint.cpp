@@ -51,6 +51,11 @@ void AutonDriveToPoint::Initialize()
 {
 	//Chassis::GetInstance()->ResetEncoders();
 	GetPIDController()->Reset();
+	GetPIDController()->SetPID(
+			Preferences::GetInstance()->GetDouble("StraightP",0.05),
+			Preferences::GetInstance()->GetDouble("StraightI",0.01),
+			Preferences::GetInstance()->GetDouble("StraightD",0.0)
+			);
 	GetPIDController()->SetSetpoint(Chassis::GetInstance()->GetDistance() + m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
 	Chassis::GetInstance()->Shift(m_lowGear);
