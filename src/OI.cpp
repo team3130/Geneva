@@ -14,6 +14,7 @@
 #include "Commands/PortcullisActuate.h"
 #include "Commands/IntakeIn.h"
 #include "Commands/IntakeOut.h"
+#include "Commands/HeadlightsOn.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -33,6 +34,7 @@ OI::OI()
 	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
+	headlight	= new JoystickButton(stickR, 2);
 	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
 	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
 	intakeOut	= new POVTrigger(gamepad, POV_INTAKEOUT);
@@ -55,6 +57,7 @@ OI::OI()
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());
 	intakeOut->WhileActive(new IntakeOut());
+	headlight->ToggleWhenPressed(new HeadlightsOn());
 
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);
