@@ -26,7 +26,7 @@ void ControlIntakeWheels::Execute()
 	{
 		IntakeWheel::GetInstance()->SpinIntake(Preferences::GetInstance()->GetDouble("Intake Speed",1));
 	}else if(oi->gamepad->GetRawButton(BTN_OUTAKE)){
-		IntakeWheel::GetInstance()->SpinIntake(-Preferences::GetInstance()->GetDouble("Intake Speed",1));
+		IntakeWheel::GetInstance()->SpinIntake(Preferences::GetInstance()->GetDouble("Intake Speed Out",-1));
 	}else{
 		IntakeWheel::GetInstance()->SpinIntake(0);
 	}
