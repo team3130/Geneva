@@ -49,7 +49,8 @@ void ControlCatapultFire::Execute()
 bool ControlCatapultFire::IsFinished()
 {
 	if (m_bypass) return false;
-	else return not OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
+	else if (timer->Get() > (m_waiting ? 0.5 : 0.25)) return not OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT);
+	return false;
 }
 
 /// Called once after isFinished returns true
