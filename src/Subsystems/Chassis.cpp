@@ -25,18 +25,26 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	m_shifter = new Solenoid(CAN_PNMMODULE, PNM_GEARSHIFTER);
 	m_bShiftedLow = false;
 
+	try{
+		//Connect to navX Gyro on MXP port.
+		m_navX = new AHRS(SPI::Port::kMXP);
+		m_bNavXPresent = true;
+	} catch (std::exception ex){
+		//If connection fails log the error and fall back to encoder based angle handling.
+		std::string str_error = "Error instantiating navX from MXP: ";
+		str_error += ex.what();
+		DriverStation::ReportError(str_error.c_str());
+		m_bNavXPresent = false;
+	}
+
+
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Front TalonSRX", m_leftMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Rear TalonSRX", m_leftMotorRear);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
 
-	//m_gyro = new AnalogGyro(ANG_GYRO, 229430, 0.438);
-	m_gyro = new AnalogGyro(ANG_GYRO);
-	//m_gyro->Calibrate();
-	//SmartDashboard::PutNumber("Gyro Center", m_gyro->GetCenter());
-	//SmartDashboard::PutNumber("Gyro Offset", m_gyro->GetOffset());
+	LiveWindow::GetInstance()->AddSensor("Chassis", "NavX", m_navX);
 
-	LiveWindow::GetInstance()->AddSensor("Chassis", "Gyro", m_gyro);
 
 	m_onPID = false;
 	m_onGyro = false;
@@ -100,10 +108,10 @@ double Chassis::GetDistance()
 
 double Chassis::GetAngle(bool forceGyro)
 {
-	if(m_onGyro || forceGyro)
+	if((m_onGyro || forceGyro) && m_bNavXPresent)
 	{
 		//Angle use wants a faster, more accurate, but drifting angle, for quick use.
-		return m_gyro->GetAngle();
+		return m_navX->GetYaw();
 	}
 	else {
 		//Means that angle use wants a driftless angle measure that lasts.

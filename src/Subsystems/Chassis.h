@@ -2,6 +2,7 @@
 #define CHASSIS_H
 
 #include <WPILib.h>
+#include <AHRS.h>
 #include "Commands/Subsystem.h"
 #include "RobotMap.h"
 
@@ -27,12 +28,14 @@ private:
 	CANTalon* m_leftMotorRear;
 	CANTalon* m_rightMotorFront;
 	CANTalon* m_rightMotorRear;
-	AnalogGyro* m_gyro;
+	AHRS* m_navX;
+
 	bool m_bShiftedLow;
 	double moveSpeed;
 	double prevAbsBias;
 	bool m_onPID;
 	bool m_onGyro;
+	bool m_bNavXPresent;
 
 	Chassis();
 	Chassis(Chassis const&);
