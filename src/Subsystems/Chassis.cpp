@@ -112,7 +112,7 @@ double Chassis::GetAngle(bool forceGyro)
 	//if(m_bNavXPresent)									//Always gyro unless not present
 	{
 		//Angle use wants a faster, more accurate, but drifting angle, for quick use.
-		return m_navX->GetYaw();
+		return -m_navX->GetYaw();
 	}
 	else {
 		//Means that angle use wants a driftless angle measure that lasts.
