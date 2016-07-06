@@ -24,7 +24,7 @@ void CameraAim::Initialize()
 {
 	m_locationQueue = std::queue<LocationRecord>();
 	m_prevAngle = Chassis::GetInstance()->GetAngle();
-	Chassis::GetInstance()->Shift(true);
+	Chassis::GetInstance()->Shift(false);
 	Chassis::GetInstance()->HoldAngle(0, false);
 	m_gotVisual = false;
 	m_gotLock = false;
