@@ -158,11 +158,25 @@ void Chassis::ResetEncoders()
 void Chassis::HoldAngle(double angle, bool gyro)
 {
 	if(!m_onPID) m_onGyro = gyro;		//Prevent changing angle mode when already in a turn
-	GetPIDController()->SetPID(
-			Preferences::GetInstance()->GetDouble("ChassisP", 0.085),
-			Preferences::GetInstance()->GetDouble("ChassisI", 0.02),
-			Preferences::GetInstance()->GetDouble("ChassisD", 0.125));
+	SetPIDValues();
 	GetPIDController()->SetSetpoint(GetAngle() + angle);
 	GetPIDController()->Enable();
 	m_onPID = true;
+}
+
+void Chassis::SetPIDValues()
+{
+	if(m_bShiftedLow){
+		GetPIDController()->SetPID(
+				Preferences::GetInstance()->GetDouble("ChassisHighP",0.075),
+				Preferences::GetInstance()->GetDouble("ChassisHighI",0.01),
+				Preferences::GetInstance()->GetDouble("ChassisHighD",0.09)
+		);
+	}else{
+		GetPIDController()->SetPID(
+				Preferences::GetInstance()->GetDouble("ChassisLowP", 0.085),
+				Preferences::GetInstance()->GetDouble("ChassisLowI", 0.02),
+				Preferences::GetInstance()->GetDouble("ChassisLowD", 0.125)
+		);
+	}
 }
