@@ -88,7 +88,8 @@ double Chassis::GetSpeedR()
 
 double Chassis::GetSpeed()
 {
-	return ( GetSpeedL() + GetSpeedR() ) / 2.0;
+	//return ( GetSpeedL() + GetSpeedR() ) / 2.0;
+	return GetSpeedL();
 }
 
 double Chassis::GetDistanceL()
@@ -103,7 +104,8 @@ double Chassis::GetDistanceR()
 
 double Chassis::GetDistance()
 {
-	return ( GetDistanceL() + GetDistanceR() ) / 2.0;
+	//return ( GetDistanceL() + GetDistanceR() ) / 2.0;
+	return GetDistanceL();
 }
 
 double Chassis::GetAngle(bool forceGyro)
