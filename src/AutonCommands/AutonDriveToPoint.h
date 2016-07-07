@@ -12,9 +12,10 @@ private:
 	double m_angle;
 	double m_threshold;
 	bool m_lowGear;
+	bool m_setShift;
 
 public:
-	AutonDriveToPoint();
+	AutonDriveToPoint(bool setShift=true);
 	~AutonDriveToPoint();
 	void Initialize();
 	void Execute();

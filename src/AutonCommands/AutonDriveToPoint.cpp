@@ -1,13 +1,14 @@
 #include "AutonDriveToPoint.h"
 #include "Subsystems/Chassis.h"
 
-AutonDriveToPoint::AutonDriveToPoint()
+AutonDriveToPoint::AutonDriveToPoint(bool setShift)
 	:PIDCommand(0.1,0,0)
 	,m_speed(0)
 	,m_setPoint(0)
 	,m_angle(0)
 	,m_threshold(0)
 	,m_lowGear(false)
+	,m_setShift(setShift)
 {
 	timer = new Timer();
 
@@ -54,7 +55,7 @@ void AutonDriveToPoint::Initialize()
 	SetPIDValues();
 	GetPIDController()->SetSetpoint(Chassis::GetInstance()->GetDistance() + m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
-	Chassis::GetInstance()->Shift(m_lowGear);
+	if(m_setShift)Chassis::GetInstance()->Shift(m_lowGear);
 
 	//Chassis::GetInstance()->ReleaseAngle();
 	Chassis::GetInstance()->HoldAngle(m_angle, false);
