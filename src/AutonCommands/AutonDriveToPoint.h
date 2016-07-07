@@ -23,6 +23,7 @@ public:
 	void Interrupted();
 	void SetParam(double travelDistance, double angle=0, double speed=0.5, double tolerance=0.5, bool lowGear = false);
 
+	void SetPIDValues();
 	double ReturnPIDInput();
 	void UsePIDOutput(double output);
 };

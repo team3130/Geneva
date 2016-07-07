@@ -2,7 +2,7 @@
 #include "Subsystems/Chassis.h"
 
 AutonDriveToPoint::AutonDriveToPoint()
-	:PIDCommand(0.1,0,0) //TODO: Tune PID Values
+	:PIDCommand(0.1,0,0)
 	,m_speed(0)
 	,m_setPoint(0)
 	,m_angle(0)
@@ -51,11 +51,7 @@ void AutonDriveToPoint::Initialize()
 {
 	//Chassis::GetInstance()->ResetEncoders();
 	GetPIDController()->Reset();
-	GetPIDController()->SetPID(
-			Preferences::GetInstance()->GetDouble("StraightP",0.05),
-			Preferences::GetInstance()->GetDouble("StraightI",0.01),
-			Preferences::GetInstance()->GetDouble("StraightD",0.0)
-			);
+	SetPIDValues();
 	GetPIDController()->SetSetpoint(Chassis::GetInstance()->GetDistance() + m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
 	Chassis::GetInstance()->Shift(m_lowGear);
@@ -91,4 +87,21 @@ void AutonDriveToPoint::End()
 void AutonDriveToPoint::Interrupted()
 {
 End();
+}
+
+void AutonDriveToPoint::SetPIDValues()
+{
+	if(m_lowGear){
+			GetPIDController()->SetPID(
+					Preferences::GetInstance()->GetDouble("StraightHighP",0.075),	//TODO:Set High Gear PID defaults
+					Preferences::GetInstance()->GetDouble("StraightHighI",0.01),
+					Preferences::GetInstance()->GetDouble("StraightHighD",0.09)
+			);
+		}else{
+			GetPIDController()->SetPID(
+					Preferences::GetInstance()->GetDouble("StraightLowP", 0.05),
+					Preferences::GetInstance()->GetDouble("StraightLowI", 0.01),
+					Preferences::GetInstance()->GetDouble("StraightLowD", 0.0)
+			);
+		}
 }
