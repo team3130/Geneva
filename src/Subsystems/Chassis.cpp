@@ -108,8 +108,8 @@ double Chassis::GetDistance()
 
 double Chassis::GetAngle(bool forceGyro)
 {
-	if((m_onGyro || forceGyro) && m_bNavXPresent)
-	//if(m_bNavXPresent)									//Always gyro unless not present
+	//if((m_onGyro || forceGyro) && m_bNavXPresent)
+	if(m_bNavXPresent)									//Always gyro unless not present
 	{
 		//Angle use wants a faster, more accurate, but drifting angle, for quick use.
 		return -m_navX->GetAngle();
