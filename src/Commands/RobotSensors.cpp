@@ -45,6 +45,7 @@ void RobotSensors::Execute()
 
 	PutBasicNumber(3, "Angle", Chassis::GetInstance()->GetAngle());
 	PutBasicNumber(4, "Speed", Chassis::GetInstance()->GetSpeed());
+	PutBasicNumber(5, "Gyro", Chassis::GetInstance()->GetAngle(true));
 
 
 	if (Chassis::GetInstance()->GetDistanceL()!=0 and Chassis::GetInstance()->GetDistanceR()!=0) {

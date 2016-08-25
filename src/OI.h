@@ -2,6 +2,7 @@
 #define OI_H
 
 #include "WPILib.h"
+#include "AutonCommands/AutonDriveToPoint.h"
 
 class POVTrigger: public Trigger
 {
@@ -27,6 +28,7 @@ private:
 	OI& operator=(OI const&);
 	static OI* m_pInstance;
 
+	AutonDriveToPoint* driveDistTest;
 public:
 	static OI* GetInstance();
 	Joystick*	stickL;
@@ -41,6 +43,7 @@ public:
 	JoystickButton* shiftDown;
 	JoystickButton* shiftUp;
 	JoystickButton* streight;
+	JoystickButton* toPoint;
 	JoystickButton* headlight;
 	POVTrigger*		portcullisIntake;
 	POVTrigger* 	CDFIntake;
@@ -57,5 +60,4 @@ public:
 	double ReturnAutonDistance();
 	double ReturnAutonDistHorizontal();		//For Stop2BallAuton
 };
-
 #endif

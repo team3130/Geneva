@@ -12,9 +12,10 @@ private:
 	double m_angle;
 	double m_threshold;
 	bool m_lowGear;
+	bool m_setShift;
 
 public:
-	AutonDriveToPoint();
+	AutonDriveToPoint(bool setShift=true);
 	~AutonDriveToPoint();
 	void Initialize();
 	void Execute();
@@ -23,6 +24,7 @@ public:
 	void Interrupted();
 	void SetParam(double travelDistance, double angle=0, double speed=0.5, double tolerance=0.5, bool lowGear = false);
 
+	void SetPIDValues();
 	double ReturnPIDInput();
 	void UsePIDOutput(double output);
 };

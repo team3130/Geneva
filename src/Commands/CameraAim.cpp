@@ -24,8 +24,8 @@ void CameraAim::Initialize()
 {
 	m_locationQueue = std::queue<LocationRecord>();
 	m_prevAngle = Chassis::GetInstance()->GetAngle();
-	Chassis::GetInstance()->Shift(true);
-	Chassis::GetInstance()->HoldAngle(0);
+//	Chassis::GetInstance()->Shift(false);
+	Chassis::GetInstance()->HoldAngle(0, false);
 	m_gotVisual = false;
 	m_gotLock = false;
 	location_timer.Reset();
@@ -160,7 +160,7 @@ void CameraAim::Execute()
 				if (proxima > 9) proxima = 9;
 				Blinkies::PutCommand("Aim_", proxima);
 			}
-			chassis->HoldAngle(turn);
+			chassis->HoldAngle(turn, true);
 			frame_timer.Reset();
 			m_target = turn;
 			m_gotVisual = true;

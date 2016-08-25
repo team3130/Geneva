@@ -15,6 +15,8 @@
 #include "Commands/IntakeIn.h"
 #include "Commands/IntakeOut.h"
 #include "Commands/HeadlightsOn.h"
+#include "AutonCommands/AutonDriveToPoint.h"
+#include "Subsystems/Chassis.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -34,6 +36,7 @@ OI::OI()
 	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
+	toPoint		= new JoystickButton(stickL, 10);
 	headlight	= new JoystickButton(stickR, 2);
 	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
 	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
@@ -44,6 +47,9 @@ OI::OI()
 	wipePoints 	= new WipeStopPoints();
 	testPoints	= new TestStopPoints();
 
+	driveDistTest = new AutonDriveToPoint(false);
+	driveDistTest->SetParam(20.0,0.0,1.0,0.5);
+
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
 	intakePin->WhileHeld(new Pintake());
@@ -53,6 +59,7 @@ OI::OI()
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
+	toPoint->WhileHeld(driveDistTest);
 	portcullisIntake->WhileActive(new PortcullisActuate());
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());

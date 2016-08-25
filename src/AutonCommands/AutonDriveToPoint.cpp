@@ -1,13 +1,14 @@
 #include "AutonDriveToPoint.h"
 #include "Subsystems/Chassis.h"
 
-AutonDriveToPoint::AutonDriveToPoint()
-	:PIDCommand(0.1,0,0) //TODO: Tune PID Values
+AutonDriveToPoint::AutonDriveToPoint(bool setShift)
+	:PIDCommand(0.1,0,0)
 	,m_speed(0)
 	,m_setPoint(0)
 	,m_angle(0)
 	,m_threshold(0)
 	,m_lowGear(false)
+	,m_setShift(setShift)
 {
 	timer = new Timer();
 
@@ -51,17 +52,13 @@ void AutonDriveToPoint::Initialize()
 {
 	//Chassis::GetInstance()->ResetEncoders();
 	GetPIDController()->Reset();
-	GetPIDController()->SetPID(
-			Preferences::GetInstance()->GetDouble("StraightP",0.05),
-			Preferences::GetInstance()->GetDouble("StraightI",0.01),
-			Preferences::GetInstance()->GetDouble("StraightD",0.0)
-			);
+	SetPIDValues();
 	GetPIDController()->SetSetpoint(Chassis::GetInstance()->GetDistance() + m_setPoint);
 	GetPIDController()->SetAbsoluteTolerance(m_threshold);
-	Chassis::GetInstance()->Shift(m_lowGear);
+	if(m_setShift)Chassis::GetInstance()->Shift(m_lowGear);
 
 	//Chassis::GetInstance()->ReleaseAngle();
-	Chassis::GetInstance()->HoldAngle(m_angle);
+	Chassis::GetInstance()->HoldAngle(m_angle, false);
 	GetPIDController()->Enable();
 	timer->Reset();
 	timer->Start();
@@ -82,6 +79,7 @@ bool AutonDriveToPoint::IsFinished()
 // Called once after isFinished returns true
 void AutonDriveToPoint::End()
 {
+	Chassis::GetInstance()->ReleaseAngle();
 	Chassis::GetInstance()->Drive(0,0);
 }
 
@@ -90,4 +88,21 @@ void AutonDriveToPoint::End()
 void AutonDriveToPoint::Interrupted()
 {
 End();
+}
+
+void AutonDriveToPoint::SetPIDValues()
+{
+	if(m_lowGear){
+			GetPIDController()->SetPID(
+					Preferences::GetInstance()->GetDouble("StraightHighP",0.075),	//TODO:Set High Gear PID defaults
+					Preferences::GetInstance()->GetDouble("StraightHighI",0.01),
+					Preferences::GetInstance()->GetDouble("StraightHighD",0.09)
+			);
+		}else{
+			GetPIDController()->SetPID(
+					Preferences::GetInstance()->GetDouble("StraightLowP", 0.05),
+					Preferences::GetInstance()->GetDouble("StraightLowI", 0.01),
+					Preferences::GetInstance()->GetDouble("StraightLowD", 0.0)
+			);
+		}
 }
