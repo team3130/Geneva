@@ -22,7 +22,7 @@ OI* OI::m_pInstance = NULL;
 OI::OI()
 {
 	// Process operator interface input here.
-	stickL = new Joystick(0);
+	//stickL = new Joystick(0);			//Being removed for ease of driving for beginners
 	stickR = new Joystick(1);
 	gamepad = new Joystick(2);
 

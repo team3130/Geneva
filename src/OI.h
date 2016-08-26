@@ -31,7 +31,7 @@ private:
 	AutonDriveToPoint* driveDistTest;
 public:
 	static OI* GetInstance();
-	Joystick*	stickL;
+	//Joystick*	stickL;				//Being removed for ease of driving for beginners
 	Joystick*	stickR;
 	Joystick*	gamepad;
 	JoystickButton* preset1;
