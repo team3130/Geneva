@@ -31,7 +31,7 @@ OI::OI()
 	intakePin 	= new JoystickButton(gamepad, BTN_INTAKEPIN);
 	aimLeft 	= new JoystickButton(stickR, BTN_AIMLEFT);
 	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
-	fire    	= new JoystickButton(stickR, BTN_SHOOT_STICK);
+	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
 	shiftDown  	= new JoystickButton(stickR, BTN_SHIFT_DOWN);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT_UP);
 	headlight	= new JoystickButton(stickR, 2);
