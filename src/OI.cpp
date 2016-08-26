@@ -32,9 +32,9 @@ OI::OI()
 	intakePin 	= new JoystickButton(gamepad, BTN_INTAKEPIN);
 	aimLeft 	= new JoystickButton(stickR, BTN_AIMLEFT);
 	aimRight	= new JoystickButton(stickR, BTN_AIMRIGHT);
-	fire    	= new JoystickButton(gamepad, BTN_SHOOT);
-	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
-	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
+	fire    	= new JoystickButton(stickR, BTN_SHOOT_STICK);
+	shiftDown  	= new JoystickButton(stickR, BTN_SHIFT_DOWN);
+	shiftUp		= new JoystickButton(stickR, BTN_SHIFT_UP);
 	streight	= new JoystickButton(stickR, 10);
 	toPoint		= new JoystickButton(stickL, 10);
 	headlight	= new JoystickButton(stickR, 2);
@@ -58,13 +58,13 @@ OI::OI()
 	fire->WhenPressed(new ControlCatapultFire());
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
-	streight->WhileHeld(new DriveStreightTest());
-	toPoint->WhileHeld(driveDistTest);
+	//streight->WhileHeld(new DriveStreightTest());			Disabled as not needed for Public Drive
+	//toPoint->WhileHeld(driveDistTest);					Disabled as not needed for Public Drive
 	portcullisIntake->WhileActive(new PortcullisActuate());
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());
 	intakeOut->WhileActive(new IntakeOut());
-	headlight->ToggleWhenPressed(new HeadlightsOn());
+	//headlight->ToggleWhenPressed(new HeadlightsOn());		Disabled as not needed for Public Drive
 
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);

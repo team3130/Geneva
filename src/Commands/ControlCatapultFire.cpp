@@ -20,17 +20,19 @@ ControlCatapultFire::ControlCatapultFire(bool bypass)
 /// Called just before this Command runs the first time.
 void ControlCatapultFire::Initialize()
 {
-	CatapultFire::GetInstance()->Actuate(false);
-	if(IntakeHorizontal::GetInstance()->IsExtended() == false)
-	{
-		IntakeHorizontal::GetInstance()->Actuate(true);
-		m_waiting = true;
+	if(OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT)){
+		CatapultFire::GetInstance()->Actuate(false);
+		if(IntakeHorizontal::GetInstance()->IsExtended() == false)
+		{
+			IntakeHorizontal::GetInstance()->Actuate(true);
+			m_waiting = true;
+		}
+		else {
+			m_waiting = false;
+		}
+		timer->Reset();
+		timer->Start();
 	}
-	else {
-		m_waiting = false;
-	}
-	timer->Reset();
-	timer->Start();
 }
 
 
@@ -38,7 +40,7 @@ void ControlCatapultFire::Execute()
 {
 	if((!m_waiting or timer->Get() > .25))
 	{
-		CatapultFire::GetInstance()->Actuate(true);
+		CatapultFire::GetInstance()->Actuate(OI::GetInstance()->gamepad->GetRawButton(BTN_SHOOT));
 		m_waiting = false;
 	}
 

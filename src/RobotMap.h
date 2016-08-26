@@ -85,6 +85,7 @@
 	const int BTN_PRESET_2 = LST_BTN_Y;
 	const int BTN_SHOOT = LST_BTN_RBUMPER;
 	const int AXS_WINCH = LST_AXS_RJOYSTICKY;
+	const int BTN_SHOOT_STICK = 1;
 
 	//Climber
 	const int AXS_CLIMBERTAPES = LST_AXS_LJOYSTICKY;
@@ -110,5 +111,6 @@
 	const int BTN_AIMRIGHT = 4;
 
 	//Drive
-	const int BTN_SHIFT = 1;
+	const int BTN_SHIFT_UP = 8;
+	const int BTN_SHIFT_DOWN = 9;
 #endif
