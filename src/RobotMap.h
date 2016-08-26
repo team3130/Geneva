@@ -19,9 +19,7 @@
 	// Prefix DIO_
 
 //Motors-PWM
-	const int PORT_CLIMBERTAPE = 0;
-	const int PORT_CLIMBERWINCH = 1;
-	const int PORT_CLIMBERWINCH2 = 2;
+	// Prefix PWM_
 
 //Motors-CAN
 	const int CAN_PNMMODULE = 1;
@@ -31,9 +29,6 @@
 	const int CAN_RIGHTMOTORFRONT = 5;
 	const int CAN_RIGHTMOTORREAR = 6;
 	const int CAN_INTAKEMOTOR = 7;
-	const int CAN_CLIMBERTAPE = 8;
-	const int CAN_CLIMBERWINCH = 9;
-	const int CAN_CLIMBERWINCH2 = 10;
 
 //Pnuematics Ports
 	const int PNM_INTAKEPIN = 0;
@@ -86,10 +81,6 @@
 	const int BTN_SHOOT = LST_BTN_RBUMPER;
 	const int AXS_WINCH = LST_AXS_RJOYSTICKY;
 	const int BTN_SHOOT_STICK = 1;
-
-	//Climber
-	const int AXS_CLIMBERTAPES = LST_AXS_LJOYSTICKY;
-	const int POV_CLIMBERWINCHDOWN  = LST_POV_S; //POV DOWN
 
 	//Intake
 	const int BTN_INTAKE = LST_BTN_A;

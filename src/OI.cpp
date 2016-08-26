@@ -6,7 +6,6 @@
 #include "Commands/ControlCatapultFire.h"
 #include "Commands/DriveShiftUp.h"
 #include "Commands/DriveShiftDown.h"
-#include "Commands/DriveStreightTest.h"
 #include "Commands/HandleStopPoints.h"
 #include "Commands/WipeStopPoints.h"
 #include "Commands/TestStopPoints.h"
@@ -35,8 +34,6 @@ OI::OI()
 	fire    	= new JoystickButton(stickR, BTN_SHOOT_STICK);
 	shiftDown  	= new JoystickButton(stickR, BTN_SHIFT_DOWN);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT_UP);
-	streight	= new JoystickButton(stickR, 10);
-	toPoint		= new JoystickButton(stickL, 10);
 	headlight	= new JoystickButton(stickR, 2);
 	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
 	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
@@ -58,8 +55,6 @@ OI::OI()
 	fire->WhenPressed(new ControlCatapultFire());
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
-	//streight->WhileHeld(new DriveStreightTest());			Disabled as not needed for Public Drive
-	//toPoint->WhileHeld(driveDistTest);					Disabled as not needed for Public Drive
 	portcullisIntake->WhileActive(new PortcullisActuate());
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());

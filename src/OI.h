@@ -42,8 +42,6 @@ public:
 	JoystickButton* fire;
 	JoystickButton* shiftDown;
 	JoystickButton* shiftUp;
-	JoystickButton* streight;
-	JoystickButton* toPoint;
 	JoystickButton* headlight;
 	POVTrigger*		portcullisIntake;
 	POVTrigger* 	CDFIntake;

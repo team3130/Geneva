@@ -6,7 +6,6 @@
 #include "Subsystems/Catapult.h"
 #include "Subsystems/CatapultFire.h"
 #include "Subsystems/Chassis.h"
-#include "Subsystems/Climber.h"
 #include "AutonCommands/1BallReturn.h"
 #include "AutonCommands/1BallAuton.h"
 #include "AutonCommands/PickUpAuton.h"
@@ -46,7 +45,6 @@ private:
 		IntakeHorizontal::GetInstance();
 		IntakeVertical::GetInstance();
 		IntakePin::GetInstance();
-		Climber::GetInstance();
 		Catapult::GetInstance();
 		CatapultFire::GetInstance();
 		CatStopCalculations::GetInstance();
