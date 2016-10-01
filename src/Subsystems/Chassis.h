@@ -46,7 +46,6 @@ public:
 	void Drive(double move, double turn, bool squaredInputs = false);
 	void DriveArcade(double move, double turn, bool squaredInputs = false);
 	void Shift(bool shiftDown);
-	bool GetGearState(){return m_bShiftedLow;}
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double outputAngle);
