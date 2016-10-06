@@ -13,6 +13,10 @@
 #include "Commands/CDFActuate.h"
 #include "Commands/PortcullisActuate.h"
 #include "Commands/IntakeIn.h"
+#include "Commands/IntakeOut.h"
+#include "Commands/HeadlightsOn.h"
+#include "AutonCommands/AutonDriveToPoint.h"
+#include "Subsystems/Chassis.h"
 
 OI* OI::m_pInstance = NULL;
 
@@ -32,26 +36,35 @@ OI::OI()
 	shiftDown  	= new JoystickButton(stickL, BTN_SHIFT);
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
+	toPoint		= new JoystickButton(stickL, 10);
+	headlight	= new JoystickButton(stickR, 2);
 	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
 	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
+	intakeOut	= new POVTrigger(gamepad, POV_INTAKEOUT);
 	portcullisIntake	= new POVTrigger(gamepad, POV_PORTCULLISMODE);
 
 	addPoint	= new HandleStopPoints();
 	wipePoints 	= new WipeStopPoints();
 	testPoints	= new TestStopPoints();
 
+	driveDistTest = new AutonDriveToPoint(false);
+	driveDistTest->SetParam(20.0,0.0,1.0,0.5);
+
 	preset1->WhenPressed(new ReloadCatapult(BTN_PRESET_1));
 	preset2->WhenPressed(new ReloadCatapult(BTN_PRESET_2));
 	intakePin->WhileHeld(new Pintake());
-	aimLeft->WhileHeld(new CameraAim(CameraAim::kLeft));
-	aimRight->WhileHeld(new CameraAim(CameraAim::kRight));
-	fire->WhileHeld(new ControlCatapultFire());
+	aimLeft->WhenPressed(new CameraAim(CameraAim::kLeft, aimLeft));
+	aimRight->WhenPressed(new CameraAim(CameraAim::kRight, aimRight));
+	fire->WhenPressed(new ControlCatapultFire());
 	shiftUp->WhenPressed(new DriveShiftUp());
 	shiftDown->WhenPressed(new DriveShiftDown());
 	streight->WhileHeld(new DriveStreightTest());
+	toPoint->WhileHeld(driveDistTest);
 	portcullisIntake->WhileActive(new PortcullisActuate());
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());
+	intakeOut->WhileActive(new IntakeOut());
+	headlight->ToggleWhenPressed(new HeadlightsOn());
 
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);
@@ -123,6 +136,22 @@ double OI::ReturnAutonDistance()
 	}
 	//if(*(int *)positionChooser->GetSelected() == 2 || *(int *)positionChooser->GetSelected() == 5) dist += 49;
 	return dist;
+}
+
+double OI::ReturnAutonDistHorizontal()
+{
+	switch(*(int *)positionChooser->GetSelected()){
+		case 2:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 2",218);
+		case 3:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 3",112);
+		case 4:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 4",160);
+		case 5:
+			return Preferences::GetInstance()->GetDouble("Stop2Ball Position 5",70);
+		default:
+			return 0;
+	}
 }
 
 OI* OI::GetInstance()

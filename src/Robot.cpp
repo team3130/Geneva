@@ -11,7 +11,9 @@
 #include "AutonCommands/1BallAuton.h"
 #include "AutonCommands/PickUpAuton.h"
 #include "AutonCommands/PickUpReturn.h"
+#include "AutonCommands/Stop2BallAuton.h"
 #include "AutonCommands/NoAuton.h"
+#include "AutonCommands/2BallAuton.h"
 #include "Commands/RobotSensors.h"
 #include "Commands/CameraFeed.h"
 #include "Subsystems/Blinkies.h"
@@ -56,6 +58,8 @@ private:
 		autonChooser->AddObject("One Ball Return", new OneBallReturn());
 		autonChooser->AddObject("Pick Up Ball Auton", new PickUpAuton());
 		autonChooser->AddObject("Pick Up Ball Return Auton", new PickUpReturn());
+		autonChooser->AddObject("Stop Two Ball Auton",new Stop2BallAuton());
+		autonChooser->AddObject("Two Ball Auton", new TwoBallAuton());
 		SmartDashboard::PutData("Autonomous Choices", autonChooser);
 		lw = LiveWindow::GetInstance();
 	}

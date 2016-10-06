@@ -14,8 +14,9 @@ AutonTurn::~AutonTurn()
 // Called just before this Command runs the first time
 void AutonTurn::Initialize()
 {
-	if(modeTwo)  Chassis::GetInstance()->HoldAngle(m_angle - Chassis::GetInstance()->GetAngle());
-	else  Chassis::GetInstance()->HoldAngle(m_angle);
+	Chassis::GetInstance()->SetGyroMode(true);
+	if(modeTwo)  Chassis::GetInstance()->HoldAngle(m_angle - Chassis::GetInstance()->GetAngle(),true);
+	else  Chassis::GetInstance()->HoldAngle(m_angle, true);
 	Chassis::GetInstance()->SetAbsoluteTolerance(0.5);		//Unit Tolerance
 	Chassis::GetInstance()->DriveStraight(0);
 }

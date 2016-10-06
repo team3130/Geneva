@@ -2,6 +2,7 @@
 #define CHASSIS_H
 
 #include <WPILib.h>
+#include <AHRS.h>
 #include "Commands/Subsystem.h"
 #include "RobotMap.h"
 
@@ -27,10 +28,14 @@ private:
 	CANTalon* m_leftMotorRear;
 	CANTalon* m_rightMotorFront;
 	CANTalon* m_rightMotorRear;
+	AHRS* m_navX;
+
 	bool m_bShiftedLow;
 	double moveSpeed;
 	double prevAbsBias;
 	bool m_onPID;
+	bool m_onGyro;
+	bool m_bNavXPresent;
 
 	Chassis();
 	Chassis(Chassis const&);
@@ -41,7 +46,6 @@ public:
 	void Drive(double move, double turn, bool squaredInputs = false);
 	void DriveArcade(double move, double turn, bool squaredInputs = false);
 	void Shift(bool shiftDown);
-	bool GetGearState(){return m_bShiftedLow;}
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double outputAngle);
@@ -52,11 +56,14 @@ public:
 	double GetDistanceR();
 	double GetDistance();
 	double GetPIDError() {return GetSetpoint() - GetPosition();};
+	void SetPIDValues();
 	void ResetEncoders();
-	double GetAngle();
-	void HoldAngle(double angle = 0);
+	double GetAngle(bool forceGyro=false);
+	void HoldAngle(double angle = 0, bool gyro = false);
 	void ReleaseAngle();
 	void DriveStraight(double move) { moveSpeed = move; };
+	void SetGyroMode(bool enabled)	{if(!m_onPID) m_onGyro = enabled;};	//Prevent changing angle type mid turn or angle hold.
+	bool GetShiftedDown()				{return m_bShiftedLow;}
 };
 
 #endif

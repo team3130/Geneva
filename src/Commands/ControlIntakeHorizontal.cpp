@@ -16,7 +16,6 @@ ControlIntakeHorizontal::ControlIntakeHorizontal()
 // Called just before this Command runs the first time
 void ControlIntakeHorizontal::Initialize()
 {
-	IntakeHorizontal::GetInstance()->Actuate(false);
 
 }
 
@@ -25,13 +24,6 @@ void ControlIntakeHorizontal::Execute()
 {
 	OI* oi = OI::GetInstance();
 
-	/*
-	if(IntakeArmPositionOut->getStatus() && !IntakePin::GetInstance()->IsActive()
-			&& oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL > 0.1))
-		{
-			IntakeVertical::GetInstance()->Actuate(false);
-			IntakeVertical::GetInstance()->SetState(false);
-		}*/
 	//Toggles actuator position on button press
 	IntakeHorizontal::GetInstance()->FlipOnChange((fabs(oi->gamepad->GetRawAxis(AXS_INTAKEHORIZONTAL)) > 0.1));
 }

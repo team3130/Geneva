@@ -18,7 +18,7 @@ RobotSensors::~RobotSensors()
 // Called just before this Command runs the first time
 void RobotSensors::Initialize()
 {
-	SmartDashboard::PutString("DB/String 9", "# Zero!! #");
+//	SmartDashboard::PutString("DB/String 9", "# Zero!! #");
 	SmartDashboard::PutString("DB/String 8", "# Check Encoders #");
 }
 
@@ -45,15 +45,16 @@ void RobotSensors::Execute()
 
 	PutBasicNumber(3, "Angle", Chassis::GetInstance()->GetAngle());
 	PutBasicNumber(4, "Speed", Chassis::GetInstance()->GetSpeed());
+	PutBasicNumber(5, "Gyro", Chassis::GetInstance()->GetAngle(true));
 
 
 	if (Chassis::GetInstance()->GetDistanceL()!=0 and Chassis::GetInstance()->GetDistanceR()!=0) {
 		SmartDashboard::PutString("DB/String 8", "");
 	}
 
-	if (Catapult::GetInstance()->CheckZero()) {
-		SmartDashboard::PutString("DB/String 9", "");
-	}
+//	if (Catapult::GetInstance()->CheckZero()) {
+//		SmartDashboard::PutString("DB/String 9", "");
+//	}
 
 	SmartDashboard::PutBoolean("Intake Position",IntakeHorizontal::GetInstance()->GetState());
 }

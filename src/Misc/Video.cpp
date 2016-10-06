@@ -71,6 +71,17 @@ RobotVideo::RobotVideo()
 
 }
 
+void RobotVideo::InitVariables()
+{
+	// First do some preliminary calculations.
+
+	m_focal_length = Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL);
+	m_zenith = m_focal_length * Preferences::GetInstance()->GetFloat("CameraZeroDist", CAMERA_ZERO_DIST) / Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT);
+	m_horizon = m_focal_length * Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT) / Preferences::GetInstance()->GetFloat("CameraZeroDist", CAMERA_ZERO_DIST);
+	m_flat = sqrt(m_focal_length*m_focal_length + m_horizon*m_horizon);
+	m_tilt = atan2f(Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT), Preferences::GetInstance()->GetFloat("CameraZeroDist", CAMERA_ZERO_DIST));
+}
+
 /** \brief Get a pointer to the video processor
  *
  * The Video needs to be a parallel process so its cycles won't interfere with the iterations
@@ -82,10 +93,13 @@ RobotVideo* RobotVideo::GetInstance()
 {
 	if(!m_pInstance) {
 		m_pInstance = new RobotVideo;
-
 		// Recursion hazard!!! VideoThread() also uses this GetInstance()
-		// But the second reentry should not come to this point because m_pInstance will be defined.
+		// But the second reentry should not come to this point because m_pInstance will be already defined.
+
 		int th = pthread_create(&m_thread, NULL, VideoThread, NULL);
+		// After this call above the process forks to two threads:
+		// One continues here and the other goes into VideoThread()
+
 		std::cerr << "RobotVideo thread created " << th << " Thread: " << m_thread << std::endl;
 	}
 	return m_pInstance;
@@ -118,7 +132,17 @@ void PurgeBuffer(cv::VideoCapture& vcap, double fps=7.5)
 	}
 }
 
+/** \brief Process the list of found contours for FIRSTSTRONGHOLD
+ *
+ * This is the main logic for target processing in regards to FRC Stronghold game of 2016
+ * The idea is to go through the list and rate each contour by the similarity with U-shaped vision target.
+ * Then chose the top two by the rating since only two targets can be seen at a time.
+ * This function updates the object's member data that can be queried later from outside.
+ * \param contours Vector of contours. Where a contour is a Vector of Points
+ */
 void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
+	// To rearrange the set of random contours into a rated list of targets
+	// we're going to need a new vector that we can sort
 	struct Target {
 		double rating;
 		std::vector<cv::Point> contour;
@@ -157,6 +181,8 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 		}
 	}
 
+	// Now as we have the top MAX_TARGETS contours qualified as targets
+	// Extract four point from each contour that describe the rectangle and store the results
 	std::vector<std::vector<cv::Point>> boxes;
 	std::vector<double> turns;
 	for (struct Target target : targets) {
@@ -173,15 +199,20 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 			if (hull[3].x - hull[3].y > point.x - point.y) hull[3] = point;
 		}
 
-		float turn = 0.5*(hull[0].x + hull[1].x);
-		double real_angle = atan2(CAPTURE_COLS/2.0 - turn, Preferences::GetInstance()->GetFloat("CameraFocal",CAPTURE_FOCAL));
+		// dX is the offset of the target from the frame's center to the left
+		float dX = 0.5*(CAPTURE_COLS - hull[0].x - hull[1].x);
+		// dY is the distance from the zenith to the target on the image
+		float dY = m_zenith + 0.5*(hull[0].y + hull[1].y - CAPTURE_ROWS);
+		// The real azimuth to the target is on the horizon, so scale it accordingly
+		float azimuth = dX * ((m_zenith + m_horizon) / dY);
+		double real_angle = atan2(azimuth, m_flat);
 
 		turns.push_back(real_angle * 180/M_PI + Preferences::GetInstance()->GetFloat("CameraBias",0));
 		boxes.push_back(hull);
 	}
 
-	if(MAX_TARGETS==2 && boxes.size()==2) {
-		if(boxes.front().front().x > boxes.back().front().x) {
+	if (MAX_TARGETS == 2 && boxes.size() == 2) {
+		if (boxes.front().front().x > boxes.back().front().x) {
 			boxes.front().swap(boxes.back());
 			double tmp = turns.front();
 			turns.front() = turns.back();
@@ -189,19 +220,38 @@ void RobotVideo::ProcessContours(std::vector<std::vector<cv::Point>> contours) {
 		}
 	}
 
+	// To avoid misreading of our data from other threads we lock our mutex
+	// before updating the shared data and then unlock it when done.
 	mutex_lock();
 	m_boxes = boxes;
 	m_turns = turns;
 	mutex_unlock();
 }
 
-float RobotVideo::GetDistance(size_t i)
+float RobotVideo::GetDistance(size_t i, Target_side side)
 {
-	// Distance by the height. The real height of the target is 97 inches.
-	float dy = (m_boxes[i][1].y + m_boxes[i][0].y - CAPTURE_ROWS)/2.0;
-	float tower = 97 - Preferences::GetInstance()->GetFloat("CameraHeight", 12);
-	float alpha = atan2f(tower, Preferences::GetInstance()->GetFloat("CameraZeroDist", 130));
-	return tower / tanf(alpha - atan2f(dy, CAPTURE_FOCAL));
+	// Distance by the height. Farther an object with known height lower it appears on the image.
+	// The real height of the target is 97 inches.
+	// Camera is 12 inches above the floor.
+
+	size_t tip;
+	switch (side) {
+	case kLeft:
+		tip = 0;
+		break;
+	case kRight:
+		tip = 1;
+		break;
+	default:
+		// This function can call itself recursively to get the distance to the middle as the average of two sides
+		return (GetDistance(i, kLeft) + GetDistance(i, kRight)) / 2;
+	}
+
+	float dx = CAPTURE_COLS/2 - m_boxes[i][tip].x;
+	float dy = m_zenith - CAPTURE_ROWS/2 + m_boxes[i][tip].y;
+	float dh = sqrt(dx*dx + dy*dy) - m_zenith;
+	return Preferences::GetInstance()->GetFloat("CameraHeight", CAMERA_HEIGHT)
+			/ tanf(m_tilt - atan2f(dh, Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL)));
 }
 
 float RobotVideo::GetTurn(size_t i)
@@ -234,8 +284,8 @@ void RobotVideo::Run()
 
 	//set true to indicate we're connected and the thread is working.
 	m_connected = true;
-
 	PurgeBuffer(capture, CAPTURE_FPS);
+
 	while(true) {
 		cv::Mat Im;
 		cv::Mat hsvIm;
@@ -256,6 +306,7 @@ void RobotVideo::Run()
 		double t_start = timer.Get();
 		mutex_lock();
 		bool display = m_display;
+		InitVariables();
 		mutex_unlock();
 
 		if(m_idle) {
@@ -274,15 +325,16 @@ void RobotVideo::Run()
 			continue;
 		}
 
+		// Convert and filter the image to extract only green pixels
 		cv::cvtColor(Im, hsvIm, CV_BGR2HSV);
 		cv::inRange(hsvIm, BlobLower, BlobUpper, BlobIm);
-
-		//Extract Contours
 		BlobIm.convertTo(bw, CV_8UC1);
 
+		// Extract Contours. Thanks OpenCV for all the math
 		std::vector<std::vector<cv::Point>> contours;
 		cv::findContours(bw, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 
+		// We have a separate function specifically designed to process contours for FIRSTSTRONGHOLD
 		ProcessContours(contours);
 
 		if (display) {
@@ -299,7 +351,9 @@ void RobotVideo::Run()
 				cv::polylines(Im, crosshair, true, cv::Scalar(260, 0, 255),2);
 			}
 
-			int x =  CAPTURE_COLS/2.0 + CAPTURE_FOCAL * tan((M_PI/180)*Preferences::GetInstance()->GetFloat("CameraBias", 0));
+			int x =  CAPTURE_COLS/2.0 +
+					Preferences::GetInstance()->GetFloat("CameraFocal", CAPTURE_FOCAL) * tan((M_PI/180) *
+					Preferences::GetInstance()->GetFloat("CameraBias", 0));
 
 			cv::Scalar colorCross;
 			if ( (m_boxes.size() > 0 and m_boxes[0][1].y + m_boxes[0][0].y == CAPTURE_ROWS)
@@ -346,6 +400,13 @@ void RobotVideo::Run()
 	}
 }
 
+/** \brief The video thread entry point
+ *
+ * POSIX Threads create function requires a standalone (not a class method) function
+ * as the new thread's starting point. This is an implementation of such.
+ * We also made the class's Run() method protected and declared this VideoThread()
+ * function a friend so nothing else can accidentally call the Run() method.
+ */
 void *VideoThread(void *param)
 {
 	RobotVideo *p = RobotVideo::GetInstance();

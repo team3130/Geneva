@@ -1,12 +1,6 @@
 #include "1BallAuton.h"
 
 #include "RobotMap.h"
-#include "Commands/ReloadCatapult.h"
-#include "AutonControlIntakeVertical.h"
-#include "AutonDriveToPoint.h"
-#include "Commands/ControlCatapultFire.h"
-#include "AutonTurn.h"
-#include "Commands/CameraAim.h"
 #include "OI.h"
 
 OneBallAuton::OneBallAuton()
@@ -19,7 +13,7 @@ OneBallAuton::OneBallAuton()
 	Intake_ExtendIntake = new AutonControlIntakeHorizontal();
 	Drive_DriveToDefense = new AutonDriveToPoint();
 	Turn_TurnToSeeTarget = new AutonTurn();
-	Vision_AimAtTarget = new CameraAim(CameraAim::kLeft, true);
+	Vision_AimAtTarget = new CameraAim(CameraAim::kLeft, nullptr, true);
 	Delay_FinishAuton = new AutonDelay();
 
 	AddParallel(Intake_AdjustForDefense, 1);

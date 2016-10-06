@@ -25,12 +25,29 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 	m_shifter = new Solenoid(CAN_PNMMODULE, PNM_GEARSHIFTER);
 	m_bShiftedLow = false;
 
+	try{
+		//Connect to navX Gyro on MXP port.
+		m_navX = new AHRS(SPI::Port::kMXP);
+		m_bNavXPresent = true;
+	} catch (std::exception ex){
+		//If connection fails log the error and fall back to encoder based angle handling.
+		std::string str_error = "Error instantiating navX from MXP: ";
+		str_error += ex.what();
+		DriverStation::ReportError(str_error.c_str());
+		m_bNavXPresent = false;
+	}
+
+
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Front TalonSRX", m_leftMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Left Rear TalonSRX", m_leftMotorRear);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Front TalonSRX", m_rightMotorFront);
 	LiveWindow::GetInstance()->AddActuator("Chassis", "Right Rear TalonSRX", m_rightMotorRear);
 
+	LiveWindow::GetInstance()->AddSensor("Chassis", "NavX", m_navX);
+
+
 	m_onPID = false;
+	m_onGyro = false;
 	moveSpeed = 0;
 	prevAbsBias = 0;
 }
@@ -71,7 +88,8 @@ double Chassis::GetSpeedR()
 
 double Chassis::GetSpeed()
 {
-	return ( GetSpeedL() + GetSpeedR() ) / 2.0;
+	//return ( GetSpeedL() + GetSpeedR() ) / 2.0;
+	return GetSpeedL();
 }
 
 double Chassis::GetDistanceL()
@@ -86,16 +104,26 @@ double Chassis::GetDistanceR()
 
 double Chassis::GetDistance()
 {
-	return ( GetDistanceL() + GetDistanceR() ) / 2.0;
+	//return ( GetDistanceL() + GetDistanceR() ) / 2.0;
+	return GetDistanceL();
 }
 
-double Chassis::GetAngle()
+double Chassis::GetAngle(bool forceGyro)
 {
-	return 1.065 * ( GetDistanceR() - GetDistanceL() ) * 180 / (26.75 * M_PI);
-	/*
-	 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
-	 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
-	 */
+	//if((m_onGyro || forceGyro) && m_bNavXPresent)
+	if(m_bNavXPresent)									//Always gyro unless not present
+	{
+		//Angle use wants a faster, more accurate, but drifting angle, for quick use.
+		return -m_navX->GetAngle();
+	}
+	else {
+		//Means that angle use wants a driftless angle measure that lasts.
+		return ( GetDistanceR() - GetDistanceL() ) * 180 / (Preferences::GetInstance()->GetDouble("ChassisWidth",28.55) * M_PI);
+		/*
+		 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
+		 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
+		 */
+	}
 }
 
 double Chassis::ReturnPIDInput()
@@ -119,6 +147,7 @@ void Chassis::ReleaseAngle()
 {
 	GetPIDController()->Disable();
 	m_onPID=false;
+	m_onGyro=false;		//Gyro needs to be explicitly enabled for each PID turn
 	prevAbsBias=0;
 }
 
@@ -128,13 +157,28 @@ void Chassis::ResetEncoders()
 	m_rightMotorFront->SetPosition(0);
 }
 
-void Chassis::HoldAngle(double angle)
+void Chassis::HoldAngle(double angle, bool gyro)
 {
-	GetPIDController()->SetPID(
-			Preferences::GetInstance()->GetDouble("ChassisP", 0.085),
-			Preferences::GetInstance()->GetDouble("ChassisI", 0.02),
-			Preferences::GetInstance()->GetDouble("ChassisD", 0.125));
+	if(!m_onPID) m_onGyro = gyro;		//Prevent changing angle mode when already in a turn
+	SetPIDValues();
 	GetPIDController()->SetSetpoint(GetAngle() + angle);
 	GetPIDController()->Enable();
 	m_onPID = true;
+}
+
+void Chassis::SetPIDValues()
+{
+	if(m_bShiftedLow){
+		GetPIDController()->SetPID(
+				Preferences::GetInstance()->GetDouble("ChassisHighP",0.075),
+				Preferences::GetInstance()->GetDouble("ChassisHighI",0.01),
+				Preferences::GetInstance()->GetDouble("ChassisHighD",0.09)
+		);
+	}else{
+		GetPIDController()->SetPID(
+				Preferences::GetInstance()->GetDouble("ChassisLowP", 0.085),
+				Preferences::GetInstance()->GetDouble("ChassisLowI", 0.02),
+				Preferences::GetInstance()->GetDouble("ChassisLowD", 0.125)
+		);
+	}
 }

@@ -3,12 +3,12 @@
 
 #include <WPILib.h>
 
-#include "AutonCatapult.h"
+#include "Commands/ReloadCatapult.h"
 
 class NoAuton: public CommandGroup
 {
 private:
-	AutonCatapult* Catapult_ReadyShotOne;
+	ReloadCatapult* Catapult_ReadyShotOne;
 
 public:
 	NoAuton();
