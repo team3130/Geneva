@@ -154,6 +154,24 @@ double OI::ReturnAutonDistHorizontal()
 	}
 }
 
+double OI::ReturnAutonTime()
+{
+	switch(*(int *)defenseChooser->GetSelected()){
+		case 1:
+			return Preferences::GetInstance()->GetDouble("TimeAuton LowBar",5);
+		case 2:
+			return Preferences::GetInstance()->GetDouble("TimeAuton Moat",5);
+		case 3:
+			return Preferences::GetInstance()->GetDouble("TimeAuton Ramparts",5);
+		case 4:
+			return Preferences::GetInstance()->GetDouble("TimeAuton Rough Terrain",4);
+		case 5:
+			return Preferences::GetInstance()->GetDouble("TimeAuton Rock Wall",5);
+		default:
+			return 5;	//Used for most drive cases
+	}
+}
+
 OI* OI::GetInstance()
 {
 	if(!m_pInstance) m_pInstance = new OI;

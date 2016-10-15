@@ -59,5 +59,6 @@ public:
 	double ReturnAutonAngle();
 	double ReturnAutonDistance();
 	double ReturnAutonDistHorizontal();		//For Stop2BallAuton
+	double ReturnAutonTime();				//For 1BallAutonDumb
 };
 #endif

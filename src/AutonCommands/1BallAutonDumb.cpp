@@ -60,7 +60,7 @@ void OneBallAutonDumb::Initialize()
 	);
 
 	Drive_DriveToDefense->SetParam(
-			Preferences::GetInstance()->GetDouble("1BallAutonDumb Drive Time", 1),
+			OI::GetInstance()->ReturnAutonTime(),
 			true
 	);
 
