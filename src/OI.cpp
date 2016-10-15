@@ -15,6 +15,7 @@
 #include "Commands/IntakeIn.h"
 #include "Commands/IntakeOut.h"
 #include "Commands/HeadlightsOn.h"
+#include "Commands/HeadlightsOff.h"
 #include "AutonCommands/AutonDriveToPoint.h"
 #include "Subsystems/Chassis.h"
 
@@ -37,7 +38,8 @@ OI::OI()
 	shiftUp		= new JoystickButton(stickR, BTN_SHIFT);
 	streight	= new JoystickButton(stickR, 10);
 	toPoint		= new JoystickButton(stickL, 10);
-	headlight	= new JoystickButton(stickR, 2);
+	headlightOn	= new JoystickButton(stickR, 2);
+	headlightOff= new JoystickButton(stickL, 2);
 	CDFIntake	= new POVTrigger(gamepad, POV_CDFMODE);
 	inIntake	= new POVTrigger(gamepad, POV_INTAKEIN);
 	intakeOut	= new POVTrigger(gamepad, POV_INTAKEOUT);
@@ -64,7 +66,8 @@ OI::OI()
 	CDFIntake->WhileActive(new CDFActuate());
 	inIntake->WhileActive(new IntakeIn());
 	intakeOut->WhileActive(new IntakeOut());
-	headlight->ToggleWhenPressed(new HeadlightsOn());
+	headlightOn->WhenPressed(new HeadlightsOn());
+	headlightOff->WhenPressed(new HeadlightsOff());
 
 	SmartDashboard::PutData("Wipe Stop Data", wipePoints);
 	SmartDashboard::PutData("Add Point", addPoint);
