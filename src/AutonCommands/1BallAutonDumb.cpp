@@ -18,7 +18,7 @@ OneBallAutonDumb::OneBallAutonDumb()
 
 	AddParallel(Intake_AdjustForDefense, 1);
 	AddParallel(Catapult_ReadyShotOne, 2);
-	AddSequential(Drive_DriveToDefense, 9);
+	AddSequential(Drive_DriveToDefense, 5);
 	AddParallel(Intake_RaiseIntake, 1);
 	AddParallel(Intake_ExtendIntake, 1);
 	AddSequential(Turn_TurnToSeeTarget, 2);
@@ -61,6 +61,7 @@ void OneBallAutonDumb::Initialize()
 
 	Drive_DriveToDefense->SetParam(
 			OI::GetInstance()->ReturnAutonTime(),
+			Preferences::GetInstance()->GetDouble("1BallAuton Drive1 Speed",1),
 			true
 	);
 
