@@ -7,6 +7,7 @@ class AutonDumbDrive: public Command
 {
 private:
 	float m_speed;
+	bool m_shiftLow;
 public:
 	AutonDumbDrive();
 	void Initialize();
@@ -14,7 +15,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void SetParam(float speed) {m_speed = speed;}
+	void SetParam(float speed, bool shiftLow) {m_speed = speed; m_shiftLow = shiftLow;}
 };
 
 #endif

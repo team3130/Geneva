@@ -1,15 +1,17 @@
 #include "AutonDumbDrive.h"
 #include "Subsystems/Chassis.h"
 
-AutonDumbDrive::AutonDumbDrive()
+AutonDumbDrive::AutonDumbDrive():
+	m_speed(0),
+	m_shiftLow(true)
 {
-	m_speed = 0;
 	Requires(Chassis::GetInstance());
 }
 
 // Called just before this Command runs the first time
 void AutonDumbDrive::Initialize()
 {
+	Chassis::GetInstance()->Shift(m_shiftLow);
 	Chassis::GetInstance()->HoldAngle(0,true);
 	Chassis::GetInstance()->DriveStraight(m_speed);
 }
@@ -29,8 +31,8 @@ bool AutonDumbDrive::IsFinished()
 // Called once after isFinished returns true
 void AutonDumbDrive::End()
 {
-	Chassis::GetInstance()->DriveStraight(0);
 	Chassis::GetInstance()->ReleaseAngle();
+	Chassis::GetInstance()->Drive(0,0);
 }
 
 // Called when another command which requires one or more of the same
