@@ -29,7 +29,7 @@ Chassis::Chassis() : PIDSubsystem("Chassis", 0.05, 0.01, 0.15)
 		//Connect to navX Gyro on MXP port.
 		m_navX = new AHRS(SPI::Port::kMXP);
 		m_bNavXPresent = true;
-	} catch (std::exception ex){
+	} catch (std::exception &ex){
 		//If connection fails log the error and fall back to encoder based angle handling.
 		std::string str_error = "Error instantiating navX from MXP: ";
 		str_error += ex.what();
