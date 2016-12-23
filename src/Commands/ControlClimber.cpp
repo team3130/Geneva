@@ -24,7 +24,7 @@ void ControlClimber::Execute()
 
 	if (oi->stickL->GetRawButton(9)) {
 		Climber::GetInstance()->MoveClimberWinch(Preferences::GetInstance()->GetFloat("ClimbSpeed",-1));
-	}else if(oi->stickL->GetRawButton(7))
+	}else if(false)
 	{
 		Climber::GetInstance()->MoveClimberWinch(0.5);
 	} else {

@@ -14,6 +14,7 @@ class DefaultDrive: public Command
 {
 private:
 	Toggle<bool>* shifterToggle;
+	Toggle<bool>* driveModeToggle;
 public:
 	DefaultDrive();
 	void Initialize();
