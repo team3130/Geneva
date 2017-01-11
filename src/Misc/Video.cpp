@@ -2,11 +2,14 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include "Vision/nivision.h"
+
 
 #include <iostream>
 #include <algorithm>
 #include <WPILib.h>
 #include <Timer.h>
+#include "Vision/nivision.h"
 
 const char* RobotVideo::IMG_FILE_NAME = "/var/volatile/tmp/alpha.png";
 
@@ -277,7 +280,7 @@ void RobotVideo::Run()
 
 	//After Opening Camera we need to configure the returned image setting
 	//all opencv v4l2 camera controls scale from 0.0 to 1.0
-	capture.set(CV_CAP_PROP_EXPOSURE_ABSOLUTE, 0);
+	capture.set(CV_CAP_PROP_EXPOSURE, 0);
 	capture.set(CV_CAP_PROP_BRIGHTNESS, 0);
 	capture.set(CV_CAP_PROP_CONTRAST, 0);
 

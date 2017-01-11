@@ -1,9 +1,10 @@
 #include "CameraFeed.h"
 #include "Misc/Video.h"
 #include "Vision/VisionAPI.h"
+#include "Vision/nivision.h"
 
 CameraFeed::CameraFeed()
-	: image(frcCreateImage(IMAQ_IMAGE_RGB))
+	: image(imaqCreateImage(IMAQ_IMAGE_RGB, 1))
 {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(chassis);
@@ -21,7 +22,7 @@ void CameraFeed::Execute()
 {
 	if (RobotVideo* video = RobotVideo::GetInstance()) {
 		if(not video->m_display) {
-			frcReadImage(image,RobotVideo::IMG_FILE_NAME);
+			imaqReadImage(image,RobotVideo::IMG_FILE_NAME);
 			CameraServer::GetInstance()->SetImage(image);
 			//frcDispose(image);
 			video->m_display = true;

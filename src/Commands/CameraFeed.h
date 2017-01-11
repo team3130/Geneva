@@ -2,6 +2,7 @@
 #define CameraFeed_H
 
 #include "WPILib.h"
+#include "Vision/nivision.h"
 
 class CameraFeed: public Command
 {
