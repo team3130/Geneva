@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include "Commands/Subsystem.h"
 #include "RobotMap.h"
+#include "CANTalon.h"
 
 //The subsystem for the shooting mechanism for the robot
 

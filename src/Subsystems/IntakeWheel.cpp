@@ -1,7 +1,7 @@
 #include "Commands/ControlIntakeWheels.h"
 #include "Subsystems/IntakeWheel.h"
 
-IntakeWheel* IntakeWheel::m_pInstance = NULL;
+IntakeWheel* IntakeWheel::m_pInstance = nullptr;
 
 IntakeWheel* IntakeWheel::GetInstance()
 {

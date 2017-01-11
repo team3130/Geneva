@@ -26,7 +26,7 @@ class Robot: public IterativeRobot
 {
 private:
 	Command *autonomousCommand;
-	SendableChooser* autonChooser;
+	SendableChooser<CommandGroup*>* autonChooser;
 	LiveWindow *lw;
 	Compressor* compressor;
 	Command *robotSensors;
@@ -54,7 +54,7 @@ private:
 		CatStopCalculations::GetInstance();
 		//Creates Radio Buttons for selection of Auton modes, include and AddObject() for each
 		//Autonomous Mode being added
-		autonChooser = new SendableChooser();
+		autonChooser = new SendableChooser<CommandGroup*>();
 		autonChooser->AddDefault("One Ball Auton Time", new OneBallAutonDumb());
 		autonChooser->AddObject("One Ball Auton", new OneBallAuton());
 		autonChooser->AddObject("No Auton", new NoAuton());

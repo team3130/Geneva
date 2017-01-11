@@ -55,8 +55,8 @@ public:
 	Command* wipePoints;
 	Command* testPoints;
 
-	SendableChooser* positionChooser;
-	SendableChooser* defenseChooser;
+	SendableChooser<int*>* positionChooser;
+	SendableChooser<int*>* defenseChooser;
 	double ReturnAutonAngle();
 	double ReturnAutonDistance();
 	double ReturnAutonDistHorizontal();		//For Stop2BallAuton

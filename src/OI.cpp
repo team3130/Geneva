@@ -75,7 +75,7 @@ OI::OI()
 
 	//SMD Input for Auton
 	//Creates Radio Buttons for selection of Auton positions
-	positionChooser = new SendableChooser();
+	positionChooser = new SendableChooser<int*>();
 	positionChooser->AddDefault("Low Bar",new int(1));
 	positionChooser->AddObject("Position 2", new int(2));
 	positionChooser->AddObject("Position 3", new int(3));
@@ -84,7 +84,7 @@ OI::OI()
 	SmartDashboard::PutData("Auton Position",positionChooser);
 
 	//Creates Radio Buttons for selection of Auton defenses
-	defenseChooser = new SendableChooser();
+	defenseChooser = new SendableChooser<int*>();
 	defenseChooser->AddDefault("Low Bar", new int(1));
 	defenseChooser->AddObject("Moat", new int(2));
 	defenseChooser->AddObject("Ramparts", new int(3));
