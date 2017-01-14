@@ -271,7 +271,7 @@ void RobotVideo::Run()
 	//Camera must be able to support specified framesize and frames per second
 	//or this will set camera to defaults
 	int count=1;
-	while (!capture.open(CAPTURE_PORT, CAPTURE_COLS, CAPTURE_ROWS, CAPTURE_FPS))
+	//while (!capture.open(CAPTURE_PORT, CAPTURE_COLS, CAPTURE_ROWS, CAPTURE_FPS))
 	{
 		std::cerr << "Error connecting to camera stream, retrying " << count<< std::endl;
 		count++;

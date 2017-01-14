@@ -3,6 +3,8 @@
 #include "Vision/VisionAPI.h"
 #include "Vision/nivision.h"
 
+using namespace frc;
+
 CameraFeed::CameraFeed()
 	: image(imaqCreateImage(IMAQ_IMAGE_RGB, 1))
 {
@@ -22,8 +24,8 @@ void CameraFeed::Execute()
 {
 	if (RobotVideo* video = RobotVideo::GetInstance()) {
 		if(not video->m_display) {
-			imaqReadImage(image,RobotVideo::IMG_FILE_NAME);
-			CameraServer::GetInstance()->SetImage(image);
+			//frcReadImage(image,RobotVideo::IMG_FILE_NAME);
+			//CameraServer::GetInstance()->SetImage(image);
 			//frcDispose(image);
 			video->m_display = true;
 		}
